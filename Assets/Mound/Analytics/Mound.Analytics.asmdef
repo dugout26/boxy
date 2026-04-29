@@ -1,0 +1,16 @@
+{
+    "name": "Mound.Analytics",
+    "rootNamespace": "Mound.Analytics",
+    "references": [
+        "Mound.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

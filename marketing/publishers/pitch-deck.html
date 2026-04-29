@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Boxy — Pitch Deck v1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #FFD60A;
+    --on-accent: #1A1A1A;
+    --bg: #F8F9FA;
+    --surface: #FFFFFF;
+    --text: #1A1A1A;
+    --text-secondary: #6B7280;
+    --border: #E5E7EB;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  @page { size: A4; margin: 0; }
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 40px 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+  header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; padding-bottom: 16px; border-bottom: 2px solid var(--accent); }
+  .logo-block { display: flex; align-items: center; gap: 16px; }
+  .logo-icon { width: 56px; height: 56px; background: var(--accent); border: 3px solid var(--text); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 800; color: var(--on-accent); }
+  h1 { font-size: 32px; font-weight: 800; }
+  .subtitle { color: var(--text-secondary); font-size: 14px; margin-top: 4px; }
+  .pill { background: var(--accent); color: var(--on-accent); padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .card h2 { font-size: 18px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .card h2::before { content: ''; width: 6px; height: 18px; background: var(--accent); border-radius: 3px; }
+  .card p, .card li { font-size: 14px; color: var(--text); line-height: 1.6; }
+  .card ul { padding-left: 20px; }
+  .stat { text-align: center; padding: 12px 8px; }
+  .stat-value { font-size: 24px; font-weight: 800; color: var(--text); }
+  .stat-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+  .screenshots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 24px 0; }
+  .screenshots img { width: 100%; border-radius: 8px; border: 1px solid var(--border); }
+  .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); }
+  .highlight { background: var(--accent); padding: 2px 6px; border-radius: 4px; color: var(--on-accent); font-weight: 700; }
+  .ascii-art { font-family: 'Courier New', monospace; font-size: 11px; line-height: 1.2; white-space: pre; color: var(--text-secondary); margin: 8px 0; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="logo-block">
+      <div class="logo-icon">B</div>
+      <div>
+        <h1>Boxy — Pack &amp; Fit Puzzle</h1>
+        <div class="subtitle">Cozy packing puzzle · Mobile · Mound Studio · Target launch May 28, 2026</div>
+      </div>
+    </div>
+    <div class="pill">Seeking publishing partner</div>
+  </header>
+
+  <!-- ONE-LINER + KPI TARGETS -->
+  <div class="card" style="margin-bottom: 24px;">
+    <h2>One-liner</h2>
+    <p style="font-size: 17px; line-height: 1.7;">Drag &amp; rotate items to pack a school bag with zero gaps — the cozy "almost fits" frustration that triggers <span class="highlight">"one more try"</span> loops, plus a Boxy mascot IP designed for series expansion (Boxy Sort → Boxy Cafe).</p>
+  </div>
+
+  <!-- 4 STATS -->
+  <div class="grid-3" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="card stat">
+      <div class="stat-value">1.5%+</div>
+      <div class="stat-label">Target ad CTR</div>
+    </div>
+    <div class="card stat">
+      <div class="stat-value">30% / 10%</div>
+      <div class="stat-label">D1 / D7 retention target</div>
+    </div>
+    <div class="card stat">
+      <div class="stat-value">$0.10+</div>
+      <div class="stat-label">ARPDAU target (top 25%)</div>
+    </div>
+    <div class="card stat">
+      <div class="stat-value">50 levels</div>
+      <div class="stat-label">at launch · 3 themes</div>
+    </div>
+  </div>
+
+  <!-- WHY IT WORKS -->
+  <div class="grid-2">
+    <div class="card">
+      <h2>Why "almost fits" hook works</h2>
+      <ul>
+        <li><strong>AppLovin data</strong>: Fail-tone creatives are 26% of top-performing puzzle ads (2025).</li>
+        <li><strong>Mechanic = ad</strong>: Unlike deceptive fail ads, our gameplay literally delivers the 95% moment → D1 retention preserved (32% vs 14% for deceptive).</li>
+        <li><strong>Korean ASO gap</strong>: 정리/패킹 keyword space underserved (manual store search confirms low share).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Mound IP strategy — Boxy series</h2>
+      <ul>
+        <li><strong>Boxy character</strong>: yellow cube mascot reused across series, accelerating creative production turn-over.</li>
+        <li><strong>Game 2 (Boxy Sort)</strong>: 2-week build using same infrastructure, June launch.</li>
+        <li><strong>ASO compounding</strong>: search "Boxy" surfaces entire portfolio.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SCREENSHOTS (Stitch generated) -->
+  <h2 style="font-size: 18px; font-weight: 700; margin: 24px 0 12px; display: flex; align-items: center; gap: 8px;">
+    <span style="width: 6px; height: 18px; background: var(--accent); border-radius: 3px;"></span>
+    Visual reference (Stitch MCP output)
+  </h2>
+  <div class="screenshots">
+    <img src="https://i.imgur.com/mti7nVp.png" alt="Main Menu">
+    <img src="https://i.imgur.com/L5imjjF.png" alt="Gameplay">
+    <img src="https://i.imgur.com/1xVMGW9.png" alt="Level Select">
+    <img src="https://i.imgur.com/osKFIEK.png" alt="Ad Reward Popup">
+  </div>
+  <div class="subtitle" style="margin-bottom: 24px;">v1.0 actual builds use Pretendard font + final art (Boxy mascot via Scenario LoRA, in progress)</div>
+
+  <!-- TECH + READY STATE -->
+  <div class="grid-2">
+    <div class="card">
+      <h2>Production status (as of 2026-04-29)</h2>
+      <ul>
+        <li>Unity 6.3 LTS · Code skeleton 100% complete (5 modules, 22 .cs)</li>
+        <li>5 UXML screens · drag/rotate via Manipulator · ResultPopup wired</li>
+        <li>50 procedural levels generation algorithm (boxy-plan §B-3-2 reverse-fill)</li>
+        <li>Save/Progression with v1 SaveVersion + migration path</li>
+        <li>Ad/IAP/Analytics interfaces ready (NullProvider for dev, AppLovin/Firebase wrapper Week 3)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>What we're seeking</h2>
+      <ul>
+        <li><strong>UA budget &amp; mediation expertise</strong> — Boxy v1 mechanic + ad creative ready, but need scaled UA testing.</li>
+        <li><strong>Geo expansion guidance</strong> — Korea-first, English markets next, Japan mid-2026.</li>
+        <li><strong>Hybrid casual feedback</strong> — current build is cozy single-player; willing to add light meta if data supports.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TIMELINE + STUDIO -->
+  <div class="card">
+    <h2>Timeline</h2>
+    <div class="ascii-art">Apr 29 ────── May 12 ────── May 26 ────── May 28 ──────────── Jun
+   Day 1        Closed test    14-day pass   PRODUCTION    Boxy Sort dev
+                upload         (20 testers)  LAUNCH        2-week sprint</div>
+  </div>
+
+  <footer>
+    <div>
+      <strong>Mound Studio</strong> · 사업자번호 709-09-03510 · 백정수 (Mound)<br>
+      Solo developer · prior shipped: Prepit (active operations)
+    </div>
+    <div style="text-align: right;">
+      <strong>Contact</strong><br>
+      dugout26.gm@gmail.com
+    </div>
+  </footer>
+</body>
+</html>

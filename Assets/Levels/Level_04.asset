@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01f7b6584b3da4bf1857d163b500cf3b, type: 3}
+  m_Name: Level_04
+  m_EditorClassIdentifier: Boxy.App::Boxy.App.Levels.LevelData
+  levelNumber: 4
+  gridWidth: 4
+  gridHeight: 4
+  themeKey: school_bag
+  items:
+  - itemKey: pencil_case_2
+    cells:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    - {x: 1, y: 2}
+    - {x: 1, y: 3}
+  - itemKey: book_0
+    cells:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 0, y: 2}
+    - {x: 1, y: 2}
+  - itemKey: notebook_1
+    cells:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+  - itemKey: lunchbox_3
+    cells:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 0, y: 2}
+  rotationLimit: 2
+  timeLimitSeconds: -1

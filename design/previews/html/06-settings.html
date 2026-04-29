@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: "#FFD60A",
+                            content: "#1A1A1A"
+                        },
+                        surface: {
+                            light: "#F8F9FA",
+                            white: "#FFFFFF"
+                        },
+                        border: "#E5E7EB",
+                        text: {
+                            primary: "#1A1A1A",
+                            secondary: "#6B7280"
+                        },
+                        status: {
+                            success: "#4ADE80",
+                            warning: "#FBBF24",
+                            error: "#EF4444"
+                        }
+                    },
+                    borderRadius: {
+                        "DEFAULT": "12px",
+                        "lg": "12px",
+                        "xl": "20px",
+                        "2xl": "24px",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Plus Jakarta Sans", "sans-serif"],
+                        display: ["Plus Jakarta Sans", "sans-serif"],
+                        body: ["Plus Jakarta Sans", "sans-serif"],
+                        label: ["Plus Jakarta Sans", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .boxy-mascot {
+            width: 24px;
+            height: 26.4px; /* 1:1.1 ratio */
+            background-color: #FFD60A;
+            border: 2px solid #1A1A1A;
+            position: relative;
+            border-radius: 4px;
+        }
+        .boxy-mascot::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 4px;
+            width: 3px;
+            height: 3px;
+            background: #1A1A1A;
+            border-radius: 50%;
+            box-shadow: 10px 0 0 #1A1A1A;
+        }
+        .boxy-mascot::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 6px;
+            width: 8px;
+            height: 2px;
+            background: #1A1A1A;
+        }
+        .custom-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #E5E7EB;
+            border-radius: 4px;
+            outline: none;
+        }
+        .custom-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #FFFFFF;
+            border: 2px solid #1A1A1A;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-light flex justify-center items-center min-h-screen">
+<!-- Mobile Frame (9:19.5 Aspect Ratio Emulation) -->
+<div class="relative w-full max-w-[430px] h-[932px] bg-surface-light flex flex-col overflow-hidden shadow-2xl">
+<!-- TopAppBar (From JSON Anchor) -->
+<header class="flex items-center justify-between w-full h-16 px-4 bg-white dark:bg-gray-900 border-b-2 border-gray-100 dark:border-gray-800 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<button class="active:scale-95 transition-transform duration-100 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl p-1">
+<span class="material-symbols-outlined text-gray-900 dark:text-white" style="font-size: 28px;">arrow_back</span>
+</button>
+<h1 class="font-bold text-xl tracking-tight text-gray-900 dark:text-white">Settings</h1>
+</div>
+<div class="boxy-mascot"></div>
+</header>
+<!-- Body Canvas (Scrollable Content) -->
+<main class="flex-1 overflow-y-auto pb-32">
+<!-- Section: Sound -->
+<section class="mt-6">
+<h2 class="px-4 mb-2 text-text-secondary font-bold text-sm uppercase tracking-wider">Sound</h2>
+<div class="bg-white">
+<!-- BGM Slider -->
+<div class="flex items-center justify-between h-[56px] px-4 border-b border-border">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-primary">music_note</span>
+<span class="font-medium text-text-primary">BGM</span>
+</div>
+<div class="w-1/2 flex items-center">
+<div class="relative w-full h-2 bg-border rounded-full overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-primary" style="width: 50%;"></div>
+</div>
+</div>
+</div>
+<!-- SFX Slider -->
+<div class="flex items-center justify-between h-[56px] px-4 border-b border-border">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-primary">volume_up</span>
+<span class="font-medium text-text-primary">SFX</span>
+</div>
+<div class="w-1/2 flex items-center">
+<div class="relative w-full h-2 bg-border rounded-full overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-primary" style="width: 80%;"></div>
+</div>
+</div>
+</div>
+<!-- Music Toggle -->
+<div class="flex items-center justify-between h-[56px] px-4 border-b border-border">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-primary">graphic_eq</span>
+<span class="font-medium text-text-primary">Music</span>
+</div>
+<div class="w-12 h-6 bg-primary rounded-full relative flex items-center px-1 border-2 border-text-primary">
+<div class="w-4 h-4 bg-white rounded-full ml-auto"></div>
+</div>
+</div>
+<!-- Vibration Toggle -->
+<div class="flex items-center justify-between h-[56px] px-4 border-b border-border">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-primary">vibration</span>
+<span class="font-medium text-text-primary">Vibration</span>
+</div>
+<div class="w-12 h-6 bg-primary rounded-full relative flex items-center px-1 border-2 border-text-primary">
+<div class="w-4 h-4 bg-white rounded-full ml-auto"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Game -->
+<section class="mt-8">
+<h2 class="px-4 mb-2 text-text-secondary font-bold text-sm uppercase tracking-wider">Game</h2>
+<div class="bg-white">
+<div class="flex items-center justify-between h-[56px] px-4 border-b border-border active:bg-gray-50 transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-primary">language</span>
+<span class="font-medium text-text-primary">Language</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="text-text-secondary font-medium">한국어</span>
+<span class="material-symbols-outlined text-gray-400">chevron_right</span>
+</div>
+</div>
+<div class="flex items-center justify-between h-[56px] px-4 border-b border-border active:bg-gray-50 transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-status-error">delete_forever</span>
+<span class="font-medium text-status-error">Reset Progress</span>
+</div>
+<button class="bg-status-error text-white font-bold py-1 px-4 rounded-lg active:scale-95 transition-transform text-sm h-9">
+                            Reset
+                        </button>
+</div>
+</div>
+</section>
+<!-- Section: Support -->
+<section class="mt-8">
+<h2 class="px-4 mb-2 text-text-secondary font-bold text-sm uppercase tracking-wider">Support</h2>
+<div class="bg-white">
+<div class="flex items-center justify-between h-[56px] px-4 border-b border-border active:bg-gray-50 transition-colors">
+<span class="font-medium text-text-primary">Privacy Policy</span>
+<span class="material-symbols-outlined text-gray-400">chevron_right</span>
+</div>
+<div class="flex items-center justify-between h-[56px] px-4 border-b border-border active:bg-gray-50 transition-colors">
+<span class="font-medium text-text-primary">Terms of Service</span>
+<span class="material-symbols-outlined text-gray-400">chevron_right</span>
+</div>
+<div class="flex items-center justify-between h-[56px] px-4 border-b border-border active:bg-gray-50 transition-colors">
+<span class="font-medium text-text-primary">Contact</span>
+<span class="material-symbols-outlined text-gray-400">chevron_right</span>
+</div>
+<div class="flex items-center justify-between h-[56px] px-4 border-b border-border active:bg-gray-50 transition-colors">
+<span class="font-medium text-text-primary">Restore Purchases</span>
+<button class="border-2 border-primary text-text-primary font-bold py-1 px-4 rounded-lg active:scale-95 transition-transform text-sm h-9">
+                            Restore
+                        </button>
+</div>
+</div>
+</section>
+<!-- Section: About -->
+<section class="mt-8">
+<h2 class="px-4 mb-2 text-text-secondary font-bold text-sm uppercase tracking-wider">About</h2>
+<div class="bg-white">
+<div class="flex items-center justify-between h-[56px] px-4 border-b border-border">
+<span class="font-medium text-text-primary">Version</span>
+<span class="text-text-secondary font-medium">1.0.0</span>
+</div>
+<div class="flex items-center justify-between h-[56px] px-4 border-b border-border">
+<span class="font-medium text-text-primary">Made by Mound</span>
+<div class="boxy-mascot scale-75 opacity-80"></div>
+</div>
+</div>
+</section>
+<!-- Visual Mascot Footer -->
+<div class="flex flex-col items-center justify-center py-12 gap-4">
+<div class="boxy-mascot scale-150"></div>
+<p class="text-text-secondary text-sm font-medium">Boxy is watching you adjust sliders.</p>
+</div>
+</main>
+<!-- BottomNavBar (From JSON Anchor) -->
+<nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] z-50 flex justify-around items-center bg-white dark:bg-gray-900 px-2 pt-2 pb-6 border-t-2 border-gray-100 dark:border-gray-800 rounded-t-[24px] shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+<button class="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 px-4 py-1 hover:text-yellow-500 transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[12px] font-bold">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 px-4 py-1 hover:text-yellow-500 transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined">sports_esports</span>
+<span class="text-[12px] font-bold">Play</span>
+</button>
+<button class="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 px-4 py-1 hover:text-yellow-500 transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="text-[12px] font-bold">Shop</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-yellow-400 text-gray-900 rounded-xl px-4 py-1 active:scale-90 duration-200">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[12px] font-bold">Settings</span>
+</button>
+</nav>
+</div>
+</body></html>

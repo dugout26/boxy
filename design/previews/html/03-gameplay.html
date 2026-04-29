@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-accent': '#FFD60A',
+                        'on-accent': '#1A1A1A',
+                        'bg-light': '#F8F9FA',
+                        'bg-surface': '#FFFFFF',
+                        'border-color': '#E5E7EB',
+                        'text-primary': '#1A1A1A',
+                        'text-secondary': '#6B7280',
+                        'success': '#4ADE80',
+                        'warning': '#FBBF24',
+                        'error': '#EF4444',
+                    },
+                    borderRadius: {
+                        'DEFAULT': '0.5rem',
+                        'lg': '1rem',
+                        'xl': '1.5rem',
+                        '2xl': '1.5rem',
+                        '3xl': '2rem',
+                        'full': '9999px'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        headline: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                        body: ['Plus Jakarta Sans', 'sans-serif'],
+                        label: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .boxy-mascot {
+            width: 32px;
+            height: 35.2px; /* 1:1.1 ratio */
+            background-color: #FFD60A;
+            border: 2px solid #1A1A1A;
+            border-radius: 4px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .boxy-eyes {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 2px;
+        }
+        .boxy-eye {
+            width: 3px;
+            height: 3px;
+            background: #1A1A1A;
+            border-radius: 50%;
+        }
+        .boxy-mouth {
+            width: 10px;
+            height: 2px;
+            background: #1A1A1A;
+        }
+        .grid-pattern {
+            background-size: 40px 40px;
+            background-image: radial-gradient(circle, #E5E7EB 1px, transparent 1px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-bg-light font-body text-text-primary antialiased">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 h-14 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-transform active:scale-95">
+<span class="material-symbols-outlined text-gray-900 dark:text-white" data-icon="arrow_back">arrow_back</span>
+</button>
+<span class="font-bold text-xl text-gray-900 dark:text-white">Level 12</span>
+</div>
+<div class="absolute left-1/2 -translate-x-1/2">
+<div class="boxy-mascot scale-75">
+<div class="boxy-eyes">
+<div class="boxy-eye"></div>
+<div class="boxy-eye"></div>
+</div>
+<div class="boxy-mouth"></div>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-yellow-400" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-gray-300" data-icon="star">star</span>
+<span class="material-symbols-outlined text-gray-300" data-icon="star">star</span>
+</div>
+</header>
+<!-- Progress Bar -->
+<div class="fixed top-14 left-0 w-full z-40 bg-white dark:bg-gray-900 px-0">
+<div class="h-[6px] w-full bg-gray-100">
+<div class="h-full bg-primary-accent w-[40%]"></div>
+</div>
+<!-- Main Game Canvas -->
+<main class="pt-20 pb-72 min-h-screen px-6 flex flex-col items-center justify-center">
+<!-- Bag Outline Container -->
+<div class="relative w-full max-w-xs aspect-[3/4] bg-white rounded-[40px] border-4 border-gray-200 shadow-inner p-6 flex flex-col">
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 w-32 h-8 bg-gray-200 rounded-t-full -z-10"></div>
+<!-- Puzzle Grid -->
+<div class="flex-1 grid grid-cols-6 grid-rows-8 gap-1 grid-pattern relative rounded-2xl overflow-hidden">
+<!-- Placed Items Examples -->
+<!-- Red Book 2x3 -->
+<div class="absolute top-[40px] left-[40px] w-[80px] h-[120px] bg-red-400 border-2 border-red-600 rounded-lg flex items-center justify-center shadow-sm z-10">
+<span class="material-symbols-outlined text-white text-3xl" data-icon="menu_book">menu_book</span>
+</div>
+<!-- Water Bottle 1x4 -->
+<div class="absolute top-[80px] left-[160px] w-[40px] h-[160px] bg-blue-400 border-2 border-blue-600 rounded-full flex items-center justify-center shadow-sm z-10">
+<span class="material-symbols-outlined text-white" data-icon="water_drop">water_drop</span>
+</div>
+<!-- Pencil Case 2x2 -->
+<div class="absolute top-[200px] left-[0px] w-[80px] h-[80px] bg-orange-400 border-2 border-orange-600 rounded-lg flex items-center justify-center shadow-sm z-10">
+<span class="material-symbols-outlined text-white" data-icon="edit">edit</span>
+</div>
+</div>
+</div>
+<div class="mt-8 text-center text-text-secondary">
+<p class="text-sm font-medium">Fit all items inside the backpack!</p>
+</div>
+</main>
+<!-- Bottom Interface Tray -->
+<div class="fixed bottom-0 left-0 w-full z-50">
+<!-- Item Tray -->
+<div class="bg-white rounded-t-3xl shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.1)] px-6 pt-6 pb-4">
+<h3 class="text-xs font-bold uppercase tracking-wider text-text-secondary mb-4">Items remaining</h3>
+<div class="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
+<!-- Apple 1x1 -->
+<div class="flex-shrink-0 w-20 h-20 bg-bg-light border border-border-color rounded-xl flex items-center justify-center shadow-sm active:scale-95 transition-transform">
+<img class="w-12 h-12 object-contain" data-alt="a single shiny green granny smith apple isolated on a neutral background with soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWV1oodM4OmfRJkXAcNwLvFnFqf3u6e3KAq4j1pHUPeqL40VvBCi6U0PCJtuNfVGaJP0xhkOOo8YA4lFcFKxK9z-8-KjPuROHWyHubnFj_QFwC4JJq6KkVOVBAIYGKa8tyU0im31h7zwskLemDraFqFQmUkg0W30N_vml9vWjuAVdgujl8-lErNNbST5pHqikRocYsmsTsrkf5f8uKjrUURsJgoBnkZf8lYM1t2C_LlBdSVWPDIqVtbfqQnM7vyGFXICij8rBA0psx"/>
+</div>
+<!-- Notebook 2x3 -->
+<div class="flex-shrink-0 w-20 h-20 bg-bg-light border border-border-color rounded-xl flex items-center justify-center shadow-sm active:scale-95 transition-transform">
+<img class="w-12 h-12 object-contain" data-alt="a small spiral notebook with a minimal clean cover design top view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdOXrt94pP69OEuWYsyGg0xY_UJtHjRoxAHi6vvW8XiZMClRN3owHRgDR_AqfZ4ickSrkgm7nHv4TmNhenUl5OAjfJ7sZCW-rF9Cb3vfsgQqOYK-3mbNY20oImcPfzwGuLWGkIj619qethmqgT6kv6U6ZdDVSwLW-UVGzsH4ZJRxIEGaSfVNn2lzRDyjhCIkfGLars9pGQWJH2G3l4rEBMQyYY760_A66BuZGLEWNneyqululVaZOSS1qAUEMHMb3sKTPGcGXLfvgf"/>
+</div>
+<!-- Socks 2x2 -->
+<div class="flex-shrink-0 w-20 h-20 bg-bg-light border border-border-color rounded-xl flex items-center justify-center shadow-sm active:scale-95 transition-transform">
+<img class="w-12 h-12 object-contain" data-alt="a pair of colorful rolled up cotton socks cozy and soft texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAK_u_A2rxUZYsLnnDWpEYvfv6Z6jSxpvJegPE3gd00IzXRLAaKTnrfOngT-5kDgYQQ8sbEyFKXz_FoWE5Jz130-zi44oIJmfciqzH71J7PTjrXKsMaZWRTTlEUUxpPeh_yOfk58URg3pjzeivgVh2EQW2EvFXqnx9_5QVgzBd-WAqOR5HaSmkHiVh_B9c0-w4_tU98vJMe-DisffIaqsfHD3UOXIsB0bHsx49yz_vF-CW9SNQAt9j5o5PB35a2o5GIRpYg1lt2lZP"/>
+</div>
+<!-- Snack Bar 1x3 -->
+<div class="flex-shrink-0 w-20 h-20 bg-bg-light border border-border-color rounded-xl flex items-center justify-center shadow-sm active:scale-95 transition-transform">
+<img class="w-12 h-12 object-contain" data-alt="a granola energy snack bar in a simple wrapper healthy food item" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNYGBYvKRm2JZqqr6E-A7DXIBlTemQ4tH8ZxsWZkP-wfJ_VBIQizIor3WbNqBbf8tZ9eEV1PgEV1ggTSNe4ROiAeAMddCiJNe4CI1iSokZwO6gLAgk21Fk8lJjRe2hz9S0Ly4RRGVaJv9RDT-WzgeTOfuc-fiOjTRMCVuXoHC6UHQ2ZhNkT2Nv1M0uXs2hVWq21kcohthB7xOVni4qtDwnQlSCufWmLD0043ubsoaaF4aBA2vHYSBuiGXzOFQk-0K4mMEh1lxL1JtP"/>
+</div>
+<!-- Keychain 1x1 -->
+<div class="flex-shrink-0 w-20 h-20 bg-bg-light border border-border-color rounded-xl flex items-center justify-center shadow-sm active:scale-95 transition-transform">
+<div class="boxy-mascot scale-75">
+<div class="boxy-eyes">
+<div class="boxy-eye"></div>
+<div class="boxy-eye"></div>
+</div>
+<div class="boxy-mouth"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Actions (Shared Component Map) -->
+<nav class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 flex justify-around items-center px-4 pb-8 pt-2 shadow-lg">
+<!-- Hint Button -->
+<button class="flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 px-6 py-2 hover:bg-yellow-50 dark:hover:bg-gray-800 rounded-2xl active:scale-90 transition-all">
+<div class="relative">
+<div class="w-12 h-12 bg-primary-accent rounded-full flex items-center justify-center text-gray-900">
+<span class="material-symbols-outlined" data-icon="lightbulb">lightbulb</span>
+</div>
+<span class="absolute -top-1 -right-1 bg-on-accent text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">1</span>
+</div>
+<span class="font-medium text-xs text-gray-900 dark:text-white mt-1">Hint</span>
+</button>
+<!-- Mascot Peeking (Center Decorative) -->
+<div class="relative -top-4">
+<div class="boxy-mascot">
+<div class="boxy-eyes">
+<div class="boxy-eye"></div>
+<div class="boxy-eye"></div>
+</div>
+<div class="boxy-mouth"></div>
+<!-- Happy Cheeks -->
+<div class="absolute bottom-2 left-1 w-1.5 h-1.5 bg-red-200 rounded-full"></div>
+<div class="absolute bottom-2 right-1 w-1.5 h-1.5 bg-red-200 rounded-full"></div>
+</div>
+</div>
+<!-- Undo Button -->
+<button class="flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 px-6 py-2 hover:bg-yellow-50 dark:hover:bg-gray-800 rounded-2xl active:scale-90 transition-all">
+<div class="relative">
+<div class="w-12 h-12 border-2 border-gray-200 rounded-full flex items-center justify-center text-gray-900">
+<span class="material-symbols-outlined" data-icon="undo">undo</span>
+</div>
+<span class="absolute -top-1 -right-1 bg-on-accent text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">3</span>
+</div>
+<span class="font-medium text-xs text-gray-900 dark:text-white mt-1">Undo</span>
+</button>
+</nav>
+</div>
+<!-- Background Decoration -->
+<div class="fixed top-0 left-0 w-full h-full -z-20 opacity-30 pointer-events-none overflow-hidden">
+<div class="absolute top-20 -left-10 w-40 h-40 bg-primary-accent/20 rounded-full blur-3xl"></div>
+<div class="absolute bottom-40 -right-10 w-60 h-60 bg-blue-100/30 rounded-full blur-3xl"></div>
+</div>
+</div>
+</body></html>

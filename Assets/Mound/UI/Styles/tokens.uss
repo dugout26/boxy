@@ -1,0 +1,50 @@
+/* Mound Brand v2.0 — Foundation Tokens */
+/* mound-design-system.md §2 (컬러), §3 (타이포), §5 (스페이싱), §6 (모션) 1:1 매핑 */
+
+:root {
+    /* Foundation Colors */
+    --bg: #F8F9FA;
+    --surface: #FFFFFF;
+    --text-primary: #1A1A1A;
+    --text-secondary: #6B7280;
+    --text-disabled: #9CA3AF;
+    --border: #E5E7EB;
+    --border-strong: #D1D5DB;
+    --overlay: rgba(0, 0, 0, 0.5);
+
+    /* Semantic Colors (v2: WCAG AA 보정) */
+    --success: #16A34A;
+    --warning: #D97706;
+    --error: #DC2626;
+    --info: #2563EB;
+
+    /* Accent — 각 게임이 별도 USS에서 정의 (예: Assets/Boxy.App/UI/accent-boxy.uss) */
+    /* 미정의 시 components.uss var(--accent) 참조가 transparent로 폴백되어 빈 버튼이 됨 — 반드시 게임별 accent 파일을 동시 로드할 것 */
+
+    /* Typography (px) */
+    --text-display: 32px;
+    --text-h1: 24px;
+    --text-h2: 20px;
+    --text-body: 16px;
+    --text-caption: 14px;
+    --text-tiny: 12px;
+
+    /* Spacing — 8pt grid */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-2xl: 48px;
+
+    /* Radius */
+    --radius-button: 12px;
+    --radius-popup: 20px;
+    --radius-toast: 24px;
+
+    /* Motion durations — transition-duration 등에서 var() 참조 */
+    --duration-micro: 100ms;
+    --duration-standard: 250ms;
+    --duration-emphasis: 500ms;
+    --duration-page: 300ms;
+}

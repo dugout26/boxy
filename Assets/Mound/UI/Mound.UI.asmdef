@@ -1,0 +1,16 @@
+{
+    "name": "Mound.UI",
+    "rootNamespace": "Mound.UI",
+    "references": [
+        "Mound.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

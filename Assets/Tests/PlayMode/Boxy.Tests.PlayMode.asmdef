@@ -1,0 +1,22 @@
+{
+    "name": "Boxy.Tests.PlayMode",
+    "rootNamespace": "Boxy.Tests.PlayMode",
+    "references": [
+        "Boxy.App",
+        "Mound.Core",
+        "UnityEngine.TestRunner"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

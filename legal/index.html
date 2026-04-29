@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boxy Pack — Legal</title>
+<meta name="description" content="Boxy Pack 개인정보 처리방침 및 이용약관 / Privacy Policy and Terms of Service">
+<style>
+:root {
+  --bg: #FAFAFA;
+  --surface: #FFFFFF;
+  --accent: #FFD60A;
+  --on-accent: #1A1A1A;
+  --text: #1A1A1A;
+  --text-muted: #6B7280;
+  --border: #E5E7EB;
+  --radius: 12px;
+  --max-width: 720px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Pretendard Variable", Pretendard, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+header {
+  text-align: center;
+  padding: 32px 0 24px;
+}
+.logo {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  background: var(--accent);
+  border-radius: 16px;
+  margin-bottom: 12px;
+  position: relative;
+}
+.logo::before {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  background: var(--on-accent);
+  border-radius: 4px;
+  opacity: 0.15;
+}
+h1.title { font-size: 28px; font-weight: 700; }
+p.subtitle { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin: 24px 0 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.tab {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--text);
+  transition: all 0.15s ease-out;
+}
+.tab:hover { background: #F3F4F6; }
+.tab.active {
+  background: var(--accent);
+  color: var(--on-accent);
+  border-color: var(--accent);
+  font-weight: 700;
+}
+
+.content {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  margin-bottom: 24px;
+}
+.content h1 {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+.content h2 {
+  font-size: 18px;
+  margin: 24px 0 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.content h2:first-of-type { border-top: none; padding-top: 0; }
+.content h3 {
+  font-size: 16px;
+  margin: 16px 0 8px;
+  color: var(--text-muted);
+}
+.content p, .content li { font-size: 15px; margin-bottom: 8px; }
+.content ul, .content ol { padding-left: 24px; margin-bottom: 12px; }
+.content code {
+  background: #F3F4F6;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+.content blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 8px 12px;
+  margin: 12px 0;
+  color: var(--text-muted);
+  font-size: 14px;
+  background: #FFFCEF;
+}
+.content hr {
+  border: 0;
+  height: 1px;
+  background: var(--border);
+  margin: 24px 0;
+}
+.content strong { font-weight: 700; }
+.content a { color: #2563EB; text-decoration: none; }
+.content a:hover { text-decoration: underline; }
+
+.loading { text-align: center; padding: 40px; color: var(--text-muted); }
+.error {
+  background: #FEF2F2;
+  border: 1px solid #FCA5A5;
+  color: #991B1B;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+footer {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  padding: 24px 0;
+}
+footer a { color: var(--text-muted); }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1A1A1A;
+    --surface: #2A2A2A;
+    --text: #F5F5F5;
+    --text-muted: #9CA3AF;
+    --border: #3F3F3F;
+  }
+  .content code { background: #1F1F1F; }
+  .content blockquote { background: #2F2A0F; }
+  .content a { color: #60A5FA; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo" aria-hidden="true"></div>
+    <h1 class="title">Boxy Pack</h1>
+    <p class="subtitle">Legal — Privacy Policy &amp; Terms of Service</p>
+  </header>
+
+  <nav class="tabs" id="lang-tabs" aria-label="Language">
+    <button class="tab active" data-lang="ko" type="button">한국어</button>
+    <button class="tab" data-lang="en" type="button">English</button>
+  </nav>
+
+  <nav class="tabs" id="doc-tabs" aria-label="Document">
+    <button class="tab active" data-doc="privacy" type="button">개인정보 처리방침</button>
+    <button class="tab" data-doc="terms" type="button">이용약관</button>
+  </nav>
+
+  <main class="content" id="content" aria-live="polite">
+    <div class="loading">불러오는 중…</div>
+  </main>
+
+  <footer>
+    Mound Studio · <a href="mailto:dugout26.gm@gmail.com">dugout26.gm@gmail.com</a>
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@13.0.0/marked.min.js"></script>
+<script>
+const DOC_LABELS = {
+  ko: { privacy: '개인정보 처리방침', terms: '이용약관' },
+  en: { privacy: 'Privacy Policy',     terms: 'Terms of Service' }
+};
+const FILES = {
+  'privacy-ko': 'privacy-policy-ko.md',
+  'privacy-en': 'privacy-policy-en.md',
+  'terms-ko':   'terms-of-service-ko.md',
+  'terms-en':   'terms-of-service-en.md'
+};
+
+let currentLang = 'ko';
+let currentDoc  = 'privacy';
+
+async function loadDoc() {
+  const file = FILES[currentDoc + '-' + currentLang];
+  const target = document.getElementById('content');
+  target.innerHTML = '<div class="loading">' + (currentLang === 'ko' ? '불러오는 중…' : 'Loading…') + '</div>';
+  try {
+    const res = await fetch(file, { cache: 'no-cache' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const md = await res.text();
+    target.innerHTML = marked.parse(md);
+  } catch (e) {
+    target.innerHTML = '<div class="error">Failed to load ' + file + ' — ' + e.message + '</div>';
+  }
+}
+
+function bindTabs(group, attr, onChange) {
+  group.querySelectorAll('.tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      group.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      onChange(btn.dataset[attr]);
+    });
+  });
+}
+
+bindTabs(document.getElementById('lang-tabs'), 'lang', v => {
+  currentLang = v;
+  document.documentElement.lang = v;
+  // 문서 탭 라벨 갱신
+  const docTabs = document.querySelectorAll('#doc-tabs .tab');
+  docTabs.forEach(t => { t.textContent = DOC_LABELS[v][t.dataset.doc]; });
+  loadDoc();
+});
+bindTabs(document.getElementById('doc-tabs'), 'doc', v => { currentDoc = v; loadDoc(); });
+
+loadDoc();
+</script>
+</body>
+</html>

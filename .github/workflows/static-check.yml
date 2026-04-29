@@ -1,0 +1,33 @@
+name: Static Check
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  pattern-check:
+    name: Pattern Violations (CLAUDE.md §19)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Make script executable
+        run: chmod +x ./scripts/check-violations.sh
+
+      - name: Run pattern check
+        run: ./scripts/check-violations.sh all
+
+  # 향후 (Unity 라이선스 활성 후) 컴파일 검증 추가:
+  # unity-compile:
+  #   name: Unity Compile Check
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: game-ci/unity-builder@v4
+  #       with:
+  #         unityVersion: 6000.3.14f1
+  #         targetPlatform: Android
+  #         buildMethod: Boxy.Editor.BuildScript.PerformBuild

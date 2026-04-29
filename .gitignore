@@ -1,0 +1,98 @@
+# Unity 자동 생성
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+[Uu]ser[Ss]ettings/
+
+# Asset meta는 보존, 단 무시된 에셋의 meta는 제외
+!/[Aa]ssets/**/*.meta
+
+# IDE
+.vs/
+.idea/
+.vscode/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Unity 메타 파생
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+sysinfo.txt
+
+# 빌드 산출물
+*.apk
+*.aab
+*.ipa
+*.unitypackage
+*.app
+
+# Crashlytics
+crashlytics-build.properties
+
+# Addressables 빌드 산출
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+
+# StreamingAssets aa
+/[Aa]ssets/[Ss]treamingAssets/aa.meta
+/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# CLAUDE.md §9 — 시크릿 / 환경 설정
+**/EnvironmentConfig.asset
+**/EnvironmentConfig.asset.meta
+!**/EnvironmentConfig.asset.example
+!**/EnvironmentConfig.asset.example.meta
+
+# 프로젝트 루트 secrets 폴더 (google-services.json, GoogleService-Info.plist 등)
+/secrets/*
+!/secrets/README.md
+!/secrets/*.example
+!/secrets/*.example.json
+
+# Firebase / Apple
+google-services.json
+GoogleService-Info.plist
+
+# AdMob / AppLovin / 키스토어
+**/admob-keys.txt
+**/applovin-keys.txt
+**/*.keystore
+**/*.jks
+!**/*.keystore.example
+
+# 환경 변수
+.env
+.env.*
+!.env.example
+
+# Gradle
+.gradle/
+
+# Export
+ExportedObj/
+.consulo/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# AI tools / scratch
+.claude/
+.utmp/
+

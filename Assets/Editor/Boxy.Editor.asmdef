@@ -1,0 +1,20 @@
+{
+    "name": "Boxy.Editor",
+    "rootNamespace": "Boxy.Editor",
+    "references": [
+        "Boxy.App",
+        "Mound.Core",
+        "Unity.IOS.Extensions.Xcode"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,16 @@
+{
+    "name": "Mound.Monetization",
+    "rootNamespace": "Mound.Monetization",
+    "references": [
+        "Mound.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

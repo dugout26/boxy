@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#FFD60A",
+              onAccent: "#1A1A1A",
+              bgLight: "#F8F9FA",
+              bgSurface: "#FFFFFF",
+              border: "#E5E7EB",
+              textPrimary: "#1A1A1A",
+              textSecondary: "#6B7280",
+              success: "#4ADE80",
+              warning: "#FBBF24",
+              error: "#EF4444",
+              warmBeige: "#FFF8F0"
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem",
+              "lg": "1rem",
+              "xl": "1.5rem",
+              "2xl": "20px",
+              "full": "9999px"
+            },
+            fontFamily: {
+              headline: ["Plus Jakarta Sans", "sans-serif"],
+              display: ["Plus Jakarta Sans", "sans-serif"],
+              body: ["Plus Jakarta Sans", "sans-serif"],
+              label: ["Plus Jakarta Sans", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FFF8F0;
+        }
+        .boxy-container {
+            width: 1080px;
+            height: 2400px;
+            max-width: 100vw;
+            max-height: 100vh;
+            margin: 0 auto;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-warmBeige text-textPrimary">
+<!-- TopAppBar from JSON -->
+<header class="bg-[#F8F9FA] dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center px-4 h-16 w-full sticky top-0 z-50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-lg border-2 border-onAccent flex items-center justify-center overflow-hidden">
+<img alt="Boxy mascot cube" class="w-full h-full object-cover" data-alt="Cute yellow cube mascot character with simple dot eyes and a straight line mouth, minimalist 3D toy aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoHaJeSgYMH4dOZG5dGP5m2ES7dl1Dfvxy22njuveeBm_hFWQZj9auSLKNSdadmw9bwV_FyxLsdLQZqXBPUEFIW9URma8EuEHQDzXtmZMe8sB45oVMvy0RcmagajnupIGaAdol7NwEUNXILNbpqStCiJgJCBxZx9tqCqctrrmjAxdV9Tt92DYmStgsG0eDfCl2_xobwOZIVCM-nHpseK5c5Prm8-pPcHa7cRdPiH7e3FnKmlkP0-Fp8tb5ruB4Fl1m4xoC5rINbmjv"/>
+</div>
+<h1 class="text-[#1A1A1A] dark:text-[#F8F9FA] font-bold text-2xl tracking-tight">Boxy</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors p-2 rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center justify-center px-8 py-12 space-y-12">
+<!-- Centerpiece Mascot Area -->
+<div class="relative w-full max-w-sm aspect-square flex items-center justify-center">
+<!-- Decorative Background Elements for High Density -->
+<div class="absolute inset-0 grid grid-cols-4 grid-rows-4 gap-4 opacity-10">
+<div class="bg-primary rounded-lg"></div>
+<div class="col-start-3 bg-primary rounded-lg scale-75"></div>
+<div class="row-start-4 col-start-2 bg-primary rounded-lg rotate-12"></div>
+<div class="row-start-2 col-start-4 bg-primary rounded-lg scale-90"></div>
+</div>
+<!-- Large Mascot -->
+<div class="z-10 w-64 h-[70.4px] sm:w-80 sm:h-[88px] relative group">
+<div class="w-full aspect-[1/1.1] bg-primary border-[3px] border-onAccent rounded-2xl shadow-[8px_8px_0px_0px_rgba(26,26,26,1)] flex flex-col items-center justify-center p-8">
+<!-- Simple Facial Expressions -->
+<div class="flex justify-between w-24 mb-4">
+<div class="w-4 h-4 bg-onAccent rounded-full"></div>
+<div class="w-4 h-4 bg-onAccent rounded-full"></div>
+</div>
+<div class="w-16 h-[3px] bg-onAccent rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Title and Description -->
+<div class="text-center space-y-4">
+<div class="inline-block px-4 py-1 bg-primary/20 text-onAccent text-sm font-bold rounded-full mb-2">
+                패킹 퍼즐
+            </div>
+<h2 class="text-5xl font-extrabold text-onAccent tracking-tighter">Boxy</h2>
+<p class="text-textSecondary text-lg max-w-[280px] mx-auto leading-relaxed">
+                복잡한 짐도 한 칸씩,<br/>꼭 맞게 끼워 넣어요.
+            </p>
+</div>
+<!-- Actions -->
+<div class="w-full flex flex-col items-center gap-4 pt-8">
+<button class="w-[80%] h-[56px] bg-primary text-onAccent font-bold text-xl rounded-xl border-2 border-onAccent shadow-[4px_4px_0px_0px_rgba(26,26,26,1)] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2">
+                시작하기
+                <span class="material-symbols-outlined">play_arrow</span>
+</button>
+<button class="w-[80%] h-[48px] text-textPrimary font-semibold text-lg hover:bg-black/5 rounded-xl transition-colors">
+                이어하기
+            </button>
+</div>
+</main>
+<!-- BottomNavBar as Footer Cards (per request) -->
+<nav class="fixed bottom-0 w-full z-50 bg-white dark:bg-gray-800 rounded-t-[20px] shadow-[0_-4px_10px_rgba(0,0,0,0.05)] border-t border-gray-100 dark:border-gray-700 px-6 pb-8 pt-4 flex justify-around items-center">
+<!-- Setting Card -->
+<button class="flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 px-4 py-1 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all active:scale-90 duration-150">
+<div class="w-12 h-12 bg-white border border-border shadow-sm rounded-xl flex items-center justify-center mb-1">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</div>
+<span class="text-sm font-medium">설정</span>
+</button>
+<!-- Sound Card (Active Example) -->
+<button class="flex flex-col items-center justify-center bg-[#FFD60A] text-[#1A1A1A] rounded-xl px-4 py-2 shadow-sm active:scale-90 duration-150">
+<div class="w-8 h-8 flex items-center justify-center mb-1">
+<span class="material-symbols-outlined" data-icon="volume_up">volume_up</span>
+</div>
+<span class="text-sm font-bold">소리</span>
+</button>
+<!-- Shop Card -->
+<button class="flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 px-4 py-1 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all active:scale-90 duration-150">
+<div class="w-12 h-12 bg-white border border-border shadow-sm rounded-xl flex items-center justify-center mb-1">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+</div>
+<span class="text-sm font-medium">상점</span>
+</button>
+</nav>
+<!-- Floating Background Mascot Peek (Density) -->
+<div class="fixed top-32 -left-8 w-24 h-24 opacity-20 pointer-events-none">
+<div class="w-full h-full bg-primary border-2 border-onAccent rounded-lg rotate-12 flex flex-col items-center justify-center">
+<div class="flex gap-2 mb-1">
+<div class="w-2 h-2 bg-onAccent rounded-full"></div>
+<div class="w-2 h-2 bg-onAccent rounded-full"></div>
+</div>
+<div class="w-6 h-[2px] bg-onAccent"></div>
+</div>
+</div>
+<div class="fixed bottom-40 -right-4 w-16 h-16 opacity-20 pointer-events-none">
+<div class="w-full h-full bg-primary border-2 border-onAccent rounded-lg -rotate-12 flex flex-col items-center justify-center">
+<div class="w-4 h-4 border-2 border-onAccent rounded-full mb-1"></div>
+</div>
+</div>
+</body></html>

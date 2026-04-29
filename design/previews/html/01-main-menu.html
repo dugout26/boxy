@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mound - Boxy Game</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#FFD60A",
+                        "on-accent": "#1A1A1A",
+                        "bg-light": "#F8F9FA",
+                        "bg-surface": "#FFFFFF",
+                        border: "#E5E7EB",
+                        "text-primary": "#1A1A1A",
+                        "text-secondary": "#6B7280",
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "2xl": "20px",
+                        "3xl": "24px",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Plus Jakarta Sans", "sans-serif"],
+                        display: ["Plus Jakarta Sans", "sans-serif"],
+                        body: ["Plus Jakarta Sans", "sans-serif"],
+                        label: ["Plus Jakarta Sans", "sans-serif"],
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(180deg, #F8F9FA 0%, #FFFFFF 100%);
+            height: 100vh;
+            overflow: hidden;
+        }
+        .boxy-shadow {
+            box-shadow: 0 8px 0px -2px rgba(0, 0, 0, 0.1);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col items-center justify-between min-h-screen p-6 overflow-hidden">
+<!-- Top App Bar (Shared Component Logic - Suppression: Transactional/Start Screen) -->
+<!-- Note: TopAppBar and BottomNavBar suppressed for main menu "Splash/Start" focused intent -->
+<!-- Header Section -->
+<header class="w-full pt-12 text-center flex flex-col items-center">
+<h1 class="text-[32px] font-bold text-text-primary tracking-tight leading-none mb-1">
+            Boxy
+        </h1>
+<p class="text-[14px] text-text-secondary font-medium">
+            Pack &amp; Fit Puzzle
+        </p>
+</header>
+<!-- Center: Boxy Mascot -->
+<main class="flex-grow flex flex-col items-center justify-center w-full">
+<!-- Boxy Mascot Visual -->
+<div class="relative w-48 h-[52.8px] bg-primary border-[2px] border-text-primary rounded-xl flex flex-col items-center justify-center boxy-shadow">
+<!-- Simple Eyes -->
+<div class="flex space-x-8 mb-2 mt-4">
+<div class="w-2.5 h-2.5 bg-text-primary rounded-full"></div>
+<div class="w-2.5 h-2.5 bg-text-primary rounded-full"></div>
+</div>
+<!-- Simple Smile -->
+<div class="w-8 h-1 bg-text-primary rounded-full"></div>
+<!-- Floating Accessory (Small Boxy Friend or Sparkle) -->
+<div class="absolute -top-4 -right-4 w-8 h-8 bg-white border-2 border-text-primary rounded-md flex items-center justify-center">
+<div class="flex space-x-1">
+<div class="w-1 h-1 bg-text-primary rounded-full"></div>
+<div class="w-1 h-1 bg-text-primary rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Subtle shadow below mascot -->
+<div class="w-32 h-3 bg-black opacity-5 blur-xl rounded-full mt-8"></div>
+</main>
+<!-- Action Section -->
+<footer class="w-full max-w-xs flex flex-col items-center gap-8 pb-12">
+<!-- Big Primary Button -->
+<button class="w-full h-[48px] bg-primary text-on-accent font-extrabold text-lg rounded-[12px] shadow-lg active:scale-95 transition-all duration-100 uppercase tracking-widest flex items-center justify-center">
+            PLAY
+        </button>
+<!-- Small Icon Buttons Row -->
+<div class="flex items-center justify-center gap-6">
+<!-- Settings -->
+<button class="w-12 h-12 flex items-center justify-center text-text-secondary border-2 border-border rounded-[12px] hover:bg-white active:scale-90 transition-all duration-100">
+<span class="material-symbols-outlined text-[24px]">settings</span>
+</button>
+<!-- Sound -->
+<button class="w-12 h-12 flex items-center justify-center text-text-secondary border-2 border-border rounded-[12px] hover:bg-white active:scale-90 transition-all duration-100">
+<span class="material-symbols-outlined text-[24px]">volume_up</span>
+</button>
+<!-- Shop -->
+<button class="w-12 h-12 flex items-center justify-center text-text-secondary border-2 border-border rounded-[12px] hover:bg-white active:scale-90 transition-all duration-100">
+<span class="material-symbols-outlined text-[24px]">shopping_bag</span>
+</button>
+</div>
+<!-- Version Label -->
+<span class="text-[14px] text-text-secondary opacity-50 font-medium">v1.0</span>
+</footer>
+<!-- Decorative Elements (Cozy Grid/Bento Style background hints) -->
+<div class="fixed top-20 -left-10 w-32 h-32 bg-primary/5 rounded-[24px] rotate-12 -z-10"></div>
+<div class="fixed bottom-40 -right-10 w-48 h-48 bg-primary/10 rounded-[48px] -rotate-12 -z-10"></div>
+</body></html>
