@@ -1,11 +1,10 @@
 name: Unity Compile + Tests (PR validation)
 
-# develop / main 으로 가는 PR + 직접 push 검증.
-# feature/* push 자체는 검증 X (개발 단계 매 commit마다 부담 회피).
+# develop / main 으로 가는 PR만 검증.
+# push (develop/main)는 ios/android 빌드 잡이 자체 컴파일 거치므로 중복 회피.
+# feature/* push 검증 X (매 commit 부담 회피).
 on:
   pull_request:
-    branches: [develop, main]
-  push:
     branches: [develop, main]
 
 concurrency:
