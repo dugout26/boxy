@@ -38,49 +38,27 @@ namespace Mound.Monetization
         public bool CanShowPersonalizedAds() => true;
     }
 
-    // Google User Messaging Platform (UMP) 래퍼 — Google Mobile Ads Unity Plugin v11.0.0 포함.
-    // 통합 시점: boxy-plan §C Week 3 Day 20.
-    //
-    // Week 3 통합 절차:
-    //   1. Google Mobile Ads Unity Plugin 임포트 (이미 AppLovin 미디에이션 구성 시 포함)
-    //   2. AdMob 대시보드에서 UMP form 생성 + GDPR 메시지 등록
-    //   3. 아래 TODO 마크 SDK 호출로 교체
-    //   4. CLAUDE.md §11-3 iOS ATT는 별도 (이 클래스는 GDPR/CCPA 전용)
-    //
-    // 현재 상태: 스켈레톤 — Status를 항상 NotRequired로 반환 (동의 흐름 우회).
+    // Google User Messaging Platform (UMP) 래퍼.
+    // SDK 통합 가이드: decisions/2026-04-29-18-applovin-appsflyer-setup-guide.md
+    // 미통합 시 Status를 NotRequired로 반환 — 동의 흐름 우회.
     public sealed class GoogleUmpConsentProvider : IConsentProvider
     {
         public ConsentStatus Status { get; private set; } = ConsentStatus.Unknown;
 
         public Task<ConsentStatus> RequestAsync(CancellationToken ct)
         {
-            // TODO Week 3 Day 20:
-            //   var tcs = new TaskCompletionSource<ConsentStatus>();
-            //   var requestParams = new ConsentRequestParameters { TagForUnderAgeOfConsent = false };
-            //   ConsentInformation.Update(requestParams, error => {
-            //     if (error != null) { tcs.TrySetResult(ConsentStatus.NotRequired); return; }
-            //     ConsentForm.LoadAndShowConsentFormIfRequired(formError => {
-            //       Status = ConsentInformation.ConsentStatus == ConsentStatus.Obtained
-            //         ? ConsentStatus.Obtained : ConsentStatus.NotRequired;
-            //       tcs.TrySetResult(Status);
-            //     });
-            //   });
-            //   ct.Register(() => tcs.TrySetCanceled());
-            //   return tcs.Task;
-            Debug.LogWarning("[GoogleUmpConsentProvider] SDK 미통합 — Week 3 Day 20 대기. NotRequired 반환.");
+            Debug.LogWarning("[GoogleUmpConsentProvider] SDK 미통합 — NotRequired 반환.");
             Status = ConsentStatus.NotRequired;
             return Task.FromResult(Status);
         }
 
         public bool CanShowAds()
         {
-            // TODO Week 3: ConsentInformation.CanRequestAds()
             return Status != ConsentStatus.Denied;
         }
 
         public bool CanShowPersonalizedAds()
         {
-            // TODO Week 3: ConsentInformation.PrivacyOptionsRequirementStatus 등 체크
             return Status == ConsentStatus.Obtained || Status == ConsentStatus.NotRequired;
         }
     }

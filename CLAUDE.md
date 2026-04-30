@@ -182,6 +182,17 @@ public class HintButton : MonoBehaviour
 - 게임 데이터(레벨/테마/아이템/광고 설정)는 SO
 - 하드코딩 배열/리스트로 인스펙터 노출 X — SO로 빼야 디자이너/툴이 편집 가능
 
+### 4-4. EventBus 사용 룰
+**Command성 작업은 EventBus 금지. 상태 변경 결과 알림에만 허용.**
+
+✅ 허용 (Notification — 일어난 사실을 알림):
+- `LevelClearedEvent`, `ItemPlacedEvent`, `CurrencyChangedEvent`, `AchievementUnlockedEvent`
+
+❌ 금지 (Command — 무엇을 해라):
+- `StartLevelEvent`, `BuyItemEvent`, `SaveGameEvent`, `ShowAdEvent`
+
+**왜**: Command를 이벤트로 던지면 (1) 누가 처리하는지 추적 불가, (2) 처리 순서 보장 X, (3) 실패 시 응답 없음, (4) 단위 테스트 어려움. **명령은 명시적 Service 호출** (`await iapProvider.PurchaseAsync(...)`, `levelManager.StartLevel(id)` 등).
+
 ---
 
 ## 5. 모듈 경계
@@ -424,6 +435,31 @@ const string AppsFlyerDevKey = "abc123...";
 - 햅틱, IAP, 광고, 권한, 파일 경로는 플랫폼 차이 큼 — 양쪽 디바이스 빌드 필수
 - Editor에서만 돌려보고 끝내지 말 것 — **iOS 실기 + Android 실기 둘 다 빌드 검증**
 
+### 11-4. 보안 / 안정성 (출시 차단 P0)
+출시 전 다음 5건 미해결 시 **출시 보류**:
+
+1. **IAP 영수증 검증** — `Mound.Monetization.IReceiptValidator` Port + Apple/Google 서버 직검증 필수.
+   - Apple sandbox: `https://sandbox.itunes.apple.com/verifyReceipt`
+   - Google: `androidpublisher.googleapis.com/androidpublisher/v3/applications/.../purchases/products/...`
+   - 중복 지급 방지: `originalTransactionId` (iOS) / `purchaseToken` (Android) 추적
+   - 자체 서버 없으면 클라이언트 직검증 — 캐주얼 99% 결제 우회 차단. ARPDAU $0.15+ 도달 후 자체 서버 검증으로 강화 (v1.1)
+
+2. **세이브 무결성** — `BoxySaveData`에 다음 필드 + 직렬화/역직렬화 시 검증:
+   - `schemaVersion` (이미 있음 — `saveVersion`)
+   - `checksum` (HMAC-SHA256 with device key)
+   - `createdAt` / `updatedAt` (Unix sec)
+   - `migrationHistory` (적용된 v0→v1 등 기록)
+   - `backupSave` (이전 세이브 저장 — 변조/손상 감지 시 fallback)
+   - 변조 감지 시 `Debug.LogError` + `crashReporter.Report(non-fatal)` + backup 로드 (없으면 기본값 새로 시작)
+
+3. **크래시 텔레메트리** — `Mound.Core.Diagnostics.ICrashReporter` + `FirebaseCrashlyticsProvider` + `CompositeCrashReporter`. SDK 미통합 시 `NullCrashReporter`. catch한 모든 비치명 예외 `crashReporter.Report(e, contextDict)` 호출.
+
+4. **SDK 콜백 메인 스레드 디스패치** — AppLovin / Firebase / AppsFlyer 네이티브 콜백은 메인 스레드 보장 X. Adapter에서 `UnityMainThreadDispatcher` 또는 `UniTask.SwitchToMainThread()` 강제. Unity API 호출 (PlayerPrefs, Object.Destroy 등) 백그라운드 스레드에서 → 즉시 크래시.
+
+5. **Remote Config / Feature Flag** — `Mound.Core.IRemoteConfigProvider` Port + `FirebaseRemoteConfigProvider`. 광고 빈도 / 보상량 / 난이도 곡선 / 일일 보상 등 **코드에 박지 X**. 앱 심사 없이 밸런스 조정 = 캐주얼 게임 운영의 절반.
+
+**왜 P0인가**: IAP 검증 없으면 출시 1주일 안에 결제 우회. 세이브 무결성 없으면 평점 1점 리뷰 폭격. Crashlytics 없으면 출시 후 어디서 무엇이 깨졌는지 모름. SDK 콜백 스레드 안전성 위반 = 무작위 크래시.
+
 ---
 
 ## 12. 검증 루프 — 변경 후 매번
@@ -637,3 +673,38 @@ if (flags.Experiment_NewAdTiming) {
 - Pre-commit hook은 **로컬 검사** — CI에서도 한 번 더 돌릴 것 (Unity Cloud Build prebuild 스텝)
 - AI가 검사 회피하려고 패턴을 살짝 비틀면 못 잡음 — 정수가 코드 리뷰 시 한 번 더 봄
 - 완벽한 강제는 아니지만 **반복 위반은 자동 차단**
+
+---
+
+## 20. v1.1 출시 후 리팩터링 백로그
+
+상세 plan: `decisions/2026-04-30-21-v1.1-refactor-plan.md`
+
+v1.0 출시 후 D7 ≥ 10% 도달 시 1-2주 작업으로 진행. **출시 직전 절대 도입 X (회귀 risk).**
+
+### 20-1. UniTask (1일)
+- 패키지: `com.cysharp.unitask` (UPM Git URL)
+- 목적: 광고/IAP/Consent 비동기 흐름 정리. GC alloc 감소.
+- 우선 대상: `IAdProvider` / `IIapProvider` / `IConsentProvider` / `IReceiptValidator` Task → UniTask 교체
+- v1.0 준비층: `Mound.Core.MainThreadDispatcher` (UniTask.SwitchToMainThread 대체)
+
+### 20-2. Addressables (2-3일)
+- 패키지: `com.unity.addressables` 2.6.0+
+- 목적: APK -10~30%, 메모리 -20%, 동적 컨텐츠 (시즌 한정 스킨) 가능
+- 우선 대상: `Resources/Mascot/`, `Resources/Icons/` → Addressables Group 분리
+- v1.0 준비층: `Mound.Core.IAssetProvider` + `ResourcesAssetProvider` (Addressables 자리)
+
+### 20-3. VContainer (3-5일)
+- 패키지: `jp.hadashikick.vcontainer` 1.16.0+
+- 목적: Service Locator 누수 (BoxyBootstrap.Instance 직접 참조 10+곳) 제거. 단위 테스트 mock 주입.
+- 우선 대상: `BoxyBootstrap` Provider 인스턴스화 → `RootLifetimeScope.Configure(IContainerBuilder)` 이전
+- 절대 출시 직전 X — 회귀 risk 큼
+
+### 20-4. v1.1 KPI 게이트
+다음 모두 충족 시에만 P2 진행:
+- D7 retention ≥ 10% (`boxy-final-checklist.md` §KPI)
+- 평균 평점 ≥ 4.0
+- ARPDAU ≥ $0.10
+- 1주일 동안 critical 크래시 발생률 < 1%
+
+미달 시 P2 보류 + Boxy Sort 즉시 착수 (시리즈 IP 분산 전략).

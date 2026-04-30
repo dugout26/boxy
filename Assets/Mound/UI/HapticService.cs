@@ -12,10 +12,8 @@ namespace Mound.UI
     }
 
     // mound-design-system v2 §6 햅틱 매핑.
-    // SDK 통합: Week 2 Day 13 — Asset Store에서 Lofelt Nice Vibrations 임포트 후
-    //   Player Settings → Scripting Define Symbols 에 "LOFELT_NICE_VIBRATIONS" 추가.
-    //
-    // SDK 미통합 시: Debug.Log만, 진동 없음. 출시 빌드는 SDK 통합 필수.
+    // SDK 통합 가이드: decisions/2026-04-29-17-firebase-ios-setup-guide.md (또는 별도 SDK 가이드 문서).
+    // Lofelt Nice Vibrations 임포트 후 Player Settings → Scripting Define Symbols 에 "LOFELT_NICE_VIBRATIONS" 추가.
     public static class HapticService
     {
         public static bool Enabled { get; set; } = true;
@@ -25,24 +23,22 @@ namespace Mound.UI
             if (!Enabled) return;
 
 #if LOFELT_NICE_VIBRATIONS
-            // TODO Week 2 Day 13: Lofelt 임포트 후 활성
-            // Lofelt.NiceVibrations.HapticController.Play(MapToLofelt(type));
+            Lofelt.NiceVibrations.HapticController.Play(MapToLofelt(type));
 #else
-            Debug.Log($"[HapticService] {type} (SDK 미통합 — Week 2 Day 13 통합 후 활성)");
+            Debug.Log($"[HapticService] {type} (SDK 미통합)");
 #endif
         }
 
 #if LOFELT_NICE_VIBRATIONS
-        // TODO Week 2 Day 13:
-        // static Lofelt.NiceVibrations.HapticPatterns.PresetType MapToLofelt(HapticType type) => type switch
-        // {
-        //     HapticType.Light   => HapticPatterns.PresetType.LightImpact,
-        //     HapticType.Medium  => HapticPatterns.PresetType.MediumImpact,
-        //     HapticType.Heavy   => HapticPatterns.PresetType.HeavyImpact,
-        //     HapticType.Success => HapticPatterns.PresetType.Success,
-        //     HapticType.Failure => HapticPatterns.PresetType.Failure,
-        //     _ => HapticPatterns.PresetType.Selection
-        // };
+        static Lofelt.NiceVibrations.HapticPatterns.PresetType MapToLofelt(HapticType type) => type switch
+        {
+            HapticType.Light   => Lofelt.NiceVibrations.HapticPatterns.PresetType.LightImpact,
+            HapticType.Medium  => Lofelt.NiceVibrations.HapticPatterns.PresetType.MediumImpact,
+            HapticType.Heavy   => Lofelt.NiceVibrations.HapticPatterns.PresetType.HeavyImpact,
+            HapticType.Success => Lofelt.NiceVibrations.HapticPatterns.PresetType.Success,
+            HapticType.Failure => Lofelt.NiceVibrations.HapticPatterns.PresetType.Failure,
+            _ => Lofelt.NiceVibrations.HapticPatterns.PresetType.Selection
+        };
 #endif
     }
 }
