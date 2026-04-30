@@ -1,50 +1,106 @@
-/* Mound Brand v2.0 — Foundation Tokens */
-/* mound-design-system.md §2 (컬러), §3 (타이포), §5 (스페이싱), §6 (모션) 1:1 매핑 */
+/* tokens.uss — Boxy Cozy Design Tokens (handoff-derived, 2026-04-30 v3)
+ * 좌표계: 390×844 pt (iPhone 12+ base) — PanelSettings refRes에 직결.
+ * 모든 USS 수치는 pt 단위로 작성 (1pt ≈ 1 reference px in UI Toolkit).
+ * 출처: design/handoff/app_onboarding_v2/ui.jsx (T 객체) + mascot.jsx
+ */
 
 :root {
-    /* Foundation Colors */
-    --bg: #F8F9FA;
-    --surface: #FFFFFF;
-    --text-primary: #1A1A1A;
-    --text-secondary: #6B7280;
-    --text-disabled: #9CA3AF;
-    --border: #E5E7EB;
-    --border-strong: #D1D5DB;
-    --overlay: rgba(0, 0, 0, 0.5);
+    /* Backgrounds */
+    --bg-cozy: #FFF6EC;
+    --bg-elevated: #FFFFFF;
 
-    /* Semantic Colors (v2: WCAG AA 보정) */
-    --success: #16A34A;
-    --warning: #D97706;
-    --error: #DC2626;
-    --info: #2563EB;
+    /* Accent (cozy orange — 메인 CTA / 강조) */
+    --accent: #F59E4B;
+    --accent-on: #FFFFFF;
+    --accent-soft: #FFE4C8;
+    --accent-deep: #D97A2B;
 
-    /* Accent — 각 게임이 별도 USS에서 정의 (예: Assets/Boxy.App/UI/accent-boxy.uss) */
-    /* 미정의 시 components.uss var(--accent) 참조가 transparent로 폴백되어 빈 버튼이 됨 — 반드시 게임별 accent 파일을 동시 로드할 것 */
+    /* Mascot (브랜드 보존 — yellow는 마스코트 본체에만) */
+    --mascot-yellow: #FFD60A;
+    --mascot-yellow-dark: #E5B800;
+    --mascot-yellow-light: #FFE85C;
 
-    /* Typography (px) */
-    --text-display: 32px;
-    --text-h1: 24px;
-    --text-h2: 20px;
-    --text-body: 16px;
-    --text-caption: 14px;
-    --text-tiny: 12px;
+    /* Text (warm browns, 차가운 검정 X) */
+    --text-primary: #3D2B1F;
+    --text-secondary: #8B6F5C;
 
-    /* Spacing — 8pt grid */
-    --space-xs: 4px;
-    --space-sm: 8px;
-    --space-md: 16px;
-    --space-lg: 24px;
-    --space-xl: 32px;
-    --space-2xl: 48px;
+    /* Borders / Dividers */
+    --border-soft: #F0E0CC;
 
-    /* Radius */
-    --radius-button: 12px;
-    --radius-popup: 20px;
-    --radius-toast: 24px;
+    /* Semantic */
+    --success: #7CB342;
+    --warning: #F4A93D;
+    --error: #E87764;
 
-    /* Motion durations — transition-duration 등에서 var() 참조 */
-    --duration-micro: 100ms;
-    --duration-standard: 250ms;
-    --duration-emphasis: 500ms;
-    --duration-page: 300ms;
+    /* Warm shadow tint (2-layer 그림자 패턴) */
+    --shadow-warm: rgba(160, 90, 40, 0.12);
+    --shadow-warm-strong: rgba(160, 90, 40, 0.22);
+    --shadow-orange: rgba(217, 122, 43, 0.28);
+    --shadow-orange-pressed: rgba(217, 122, 43, 0.30);
+
+    /* Modal scrim (결과/광고 팝업 배경) */
+    --scrim-modal: rgba(61, 43, 31, 0.65);
+}
+
+/* 공통 base */
+.bg-cozy {
+    background-color: #FFF6EC;
+    flex-grow: 1;
+}
+
+.bg-elevated {
+    background-color: #FFFFFF;
+}
+
+/* Typography utilities (Pretendard 가정) */
+.txt-primary {
+    color: #3D2B1F;
+}
+
+.txt-secondary {
+    color: #8B6F5C;
+}
+
+.txt-accent {
+    color: #F59E4B;
+}
+
+.txt-display {
+    font-size: 44px;
+    -unity-font-style: bold;
+    letter-spacing: -2;
+    color: #3D2B1F;
+}
+
+.txt-h1 {
+    font-size: 26px;
+    -unity-font-style: bold;
+    letter-spacing: -1;
+    color: #3D2B1F;
+}
+
+.txt-h2 {
+    font-size: 20px;
+    -unity-font-style: bold;
+    letter-spacing: -1;
+    color: #3D2B1F;
+}
+
+.txt-body-lg {
+    font-size: 17px;
+    color: #3D2B1F;
+}
+
+.txt-body {
+    font-size: 15px;
+    color: #3D2B1F;
+}
+
+.txt-caption {
+    font-size: 13px;
+    color: #8B6F5C;
+}
+
+.txt-center {
+    -unity-text-align: middle-center;
 }

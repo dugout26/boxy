@@ -1,0 +1,44 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Mound/UI/Styles/tokens.uss" />
+    <Style src="project://database/Assets/Mound/UI/Styles/components.uss" />
+
+    <!-- handoff S3 Level Select (screens-a.jsx LevelSelectScreen). -->
+    <ui:VisualElement name="root" class="bg-cozy" style="flex-direction: column;">
+
+        <!-- Topbar (sticky) -->
+        <ui:VisualElement class="topbar">
+            <ui:Button name="back-button" class="btn-icon-sm" text="←" />
+            <ui:Label class="topbar-title" text="레벨 선택" />
+            <ui:VisualElement style="flex-direction: row; align-items: center;">
+                <ui:Label class="pill" text="¢ 1,240" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Optional greeting (controller writes if exists) -->
+        <ui:Label name="greeting-label" text="" style="font-size: 13px; color: #8B6F5C; padding: 8px 16px 0 16px;" />
+
+        <!-- Theme tabs -->
+        <ui:VisualElement style="flex-direction: row; padding: 4px 16px 0 16px; border-bottom-width: 1px; border-bottom-color: #F0E0CC;">
+            <ui:Button name="tab-school" class="theme-tab theme-tab-active" text="가방" />
+            <ui:Button name="tab-box" class="theme-tab" text="박스" />
+            <ui:Button name="tab-trunk" class="theme-tab" text="트렁크" />
+        </ui:VisualElement>
+
+        <!-- Level grid (3 columns, controller populates) -->
+        <ui:ScrollView name="level-scroll" style="flex-grow: 1;">
+            <ui:VisualElement name="level-grid" style="flex-direction: row; flex-wrap: wrap; justify-content: flex-start; padding: 20px 16px 32px 16px;" />
+        </ui:ScrollView>
+
+        <!-- Progress footer (optional) -->
+        <ui:VisualElement style="padding: 12px 20px 24px 20px; border-top-width: 1px; border-top-color: #F0E0CC;">
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-bottom: 6px;">
+                <ui:Label name="progress-theme" text="진행: 가방" style="font-size: 13px; color: #8B6F5C;" />
+                <ui:Label name="progress-count" text="0 / 50" style="font-size: 13px; color: #3D2B1F; -unity-font-style: bold;" />
+            </ui:VisualElement>
+            <ui:VisualElement class="progress-bg">
+                <ui:VisualElement name="progress-fill" class="progress-fill" style="width: 0%;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

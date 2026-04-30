@@ -1,0 +1,45 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Mound/UI/Styles/tokens.uss" />
+    <Style src="project://database/Assets/Mound/UI/Styles/components.uss" />
+
+    <!-- Layout: 390×844 reference. handoff S2 Main Menu (screens-a.jsx). -->
+    <ui:VisualElement name="root" class="bg-cozy" style="padding-top: 14px; padding-bottom: 28px; padding-left: 20px; padding-right: 20px; flex-direction: column;">
+
+        <!-- Top row: coin pill + language pill -->
+        <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center;">
+            <ui:Label class="pill" text="¢ 1,240" />
+            <ui:Label class="pill pill-outline" text="KO ▾" />
+        </ui:VisualElement>
+
+        <!-- Center: mascot frame + wordmark + subtitle -->
+        <ui:VisualElement style="flex-grow: 1; align-items: center; justify-content: center;">
+
+            <!-- Mascot frame (188×188, peach radial bg simulated by accent-soft) -->
+            <ui:VisualElement name="mascot-frame" class="mascot-frame-bg" style="width: 188px; height: 188px;">
+                <!-- Inner mascot image — 160pt wide centered at bottom (matches handoff) -->
+                <ui:VisualElement name="boxy-mascot" style="width: 160px; height: 173px; background-image: url(&quot;project://database/Assets/Boxy.App/Resources/Mascot/Mascot_default.png&quot;); -unity-background-scale-mode: scale-to-fit;" />
+            </ui:VisualElement>
+
+            <ui:Label name="title" class="wordmark" text="Boxy" style="margin-top: 12px;" />
+            <ui:Label name="subtitle" text="짐 정리의 즐거움" class="txt-body txt-secondary txt-center" style="margin-top: 8px;" />
+        </ui:VisualElement>
+
+        <!-- Primary CTA: 시작하기 -->
+        <ui:Button name="play-button" class="btn-primary" text="시작하기" style="width: 100%;" />
+
+        <ui:VisualElement style="height: 8px;" />
+
+        <!-- Continue ghost (no controller hook yet — name `continue-button`) -->
+        <ui:Button name="continue-button" class="btn-ghost" text="이어하기 · 1-7" style="width: 100%;" />
+
+        <!-- Bottom row: settings (left) + shop (right) icon buttons -->
+        <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-top: 16px;">
+            <ui:Button name="settings-button" class="btn-icon" text="⚙" />
+            <ui:Button name="shop-button" class="btn-icon" text="⌂" />
+        </ui:VisualElement>
+
+        <!-- Hidden — controller queries for null safety -->
+        <ui:VisualElement name="sound-button" picking-mode="Ignore" style="display: none;" />
+
+    </ui:VisualElement>
+</ui:UXML>

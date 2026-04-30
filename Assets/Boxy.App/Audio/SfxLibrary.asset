@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8870cd53fa1b246b8af5f4b181a429aa, type: 3}
+  m_Name: SfxLibrary
+  m_EditorClassIdentifier: Boxy.App::Boxy.App.Audio.SfxLibrary
+  uiTap: {fileID: 8300000, guid: 47afb137433a14165a16427f1e6a604c, type: 3}
+  dragStart: {fileID: 8300000, guid: e5a61c5d6ff1547cd8779bbea0ee1c6a, type: 3}
+  itemPlaced: {fileID: 8300000, guid: 391b9e6c543d84dbabd7165be51fdd92, type: 3}
+  invalid: {fileID: 8300000, guid: 6e0f89f7516334c1098d34c466fad291, type: 3}
+  levelCleared: {fileID: 8300000, guid: 809adc09947d14df3b4402bdebec0645, type: 3}
+  rotate: {fileID: 8300000, guid: 57f13f26b155048c2bc2d5a6dbf9c0b6, type: 3}
+  dropHover: {fileID: 8300000, guid: f736fd190748a4fd6a430febe85c2ab0, type: 3}
+  starCount: {fileID: 8300000, guid: 5c014b709a3a64999bd5171be1d6eee9, type: 3}
+  bgmCozyLoop: {fileID: 8300000, guid: 25b0c141895064ae892bd33e32254fba, type: 3}

@@ -1,0 +1,46 @@
+@import url("unity-theme://default");
+
+/* tokens.uss + accent-boxy.uss 변수를 ThemeStyleSheet 안에 직접 박아 inline style의 var() resolve 보장.
+   <Style src="..."/> 태그는 cloneTree 후 적용되므로 cloneTree 시점의 inline 변수 resolver는 PanelSettings.themeStyleSheet에 박힌 :root 변수만 본다.
+   tokens.uss / accent-boxy.uss는 UXML Style 태그를 통해 USS 클래스 정의용으로 계속 import되므로 중복 정의되어도 무해 (같은 값). */
+:root {
+    --bg: #F8F9FA;
+    --surface: #FFFFFF;
+    --text-primary: #1A1A1A;
+    --text-secondary: #6B7280;
+    --text-disabled: #9CA3AF;
+    --border: #E5E7EB;
+    --border-strong: #D1D5DB;
+    --overlay: rgba(0, 0, 0, 0.5);
+
+    --success: #16A34A;
+    --warning: #D97706;
+    --error: #DC2626;
+    --info: #2563EB;
+
+    --accent: #FFD60A;
+    --on-accent: #1A1A1A;
+
+    --text-display: 32px;
+    --text-h1: 24px;
+    --text-h2: 20px;
+    --text-body: 16px;
+    --text-caption: 14px;
+    --text-tiny: 12px;
+
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-2xl: 48px;
+
+    --radius-button: 12px;
+    --radius-popup: 20px;
+    --radius-toast: 24px;
+
+    --duration-micro: 100ms;
+    --duration-standard: 250ms;
+    --duration-emphasis: 500ms;
+    --duration-page: 300ms;
+}

@@ -1,0 +1,36 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Mound/UI/Styles/tokens.uss" />
+    <Style src="project://database/Assets/Mound/UI/Styles/components.uss" />
+
+    <!-- handoff S6 Ad Reward modal (screens-b.jsx AdScreen). -->
+    <ui:VisualElement name="overlay" picking-mode="Position" class="popup-overlay">
+
+        <ui:VisualElement name="popup-card" class="popup-card" style="max-width: 320px;">
+
+            <!-- Mascot thinking pose -->
+            <ui:VisualElement style="flex-direction: row; justify-content: center; margin-top: -8px;">
+                <ui:VisualElement name="ad-mascot" style="width: 130px; height: 140px; background-image: url(&quot;project://database/Assets/Boxy.App/Resources/Mascot/Mascot_default.png&quot;); -unity-background-scale-mode: scale-to-fit;" />
+            </ui:VisualElement>
+
+            <ui:Label name="title" class="popup-title" text="힌트가 필요한가요?" style="margin-top: 8px;" />
+            <ui:Label name="body" class="popup-body" text="광고를 시청하고 힌트를 받아요" />
+
+            <!-- Reward pill -->
+            <ui:VisualElement style="margin-top: 18px; align-items: center;">
+                <ui:Label class="pill" text="💡 +1 힌트" />
+            </ui:VisualElement>
+
+            <!-- Buttons -->
+            <ui:VisualElement style="margin-top: 24px;">
+                <ui:Button name="watch-ad-button" class="btn-primary" text="광고 보기 (15초)" style="width: 100%;" />
+                <ui:VisualElement style="height: 6px;" />
+                <ui:Button name="dismiss-button" class="btn-ghost" text="닫기" style="width: 100%;" />
+            </ui:VisualElement>
+
+            <!-- Hidden close-button (controller queries with null safety) -->
+            <ui:VisualElement name="close-button" style="display: none;" />
+
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,381 +1,536 @@
-# Boxy — UI/UX 디자인 요청서 (Design Brief)
+# Boxy — UI/UX 디자인 설계서 (v3 — handoff adopted)
 
-**작성일**: 2026-04-29
+**작성일**: 2026-04-30 (v3 갱신 동일자)
+**버전**: 3.0 (정수 핸드오프 채택 — `design/handoff/app_onboarding_v2/` 기준으로 좌표/사이즈/토큰 1:1 동기화)
+**v2 폐기 사유**: Unity 1080×1920 ref 좌표를 임의 가정 → 핸드오프(390×800pt) 와 비례 불일치 → 모든 컴포넌트 사이즈 재산정 필요했음.
 **클라이언트**: Mound Studio (백정수, dugout26.gm@gmail.com, 사업자 709-09-03510)
 **프로젝트**: Boxy Pack — 모바일 패킹 퍼즐 게임 v1.0
 **출시 목표**: 2026-05-28 (Google Play + App Store)
-**작업 분량**: 7개 화면 + 마스코트 정성 일러스트 5종 + 아이콘 세트 12종
+**구현**: Unity 6.3 + UI Toolkit (UXML + USS), 참조 해상도 **390×844 pt** (iPhone 14/15 base), Expand mode
+**핸드오프 원본**: `design/handoff/app_onboarding_v2/Boxy Pack.html` (React 프로토타입, Drive `Boxy/App Onboarding (2).zip`)
 
 ---
 
-## 0. 우리는 누구 / 이 게임은 무엇
+## 0. 이 문서의 목적
+
+v1 디자인이 실패했다. 원인은 두 가지:
+
+1. **웹/데스크탑 스케일 박힘** — 패딩, 폰트, 버튼 크기가 모바일 한 손 조작에 너무 작거나 어색. iPhone 17 Pro 6.3" 화면을 종이로 인쇄해보면 "이건 PC 사이트지 앱이 아니다"라는 인상.
+2. **클릭 불가 상태** — `display: none`로 숨겨진 버튼, 컨버터가 `<Button>`을 `<VisualElement>`로 변환, 터치 영역 44pt 미달.
+
+이 문서는 두 문제를 **사이즈 표 + 컴포넌트 명세 + 화면별 와이어프레임**으로 봉쇄한다. 모든 수치는 1080×1920 좌표계 (1x = 1px). 출시 후 v1.1에서 디자이너 외주가 이 문서를 받았을 때, 그대로 Figma로 옮겨 그릴 수 있도록 구체.
+
+---
+
+## 1. 우리는 누구 / 이 게임은 무엇
 
 ### Mound Studio
-한국의 1인 모바일 게임 스튜디오. 백정수(전 Prepit 운영자)가 2026년에 시작한 시리즈 IP 빌드. **"하나의 마스코트, 여러 게임"** 전략으로 짧고 코지(cozy)한 캐주얼 게임을 시리즈로 출시 — 첫 작품이 Boxy Pack, 후속작 Boxy Sort (6월), Boxy Cafe (7월) 예정. 한국 발 글로벌 캐주얼 마켓 진입.
+한국의 1인 모바일 게임 스튜디오. 백정수(전 Prepit 운영자)가 2026년에 시작한 시리즈 IP 빌드. **"하나의 마스코트, 여러 게임"** 전략으로 짧고 코지(cozy)한 캐주얼 게임을 시리즈로 출시 — 첫 작품이 Boxy Pack, 후속작 Boxy Sort (6월), Boxy Cafe (7월) 예정.
 
 ### Boxy Pack
 **"복잡한 짐도 한 칸씩, 꼭 맞게 끼워 넣어요."**
 
-학생 가방 / 이사 박스 / 여행 트렁크에 다양한 모양의 아이템을 빈틈없이 채우는 **코지 패킹 퍼즐**. 총 50 레벨, 3 테마, 회전·되돌리기·힌트 시스템. 핵심 후킹은 **"95% 채웠는데 마지막 한 칸이 안 들어가는"** 좌절 모먼트 (AppLovin 2026 데이터 기준 top 26% 성과 패턴). 노란 큐브 마스코트 **Boxy**가 함께 응원·위로하며 시리즈 IP 캐릭터로 확장. 무료 + 보상형 광고 + 광고 제거 IAP (₩3,900) 구조. 타겟: 한국 + 영어권 4국 (US/UK/CA/AU), 18+.
+학생 가방 / 이사 박스 / 여행 트렁크에 다양한 모양의 아이템을 빈틈없이 채우는 **코지 패킹 퍼즐**. 총 50 레벨, 3 테마, 회전·되돌리기·힌트 시스템. 핵심 후킹은 **"95% 채웠는데 마지막 한 칸이 안 들어가는"** 좌절 모먼트 (AppLovin 2026 데이터 top 26% 패턴). 노란 큐브 마스코트 **Boxy**가 함께 응원·위로하며 시리즈 IP 캐릭터로 확장. 무료 + 보상형 광고 + 광고 제거 IAP (₩3,900).
+
+### 타겟
+- **1차**: 한국 18+ 캐주얼 모바일 게이머 (출퇴근/소파 5분 플레이)
+- **2차**: 영어권 4국 (US/UK/CA/AU) 18+
+- **디바이스**: iPhone 12 이상 + Android Pixel 5 이상 (98% 커버) — 320dp 너비 미지원 (iPhone SE 1세대 무시)
+
+### 톤
+- **Cozy** — 따뜻함, 피곤한 저녁에 위로받는 인상
+- **Premium-friendly** — 디테일 있는 일러스트, 8pt 그리드, 절제된 모션. 하지만 무겁지 않음
+- **확실히 모바일** — 한 손 조작, 큰 터치, 짧은 텍스트, 즉각적 피드백
+
+피해야 할 것: ❌ 웹사이트 룩, ❌ Material Design 기본, ❌ 차가운 sterile white, ❌ 정성 없는 평면 도형, ❌ 빈 공간만 가득
 
 ---
 
-## 1. 게임 한 줄 소개
+## 2. 모바일 사이즈 표 — 핸드오프 기준 (절대 규칙)
 
-> "복잡한 짐도 한 칸씩, 꼭 맞게 끼워 넣어요."
->
-> 학생 가방 / 이사 박스 / 여행 트렁크에 다양한 모양의 아이템을 빈틈없이 채우는 **코지(cozy) 패킹 퍼즐**. 50 레벨, 3 테마, 회전·되돌리기·힌트 시스템.
+> **모든 수치는 390×844pt reference (1pt = 1px in UXML/USS @ Unity refRes 390×844).**
+> Unity가 실기 해상도(iPhone Pro 1170×2532, iPad mini 744×1133 등)에 자동 스케일.
+> 출처: `design/handoff/app_onboarding_v2/ui.jsx` 컴포넌트 정의.
 
-**Mound 시리즈** (1번 게임). 후속작 Boxy Sort (6월), Boxy Cafe (7월) 예정 — **시리즈 IP 일관성** 필수.
+### 2-1. 터치 타겟
+| 요소 | 너비 | 높이 | 최소 간격 |
+|---|---|---|---|
+| Primary CTA (시작/계속/구매) | 100% (좌우 패딩 제외) | **56pt** | 위 8, 아래 자유 |
+| Secondary 버튼 | 100% | **48pt** | 위 8 |
+| Ghost 버튼 (이어하기/닫기) | 100% | **44pt** | — |
+| Icon Button (round) | **44×44pt** (sm 40×40) | — | 모서리 16 |
+| 토글 (Toggle) | 시스템 기본 | — | row 56pt 안에서 우측 정렬 |
+| 레벨 셀 (그리드) | aspect 1:1.15 | (auto) | grid gap 12 |
+| 탭 바 항목 | flex (균등) | **48pt** | — |
+
+iOS HIG 최소 터치 44pt 충족. 위반 시 핸드오프 기준 재확인.
+
+### 2-2. 폰트 크기 (Pretendard Variable)
+| 토큰 | 크기 | 사용처 |
+|---|---|---|
+| Display (워드마크) | **44pt Bold, ls -2** | Splash/Main의 "Boxy" |
+| H1 | **26pt Bold, ls -1** | 결과 팝업 "축하합니다", 온보딩 step 제목 |
+| H2 | **20pt Bold, ls -1** | 광고 모달 제목, 섹션 제목 |
+| Body Large | **17pt Regular** | 본문 (settings row, primary text) |
+| Body | **15pt Regular** | 일반 본문, 리스트 항목 |
+| Caption | **13pt Regular** | 부제, pill, version, hint label |
+| Section header | **13pt Bold, ls 0.5** | settings 섹션 헤더 (uppercase tone) |
+| Button | **15-17pt Bold** | btn-primary 17, btn-secondary 16, btn-ghost 15 |
+
+### 2-3. 간격 / 레이아웃
+- 화면 좌우 패딩: **16-24pt** (Topbar: 16, 일반: 20, Onboarding: 24)
+- 컴포넌트 사이 수직 간격: **8-16pt** (그룹 사이 24pt)
+- 카드 내부 패딩: **16pt** (settings card는 row pad 4-16)
+- Topbar minHeight: **56pt**, padding 14×16
+- 안전 영역: iOS frame (notch + home indicator)은 PanelSettings의 `Safe Area` 처리. UXML 안에서는 추가 padding 안 박음.
+
+### 2-4. 모서리(Radius)
+- 버튼 (Primary/Secondary/Ghost): **10pt**
+- Card: **16pt**
+- 모달 카드 (popup-card): **22pt**
+- Mascot frame: **28pt**
+- Icon Button (round): **50%** (반지름 = width/2)
+- Pill / Badge: **999px**
+- Level cell: **14pt**
+
+### 2-5. 그림자
+USS `box-shadow` Unity 6 미지원 → **2-layer VisualElement** 패턴:
+
+```uxml
+<ui:VisualElement class="card-shadow"> <!-- 아래 그림자 레이어 -->
+  <ui:VisualElement class="card"> <!-- 실제 카드 -->
+    ...
+  </ui:VisualElement>
+</ui:VisualElement>
+```
+
+`.card-shadow`: `background-color: rgba(160, 90, 40, 0.12); translate: 0 6px; border-radius: 32px;`
+`.card`: 카드 본체. **모든 카드/버튼은 이 패턴**. cozy 따뜻한 그림자(짙은 갈색이 아닌 peach/orange 30% alpha).
 
 ---
 
-## 2. 디자인 톤 — 정수의 의도
+## 3. 디자인 토큰 (재정의)
 
-### 절대적으로 원하는 톤
-- **Cozy** (따뜻함, 아늑함)
-- **친근함** (가족, 전체이용가)
-- **정성스러움** (대충 만든 느낌 X, 디테일 살아 있는 일러스트)
-- **여백 활용** (밀집 X, 호흡 있는 레이아웃)
-- **일관성** (Mound 브랜드 시리즈로 확장 가능)
-
-### 절대적으로 피해야 할 톤
-- ❌ 차갑고 sterile한 white background
-- ❌ 단순 도형으로만 구성된 평면 디자인 (그림자/일러스트 부재)
-- ❌ Tailwind / Material Design 기본 룩 그대로 (개성 없음)
-- ❌ 단순 큐브 박스 = 마스코트 (정성 부족)
-- ❌ 빈 공간만 가득한 레이아웃
-- ❌ 폰트 1종만 단조롭게 사용
-
-### 참고 톤 (정수 제공 reference)
-- **Snug!** 디자인 (정수 별도 캡처 제공): 따뜻한 베이지/peach 배경, 정성스러운 캐릭터 일러스트(가방 안에 캐릭터, 그림자, 입체감), 말풍선 인사, 카드형 권한 리스트, light/dark 모드 변형
-- **이 톤을 Boxy yellow(#FFD60A)에 맞게 재해석** — Snug! 그대로 복제 X (IP 충돌)
-
----
-
-## 3. 기존 디자인 시스템 (Mound Brand v1)
-
-### 컬러
+### 컬러 팔레트 — Cozy Boxy
 | 토큰 | HEX | 용도 |
 |---|---|---|
-| Primary Accent | `#FFD60A` | 메인 강조 (버튼, 활성 상태) |
-| On-Accent | `#1A1A1A` | 노란 위 텍스트 (대비 9.83:1 WCAG AA) |
-| Warm Beige | `#FFF8F0` | **권장 메인 배경** (cozy 톤 핵심) |
-| BG Light | `#F8F9FA` | 보조 배경 (덜 cozy) |
-| Surface | `#FFFFFF` | 카드 배경 |
-| Border | `#E5E7EB` | 카드/구분선 |
-| Text Primary | `#1A1A1A` | 본문 |
-| Text Secondary | `#6B7280` | 부제, 캡션 |
-| Success | `#4ADE80` | 성공 |
-| Warning | `#FBBF24` | 경고 |
-| Error | `#EF4444` | 오류, 위험 액션 |
+| `--bg-cozy` | `#FFF6EC` | 메인 배경 (cream + 약간 peach) |
+| `--bg-elevated` | `#FFFFFF` | 카드/팝업 표면 |
+| `--accent-primary` | `#F59E4B` | **Cozy orange — 메인 CTA, 강조** (Boxy yellow를 대체) |
+| `--accent-on` | `#FFFFFF` | 오렌지 위 텍스트 (대비 4.5+) |
+| `--accent-soft` | `#FFE4C8` | 부드러운 오렌지 hover/pressed 배경 |
+| `--mascot-yellow` | `#FFD60A` | Boxy 마스코트 본체 (브랜드 보존) |
+| `--text-primary` | `#3D2B1F` | 본문 (warm dark brown — 차가운 검정 X) |
+| `--text-secondary` | `#8B6F5C` | 부제, 캡션 (warm gray-brown) |
+| `--border-soft` | `#F0E0CC` | 카드 보더, 구분선 |
+| `--success` | `#7CB342` | 성공 (warm olive — 차가운 green X) |
+| `--warning` | `#F4A93D` | 경고 |
+| `--error` | `#E87764` | 오류 (terracotta — 차가운 red X) |
 
-### 타이포그래피
-- **Pretendard** (한국어 + 영어 통합) — `Assets/Mound/UI/Fonts/Pretendard-{Regular,Bold}.otf`
-- 백업: Plus Jakarta Sans (영어), Apple SD Gothic Neo (한국어)
-- Display 32px Bold / H1 24px Bold / H2 20px Bold / Body 16px Regular / Caption 14px Regular
+**핵심 변경 (v1 → v2)**: 메인 강조를 **노란색(#FFD60A)에서 cozy orange(#F59E4B)로** 이동. 노란색은 마스코트에만 남김 → 캐릭터 정체성 보존하면서 UI는 따뜻한 오렌지로 통일감 확보. cozy 일관성과 시인성(노란 위 검정 텍스트의 독서 피로) 동시 해결.
 
-### 간격 / 모양
-- 8pt grid: 4 / 8 / 16 / 24 / 32 / 48 px
-- Border radius: 12px (버튼) / 20px (팝업) / 24px (토스트)
-- 버튼 높이: 48px (보조) / 56px (메인 CTA)
-- 터치 타겟 최소: 44×44 px (Apple HIG)
-
-### 모션
-- 마이크로 100ms (버튼 active scale, hover)
-- 표준 250ms (전환)
-- 강조 500ms (별 등장 stagger, 마스코트 bounce)
-- 페이지 300ms (씬 fade)
+### 모션 토큰
+| 토큰 | duration | easing |
+|---|---|---|
+| `--motion-instant` | 100ms | `ease-out` |
+| `--motion-standard` | 250ms | `cubic-bezier(0.2, 0, 0, 1)` |
+| `--motion-emphasized` | 500ms | `cubic-bezier(0.2, 0, 0, 1.2)` (살짝 overshoot — cozy bounce) |
+| `--motion-page` | 350ms | `ease-in-out` |
 
 ---
 
-## 4. 마스코트 "Boxy"
+## 4. 컴포넌트 명세
 
-### 현재 (Python 합성, 부족함)
-- 1024×1024 PNG 5장: `default / cheer / sad / sleepy / surprised`
-- 위치: `Assets/Boxy.App/Resources/Mascot/Mascot_*.png`
-- 단순 노란 정사각형 + 검정 점 2개 + 가로선 입 → **정성 부족, 게임 마스코트 수준 아님**
+### 4-1. Primary Button (`.btn-primary`)
+```
+높이: 132px (고정)
+배경: var(--accent-primary)
+텍스트: 22px Bold, var(--accent-on), 가운데 정렬
+모서리: 20px
+패딩: 좌우 32px
+그림자: 2-layer 패턴 (alpha 0.18 oranges shadow)
+pressed 상태: scale 0.97 + 그림자 alpha 0.30
+disabled: opacity 0.5
+```
 
-### 원하는 방향
-- **큐브 모양 캐릭터** (1:1.1 비율, 약간 세로 길게)
-- **정성스러운 표정**: 큰 눈 (highlight 점, 홍채 그림자), 자연스러운 입, blush 핑크 볼, 하이라이트 흰점 (피부 느낌)
-- **그림자 + 입체감** (under-shadow ellipse, 빛 방향 일관)
-- **짧은 팔다리** (옵션, 선택 표정에서만)
-- **5 표정 일관성**: 같은 캐릭터의 다른 표정으로 보여야 함 (default / cheer 만세 / sad 눈물 / sleepy 감은 눈 / surprised O자 입)
-- **추가 권장 표정 3종** (광고/이벤트용): wink / thumbs_up / wave
+### 4-2. Secondary Button (`.btn-secondary`)
+```
+높이: 108px
+배경: transparent
+보더: 2px var(--accent-primary)
+텍스트: 22px Bold, var(--accent-primary)
+모서리: 20px
+hover/pressed: background var(--accent-soft)
+```
 
-### 참고 캐릭터 톤
-- Snug! 마스코트 (정수 reference)
-- 카카오프렌즈 라이언/춘식이 (단순함 + 정성)
-- Among Us 크루메이트 (단순한데 표정 풍부)
-- Pou (앱 마스코트, blush + 큰 눈)
+### 4-3. Ghost Button (`.btn-ghost`)
+```
+높이: 88px
+배경: transparent
+텍스트: 18px Regular, var(--text-secondary)
+모서리: 20px
+hover: background var(--accent-soft)
+용도: "이어하기", "건너뛰기" 같은 부 액션
+```
 
----
+### 4-4. Icon Button (`.btn-icon`)
+```
+크기: 108×108px (정사각)
+배경: var(--bg-elevated)
+보더: 1px var(--border-soft)
+모서리: 50% (원형)
+아이콘: 48×48 가운데 정렬, stroke 3, var(--text-primary)
+그림자: 2-layer 패턴
+```
 
-## 5. 화면 명세 (7개)
+### 4-5. Card (`.card`)
+```
+배경: var(--bg-elevated)
+모서리: 32px
+패딩: 32px
+보더: 1px var(--border-soft)
+그림자: 2-layer 패턴 (alpha 0.10)
+```
 
-각 화면: 1080×2400 (9:20 모바일 세로). iPhone Dynamic Island + iPad mini 까지 안전영역 고려 (`SafeAreaController` 자동 적용됨).
+### 4-6. Mascot Container (`.mascot-frame`)
+```
+크기: 320×320px (메인) / 200×200px (인라인)
+배경: var(--bg-elevated)
+모서리: 48px
+패딩: 24px
+그림자: 2-layer 패턴 (alpha 0.15)
+배경 일러스트: 마스코트 뒤 light peach radial gradient
+```
 
-### 5-1. MainMenu (메인 메뉴)
-**목적**: 첫 인상, 게임 시작 진입점.
-**컨텐츠**:
-- 헤더 (안전영역 아래 80px 높이): 좌측 작은 Boxy 로고 (40×40), 가운데 "Boxy" 워드마크 (Bold 32px), 우측 알림 아이콘 (선택, 신호용)
-- 메인 영역 (flex-grow):
-  - 큰 마스코트 일러스트 (350×400, 정성스럽게 그린 default 표정, 입체감 있는 그림자)
-  - 코너 또는 가장자리에 작은 박스/물건 일러스트 패턴 (책, 가방, 박스 stylized, opacity 15%)
-  - 타이틀 "Boxy" (디스플레이 폰트 64px Bold)
-  - 부제 배지 ("패킹 퍼즐" 노란 라운드 배지)
-  - 한 줄 설명 ("복잡한 짐도 한 칸씩, 꼭 맞게 끼워 넣어요." — 두 줄, 회색)
-- CTA 영역:
-  - **메인 버튼 "시작하기"** (가로 80%, 높이 56px, 노란 fillout, 검정 텍스트, border-radius 12px, 검정 outline 2px, 그림자 4×4)
-  - 보조 텍스트 링크 "이어하기" (회색, 버튼 X)
-- 푸터 (안전영역 위, 80px 높이): 흰색 카드 둥근 사각형 3개 (각 80×64), 가운데 카드는 활성 상태 (노란 fillout). 내용: 설정 / 소리 / 상점 (각 아이콘 PNG + 한국어 라벨)
+### 4-7. Pill / Badge (`.pill`)
+```
+높이: 56px
+패딩: 12 24
+모서리: 999px
+배경: var(--accent-soft)
+텍스트: 18px Bold, var(--accent-primary)
+```
 
-**상호작용**:
-- 시작하기 → LevelSelect 씬
-- 이어하기 → 마지막 진행 레벨 자동 로드 → Gameplay
-- 설정 / 소리 / 상점 → 각 화면
+### 4-8. Progress Bar (`.progress-bar`)
+```
+높이: 16px
+배경: var(--border-soft)
+fill: var(--accent-primary)
+모서리: 8px
+```
 
-### 5-2. LevelSelect (레벨 선택)
-**목적**: 50 레벨 한눈에, 진행 상황 시각화.
-**컨텐츠**:
-- 헤더: 뒤로가기 (←) + "레벨 선택" (H1 Bold) + 우측 별 카운트 ("⭐ 12/150")
-- 3 테마 탭 (학교 가방 / 이사 박스 / 여행 트렁크):
-  - 활성 탭: 흰색 카드 배경 + 노란 underline 3px + 진한 텍스트
-  - 비활성 탭: 베이지 배경 + 회색 텍스트
-- 50 레벨 카드 그리드 (5 × 10, 가로 스크롤 X / 세로 스크롤 O):
-  - 각 카드 80×88 (정사각형 같은 비율), border-radius 16px, padding 8px
-  - **잠금 해제 + 클리어**: 흰 카드, 검정 레벨 번호 (Bold), 별 1-3개 가로 (작은 골드 별)
-  - **잠금 해제 + 미클리어 (현재)**: 노란 fillout, 검정 텍스트, 펄스 애니메이션 hint
-  - **잠금**: 회색 카드, 자물쇠 아이콘 (Lucide style)
-- 진행도 푸터: 좌측 "진행: 학교가방" / 우측 "12 / 50 (60%)" + 가로 progress bar 노란 fillout
+### 4-9. Text Input (`.input`)
+```
+높이: 108px
+배경: var(--bg-elevated)
+보더: 2px var(--border-soft)
+focus 보더: 2px var(--accent-primary)
+모서리: 20px
+폰트: 22px Regular
+패딩 좌우: 28px
+```
 
-**상호작용**:
-- 카드 탭 → Gameplay 씬 (해당 레벨 로드)
-- 테마 탭 변경 → 그리드 재구성 (50 레벨 / 3 테마 = 각 약 16-17 레벨)
-- 진행도 펄스: 현재 레벨 카드만 부드럽게 깜빡임
-
-### 5-3. Gameplay (게임 본체)
-**목적**: 실제 퍼즐 진행. 가장 중요한 화면.
-**컨텐츠**:
-- 상단 HUD (안전영역 아래 80px):
-  - 좌측: 뒤로가기 + 일시정지 (44×44 각각)
-  - 가운데: "Level 12" 타이틀 + 작은 진행도 바 ("PACKING PROGRESS 95%" 노란 fillout)
-  - 우측: 별 ⭐⭐⭐ (현재 진행 상황에 따라 채움)
-- 가운데 그리드 영역 (메인):
-  - **테마별 가방/박스 일러스트 배경** (학교 가방 = 베이지+갈색 캔버스 텍스처 / 이사 박스 = 종이 갈색 / 여행 트렁크 = 가죽 진한 갈색)
-  - 6×8 또는 4×5 셀 그리드 (레벨 따라 다름)
-  - 빈 셀: 그리드 라인만, 반투명 흰색
-  - 채워진 셀: 아이템 색 (예: 책=빨강, 노트=파랑, 도시락=주황, 수통=청록, 사과=핑크 등)
-  - 마스코트 hint: 그리드 우측 또는 상단에 작은 마스코트 표정 (95% 완료 시 surprised, 100% 시 cheer)
-- 하단 아이템 트레이 (가로 스크롤):
-  - 5-7개 카드 (각 80×80, 흰색 배경, border-radius 16px, 그림자, 가운데 stylized 아이템 일러스트)
-  - 드래그 hint 텍스트 "꾹 눌러 회전 / 드래그 배치"
-- 하단 액션 영역 (FAB 스타일, 양쪽 정렬):
-  - 좌측: "힌트" 버튼 (노란 fillout, 전구 아이콘) + 작은 광고 시청 hint 배지 (오렌지 동그라미 "AD")
-  - 우측: "되돌리기" 버튼 (흰색 카드, 화살표 아이콘) + 횟수 배지 ("3" 빨간 동그라미)
-
-**상호작용**:
-- 카드 길게 누르기 → 회전 (90도, micro 100ms)
-- 카드 드래그 → 그리드 위 hover 시 셀 highlight (녹색=valid / 빨강=invalid)
-- 드롭 → valid면 placement + sfx, invalid면 트레이 복귀 + 빨간 flash
-- 힌트 → 광고 시청 → 다음 배치 위치 노란 펄스 표시
-- 되돌리기 → 마지막 배치 취소
-
-### 5-4. ResultPopup (결과 팝업)
-**목적**: 클리어 / 실패 후 다음 액션 유도.
-**컨텐츠**:
-- 어두운 오버레이 (전체 화면, #1A1A1A 50% opacity, 게임 화면 블러)
-- 가운데 흰색 카드 (가로 80%, 패딩 32px, border-radius 24px, 그림자):
-  - 상단: 환호 마스코트 (140×140) — 클리어 시 cheer / 실패 시 sad
-  - 타이틀 H1: "레벨 클리어!" 또는 "다시 도전!"
-  - 별 3개 가로 (각 60×60, 채워진 별 = 노란 + 골드 그림자 / 빈 별 = 회색 outline) — stagger 등장 애니메이션 (200ms 간격)
-  - 통계 텍스트 (회색): "60초만에 클리어!" / "이동 25번"
-  - 보너스 메시지 (옵션): "별 ★★★ 모두 획득!"
-  - 액션 버튼:
-    - 메인 CTA "다음 레벨" (노란 fillout 가로 100%, 화살표 아이콘)
-    - 보조 "다시하기" (흰색 outline 가로 100%)
-  - 하단 텍스트 링크 "메뉴로 돌아가기" (회색, 작은 글씨)
-- 컨페티 효과 (옵션, 카드 뒤편 fading)
-
-**상호작용**:
-- 다음 레벨 → 다음 레벨 LevelData 로드 → 같은 씬 재시작
-- 다시하기 → 현재 레벨 재시작
-- 메뉴 → MainMenu 씬
-
-### 5-5. Onboarding (튜토리얼)
-**목적**: 첫 실행 시 게임 학습 (3 페이지).
-**컨텐츠 (페이지별)**:
-- 페이지 1: 마스코트 인사 ("안녕! 나는 Boxy야. 함께 짐 정리 해보자!" 말풍선 + 마스코트)
-- 페이지 2: 드래그 시연 (애니메이션 hint: 손가락 → 카드 → 그리드)
-- 페이지 3: 회전 시연 (길게 누르기 + 회전 화살표)
-**공통**:
-- 베이지 배경
-- 가운데 마스코트 + 말풍선 (말풍선은 흰색 카드 + 꼬리 삼각형)
-- 페이지 점 indicator (3개, 활성=노란)
-- 메인 CTA "다음" / 마지막 페이지에서 "시작하기"
-- 보조 텍스트 "건너뛰기" (회색)
-
-### 5-6. AdRewardPopup (광고 보상 팝업)
-**목적**: 힌트 / 되돌리기 / 이어하기 광고 시청 동의.
-**컨텐츠**:
-- 어두운 오버레이 + 가운데 흰 카드
-- 상단 "광고 시청" 라운드 배지 (재생 아이콘 + 텍스트)
-- 타이틀 ("힌트가 필요해요?" 등)
-- 설명 ("짧은 광고를 보고 힌트 1개를 받아 퍼즐을 이어가세요")
-- 보상 시각화: 큰 라이트벌브 아이콘 + 노란 "+1 힌트" 배지
-- 메인 CTA "광고 보기" (노란 fillout)
-- 보조 "닫기" (흰색 outline)
-- 하단 작은 텍스트 "광고 시청 후 자동 보상 지급"
-
-### 5-7. Settings (설정)
-**목적**: 음향, 햅틱, 언어, IAP, 법적 고지.
-**컨텐츠**:
-- 헤더: 뒤로가기 + "설정" 타이틀 + (옵션) 마스코트 컴팩트 (작은 표정)
-- 카드형 리스트 섹션:
-  - **SOUND 섹션 (3 카드)**: 배경음악 슬라이더 (0-100, 노란 thumb), 효과음 슬라이더, 햅틱 토글 (노란 활성)
-  - **GENERAL 섹션 (2 카드)**: 언어 (한국어 / English 선택, chevron), 광고 제거 (₩3,900 노란 buy 버튼)
-  - **SUPPORT 섹션 (3 카드)**: 개인정보 처리방침 (chevron), 이용약관 (chevron), 문의하기 (chevron)
-  - **DANGER 섹션 (1 카드)**: 진행도 초기화 (빨간 텍스트, trash 아이콘)
-- 푸터: "v1.0.0 · ⓒ 2026 Mound Brand" (회색, 작은 글씨)
-
-**상호작용**:
-- 슬라이더 드래그 → 실시간 볼륨 조정 + 효과음 미리듣기 (효과음 슬라이더만)
-- 토글 → on/off 즉시 반영
-- 광고 제거 → IAP 결제 모달 (Apple/Google native)
-- 문서 / 문의 → 외부 URL (Application.OpenURL)
-- 초기화 → 확인 모달 (별 + 진행도 + 잠금 해제 모두 사라짐 경고)
+### 4-10. Toast / Snackbar (`.toast`)
+```
+높이: 88px (자동)
+배경: var(--text-primary) (dark brown)
+텍스트: var(--bg-elevated), 18px Regular
+모서리: 20px
+하단에서 24px 위로 슬라이드 인, 3초 후 자동 사라짐
+```
 
 ---
 
-## 6. 아이콘 세트 (12종, Lucide style 권장)
+## 5. 화면별 와이어프레임 (7개)
 
-각 24×24 (작은 size) + 64×64 (큰 size, 푸터 카드용) PNG. 검정 또는 회색 stroke 2px.
+> 모든 화면은 1080×1920 기준. Y 좌표는 위에서부터.
+> 상단 88px / 하단 132px은 안전 영역 — 콘텐츠 X.
 
-1. `arrow_back` (뒤로)
-2. `arrow_forward` (다음)
-3. `chevron_right` (메뉴 항목)
-4. `play_arrow` (시작)
-5. `pause` (일시정지)
-6. `lightbulb` (힌트)
-7. `undo` (되돌리기)
-8. `settings` (설정)
-9. `volume_up` (소리)
-10. `shopping_bag` (상점)
-11. `lock` (잠금 레벨)
-12. `star_filled` / `star_empty` (별)
+### 5-1. Splash / 부팅 (S0)
+```
+0–88     [safe area]
+88–520   [빈 공간]
+520–840  마스코트(Boxy 앉아있는 포즈) 320×320 가운데
+880–940  워드마크 "Boxy" 48px Bold 가운데
+940–1000 부제 "Mound Studio" 18px Regular var(--text-secondary)
+1000–    [빈 공간]
+1700–1788 progress bar 화면폭 60% 가운데
+1788–    [safe area]
+배경: var(--bg-cozy)
+```
+1.5–2.0초 후 자동 메인 메뉴 전환.
+
+### 5-2. Onboarding (3 step swipe — S1)
+```
+0–88     [safe area]
+88–168   "건너뛰기" 우측 상단 (Ghost Button)
+168–280  step 인디케이터 ●●● (40×16, 가운데, var(--accent-primary)/var(--border-soft))
+280–800  Hero 일러스트 720×520 가운데 (각 step별 다른 그림: 가방·박스·트렁크)
+800–880  H1 단계별 제목 36px Bold 가운데 좌우 80 패딩
+880–1000 본문 22px Regular var(--text-secondary) 가운데
+1000–    [빈 공간 — flex grow]
+1640–1772 Primary CTA "다음" / 마지막 step "시작하기" (132 높이, 화면폭 -80)
+1772–1788 [safe area buffer]
+배경: var(--bg-cozy)
+
+스와이프 좌→우/우→좌로 step 변경, step 인디케이터 dot scale 1.0→1.4 강조
+```
+
+### 5-3. 메인 메뉴 (S2)
+```
+0–88     [safe area]
+88–196   상단 우측: 언어 토글 (KO/EN pill, 88×56) 좌측: 코인 잔액 pill
+196–360  [빈 공간 — 마스코트와 거리]
+360–680  마스코트 320×320 가운데 (mascot-frame 패턴, 아래 그림자)
+680–760  워드마크 "Boxy" 48px Bold 가운데
+760–840  부제 "짐 정리의 즐거움" 22px var(--text-secondary) 가운데
+840–    [빈 공간 flex]
+1432–1564 Primary CTA "시작하기" 132 높이
+1564–1672 Ghost "이어하기" 108 높이 (저장 데이터 있을 때만 표시)
+1672–1716 [16 간격]
+1716–1788 좌측: 설정 icon 108 / 우측: 상점 icon 108 (양 끝에서 40 패딩)
+배경: var(--bg-cozy)
+```
+
+### 5-4. 레벨 셀렉트 (S3)
+```
+0–88     [safe area]
+88–220   상단바: 좌측 "←뒤로" icon-btn 108 / 가운데 H2 "레벨 선택" 28px / 우측 코인 pill
+220–260  [구분선 1px, 화면폭 -80]
+260–340  테마 탭 (3개 가로 균등): 가방 / 박스 / 트렁크 (132 높이, 활성=accent-primary 밑줄 4px)
+340–    [스크롤 영역 시작]
+[그리드: 3열 × N행, 셀 220×280 (icon+레벨번호+별점), gap 24, 좌우 40 패딩]
+[스크롤 영역 끝]
+1700–1788 [하단 fade gradient — 스크롤 가능 hint]
+배경: var(--bg-cozy)
+
+레벨 셀:
+  배경: var(--bg-elevated)
+  잠김: opacity 0.5 + 자물쇠 아이콘 가운데
+  완료: 별 1~3개 표시 (각 별 40×40)
+  현재 진행: 보더 4px var(--accent-primary)
+  220×280, 모서리 24, 그림자 2-layer
+```
+
+### 5-5. 게임플레이 (S4 — 핵심 화면)
+```
+0–88     [safe area]
+88–240   상단바:
+  좌측: 일시정지 icon 108 (Pause)
+  가운데: 레벨 명 "1-7" 28px Bold + 진행도 progress-bar 50% 너비
+  우측: 힌트(전구) icon 108 + 되돌리기(↶) icon 108
+240–280  [구분선]
+280–1280 가방/박스 캔버스 (1000×1000 정사각 — 6×6 그리드 한 칸 ≒ 165px)
+  배경: 갈색 가죽 텍스처 (가방) / 갈색 종이 텍스처 (박스) / 청록 직물 (트렁크) — Theme별
+  그리드 셀 보더: 1px rgba(255,255,255,0.15)
+1280–    [16 간격]
+1296–1672 아이템 트레이 (가로 스크롤):
+  높이 376px
+  배경: var(--bg-elevated), 모서리 32, 좌우 40 마진
+  내부: 가로 스크롤 아이템 카드 (각 280×280, 모양 미리보기 + 회전 버튼)
+  활성 아이템: 보더 4px var(--accent-primary) + scale 1.05
+1672–1700 [페이지 인디케이터 작은 ●●●]
+1700–1788 [safe area]
+배경: var(--bg-cozy)
+
+상호작용:
+  - 트레이에서 아이템 탭 → 활성화 (한 번에 하나)
+  - 캔버스 그리드 셀 탭 → 활성 아이템 placement (회전 상태 유지)
+  - 회전 버튼 (트레이 아이템 카드 우상단) → 90° 회전
+  - placement 시 마스코트가 캔버스 우상단에서 점프 (+ haptic light)
+  - 마지막 셀 채움 → 클리어 → S5 전환
+```
+
+### 5-6. 결과 팝업 (S5 — 모달 오버레이)
+```
+[배경: rgba(61, 43, 31, 0.65) 전체 덮음]
+
+가운데 정렬 카드 (840×1300, 모서리 32, var(--bg-elevated)):
+
+  56–280  마스코트 환호 일러스트 240×240 (성공) / 위로 일러스트 (실패)
+  280–340 H1 36px Bold 가운데
+          성공: "축하합니다!"
+          실패: "아쉬워요!"
+  340–420 본문 22px Regular var(--text-secondary)
+          성공: "{level}단계 클리어"
+          실패: "다시 한 번 도전해볼까요?"
+  420–540 별 점수 표시 (3개 ★ 80×80, 획득 별 색=accent, 미획득=border-soft)
+  540–600 점수 진행도 progress (성공 시만)
+  600–760 통계 row 3개:
+          - 사용한 시간 / 사용한 힌트 / 되돌리기 횟수
+          (각 row 88px, 좌우 패딩 32, var(--text-secondary))
+  760–820 [구분선]
+  820–   [flex]
+  1100–1232 Primary CTA "다음 레벨" (성공) / "다시 시도" (실패) — 화면폭 -160
+  1232–1300 Ghost "메뉴로" 108 높이
+
+진입: 카드 1500→가운데로 슬라이드 + scale 0.9→1.0 (motion-emphasized)
+배경 fade: 350ms
+```
+
+### 5-7. 광고 보상 팝업 (S6 — 모달)
+```
+[배경: rgba(61, 43, 31, 0.65)]
+
+가운데 카드 (760×920, 모서리 32):
+
+  56–296  마스코트 "광고 보고 보상받기" 포즈 일러스트 240×240
+  296–376 H1 "힌트가 필요한가요?" 28px Bold 가운데
+  376–456 본문 "광고를 시청하고 힌트를 받아요" 22px var(--text-secondary)
+  456–536 보상 미리보기 row (icon 64 + "+1 힌트" 22px Bold)
+  536–    [flex]
+  720–852 Primary CTA "광고 보기 (15초)" — 화면폭 -120
+  852–920 Ghost "닫기" 108
+
+배경 fade 350ms, 카드 scale 0.9→1.0
+```
+
+### 5-8. 설정 (S7)
+```
+0–88     [safe area]
+88–220   상단바: 좌측 "← 뒤로" icon 108 / 가운데 H2 "설정" 28px / 우측 빈 공간
+220–260  [구분선]
+260–    [스크롤 영역]
+
+[섹션 1: 사운드 (각 row 132 높이, 좌우 40 패딩)]
+  Row "효과음" + 토글 ON/OFF (88px tap, 56 visual)
+  Row "배경음악" + 토글
+  Row "햅틱(진동)" + 토글
+  Row "마스코트 보이스" + 토글
+
+[섹션 헤더 88 높이, 24px Bold var(--text-primary), 좌측 정렬]
+[섹션 2: 게임]
+  Row "언어" + value pill "한국어 ▾"
+  Row "테마" + value pill "라이트 ▾"
+  Row "튜토리얼 다시 보기" → tap 시 Onboarding으로
+
+[섹션 3: 정보]
+  Row "광고 제거" + value pill "₩3,900"
+  Row "구매 복원" → tap
+  Row "이용약관" → 외부 브라우저 (확인 다이얼로그)
+  Row "개인정보처리방침" → 외부 브라우저
+  Row "버전" + caption "1.0.0 (build 8)"
+
+[섹션 4: 위험 액션]
+  Row "진행도 초기화" → confirm → 위험 액션 (var(--error) 텍스트)
+
+배경: var(--bg-cozy)
+스크롤 끝에 132 buffer (safe area + Primary CTA 자리 없음)
+```
 
 ---
 
-## 7. 산출물 형식
+## 6. 마스코트 디자인 가이드
 
-### 1차 산출물 (디자인)
-- **Figma 파일**: 7 화면 × 2 모드 (Light only — Dark는 v1.1) + 컴포넌트 라이브러리
-- **PNG export**: 각 화면 1080×2400 + 1335×2868 (iPhone 17 Pro Max)
-- **컴포넌트 spec**: 버튼 / 카드 / 입력 / 토글 / 슬라이더 / 모달 등
+### 6-1. 본체 사양
+- **본체 색**: var(--mascot-yellow) `#FFD60A` 유지 (브랜드)
+- **포즈 5종 필수** (각 1024×1024 PNG, 투명 배경):
+  1. **default** — 정면 서있기, 살짝 미소 (메인 메뉴, 부팅)
+  2. **happy** — 양손 위로 환호 (결과 성공, 레벨 클리어)
+  3. **sad** — 어깨 처진 위로 포즈 (결과 실패, 라이프 0)
+  4. **thinking** — 손가락 턱 (튜토리얼, 힌트)
+  5. **sleeping** — 눈 감고 옆으로 (장기 미접속 복귀 후)
 
-### 2차 산출물 (Unity 통합용)
-- **마스코트 PNG 8종**: default + cheer + sad + sleepy + surprised + wink + thumbs_up + wave (각 1024×1024 PNG, 투명 배경)
-- **아이템 일러스트 PNG 30+**: 책 / 노트 / 도시락 / 수통 / 사과 / 옷 / 신발 / 카메라 등 (각 256×256 PNG, 투명 배경)
-- **아이콘 세트 12종 PNG** (Lucide style)
-- **배경 데코 패턴 PNG** (반복 가능, 박스/짐 stylized)
+### 6-2. 절대 피해야 할 것
+- ❌ 단순 큐브 + 점 두 개 (정성 부족)
+- ❌ flat color만 (그림자, 입체감 필수 — soft cell shading)
+- ❌ 너무 비싼 디테일 (디즈니풍 X — Slack/Duolingo 마스코트 수준)
+- ❌ 한국 색채 강함 (글로벌 무난)
 
-### 가능하면 추가
-- **마스코트 Lottie 애니메이션** (메인 메뉴 idle bob, ResultPopup 환호 등)
+### 6-3. 표현
+- **얼굴**: 두 개의 검은 점 (눈) + 작은 곡선 (입). 표정은 눈썹 곡선과 입 모양으로
+- **팔다리**: 짧고 둥근 (스튜비 — 친근함)
+- **그림자**: 발 아래 타원 그림자 1개 (지면 인식)
+- **하이라이트**: 윗면에 흰색 부드러운 highlight 1개 (입체감)
 
----
-
-## 8. 일정 / 예산
-
-### 1안: 5/28 출시 강행
-- 디자인 1주 (5/2 ~ 5/9)
-- Unity 통합 1주 (5/10 ~ 5/16)
-- 클로즈드 테스트 14일 (5/12 ~ 5/26)
-- 출시 5/28
-- → 빠듯함, 디자인 1주 안에 7화면 + 마스코트 8종 + 아이템 30종 + 아이콘 12종 = 부담
-
-### 2안 (권장): 출시 1주 미루기 (6/4 출시)
-- 디자인 2주 (5/2 ~ 5/16)
-- Unity 통합 1주 (5/17 ~ 5/23)
-- 클로즈드 테스트 14일 (5/19 ~ 6/2)
-- 출시 6/4
-- → 디자인 quality 보장, 일정 여유
-
-### 예산 (외주 시)
-- 시니어 게임 UI 디자이너: ₩100,000-300,000 / 화면 × 7 = **₩700K-2.1M**
-- 마스코트 일러스트 8종: ₩50,000-150,000 / 표정 × 8 = **₩400K-1.2M**
-- 아이템 30종 일괄: ₩300,000-800,000
-- 아이콘 12종 일괄: ₩100,000-300,000
-- **총합 예상: ₩1.5M - ₩4.4M** (약 $1,200 - $3,500 USD)
-
-### 예산 (AI/직접 작업 시)
-- 클로드 + Stitch + Scenario 활용: ₩0 (이미 도구 보유)
-- Scenario Pro 업그레이드 시: $20-50/월 (워터마크 제거 + 무제한 LoRA 학습)
+### 6-4. v1.0 임시 (정성 일러스트 외주 전)
+- 정수가 Python PIL로 만든 default 포즈 1종으로 시작 → 외주 일러스트 도착 시 5종 교체
+- 외주 단가 가이드: 5종 × ₩50–80만 = ₩300–400만 예산 (선택)
 
 ---
 
-## 9. 지금까지 시도한 것 + 실패 원인 (재작업 시 피해야 할 점)
+## 7. 화면 전환 / 애니메이션
 
-### 시도 1: AI Python 합성 마스코트 (1차 시도)
-- 결과: 단순 노란 정사각형 + 점 2개 + 선 입
-- 실패 원인: 정성 부족, 캐릭터 감각 X, 게임 마스코트 수준 못 미침
-
-### 시도 2: 직접 UXML 코딩 (Mound Brand v1)
-- 결과: 빈 공간 가득, 마스코트 거대한 단순 박스, 푸터 아이콘 어색
-- 실패 원인:
-  - Tailwind / Material 기본 룩만 차용
-  - 정수가 보낸 Snug! reference 톤 미반영
-  - 빈 공간 ratio 60% 이상 (밀도 부족)
-  - 일러스트 / 그림자 / 그라디언트 부재
-
-### 시도 3: Stitch MCP 자동 생성 (2026-04-29)
-- 결과: 구조는 OK, 디자인 자체 quality 평균 (Snug! 수준 못 미침)
-- 실패 원인:
-  - Stitch model 한계 — 단순 / 플랫 결과
-  - prompt가 짧아서 디테일 묘사 부족
-  - 마스코트 image는 외부 URL placeholder, 로컬 PNG 미제공
-
-### 시도 4: Stitch HTML → UXML 자동 변환
-- 결과: 빌드는 됐으나 레이아웃 망가짐 (마스코트 위치 어긋남, footer 세로 정렬, \n 텍스트 그대로 표시)
-- 실패 원인:
-  - Tailwind `gap-N` / `space-y-N` (자식 간격) → UI Toolkit 미지원
-  - HTTPS 이미지 src 로컬 PNG 미교체
-  - flex 기본값 적용 누락
-
-### 다음 단계에서 강조할 것
-1. **마스코트는 외주 또는 Scenario LoRA로 정성 일러스트 확보 필수** (단순 합성 X)
-2. **Snug! 톤 reference 직접 분석** + Boxy yellow로 재해석
-3. **그림자 / 그라디언트 / 일러스트 패턴** 적극 활용 (UI Toolkit 지원 범위 내)
-4. **여백 황금비** — 빈 공간 50% 이내, 컨텐츠 밀도 균형
-5. **컴포넌트 라이브러리 일관성** — 카드 / 버튼 / 모달 통일된 스펙
+| 전환 | duration | easing | 비고 |
+|---|---|---|---|
+| 화면 push (메뉴 → 레벨 셀렉트) | 350ms | motion-page | 우→좌 슬라이드 |
+| 화면 pop (← 뒤로) | 350ms | motion-page | 좌→우 슬라이드 |
+| 모달 진입 (결과 팝업) | 350ms | motion-emphasized | scale 0.9→1.0 + 배경 fade |
+| 모달 종료 | 250ms | motion-standard | scale 1.0→0.95 + fade out |
+| 버튼 press | 100ms | motion-instant | scale 1.0→0.97 |
+| 마스코트 reaction (placement) | 500ms | motion-emphasized | 위로 점프 (translate Y -40 → 0) |
+| Toast 진입 | 250ms | motion-standard | 하단에서 24px 위로 |
 
 ---
 
-## 10. 컨택 / 자료
+## 8. 사운드 / 햅틱
 
-- 클라이언트: 백정수 (`dugout26.gm@gmail.com`)
-- Slack / Discord: 협의 후 결정
-- 자료 공유: Google Drive / Notion (협의)
-- 작업 산출 GitHub repo: 비공개 — 디자이너용 view 권한 별도
+### 8-1. 햅틱 (Lofelt Nice Vibrations 사용 강제 — Unity 내장 X)
+| 이벤트 | 햅틱 |
+|---|---|
+| 버튼 탭 | Light |
+| 아이템 placement (정상) | Medium |
+| 아이템 placement (잘못 — 회색 표시) | Failure |
+| 레벨 클리어 | Success |
+| 레벨 실패 | Warning |
+| 광고 보상 수령 | Success |
+| 회전 | Selection |
 
-### 첨부 가능 자료
-- `Assets/Boxy.App/Resources/Mascot/Mascot_*.png` — 현재 마스코트 5종 (개선 필요)
-- `Assets/Boxy.App/Icons/AppStore-1024.png` — 현재 앱 아이콘
-- `~/.mound/mound-design-system.md` — Mound Brand v1 전체 시스템
-- `boxy-plan.md` — 게임 기획서 (메커닉 후킹, KPI, 광고 정책 등)
-- `marketing/store-description-{ko,en}.md` — 스토어 등록 카피
-- `design/stitch-generated/*.png` — Stitch 1차 생성 7화면 (참고만, 그대로 X)
-- 정수 별도 제공: Snug! reference 캡처 (메인메뉴 / 마스코트 등장 / 권한 요청 3종)
+### 8-2. 사운드 (placeholder — 외주 또는 Storyblocks 라이선스)
+- **BGM**: Lofi cozy piano loop, 90 BPM, 60-90초 반복 (메인 메뉴 / 게임플레이 별도)
+- **SFX**: tap 02_short / placement 01_pop / clear 04_sparkle / fail 03_thud / coin 05_chime
 
 ---
 
-## 11. 결정 사항 (정수가 채울 것)
+## 9. 화면 별 컴포넌트 매핑 (UXML 작성 시 참조)
 
-- [ ] 일정: 1안 (5/28 강행) / 2안 (6/4 미루기)
-- [ ] 작업 방식:
-  - [ ] 외주 (크몽 / 피버 / 어퍼블리시 / 노드 / 기타) — 디자이너 1명 고용
-  - [ ] AI 도구 활용 (클로드 + Stitch + Scenario Pro)
-  - [ ] 하이브리드 (마스코트만 외주 + 화면은 AI)
-- [ ] 예산 한도: ___________
-- [ ] 1차 산출물 마감: ___________
-- [ ] 디자이너 / AI 작업자 컨택: ___________
+| 화면 | 사용 컴포넌트 | 스크롤 |
+|---|---|---|
+| Splash | mascot-frame, progress-bar, wordmark | X |
+| Onboarding | btn-primary, btn-ghost, hero-illust, step-dot | X (스와이프) |
+| Main Menu | mascot-frame, wordmark, btn-primary, btn-ghost, btn-icon (×2), pill (lang) | X |
+| Level Select | btn-icon (back), tab-bar, level-cell (grid), pill (coin) | Y |
+| Gameplay | btn-icon (×4), progress-bar, canvas-grid, item-tray (가로 scroll) | X (메인) |
+| Result Popup | mascot, h1, body, star-row, stat-row, btn-primary, btn-ghost | X |
+| Ad Reward Popup | mascot, h1, body, reward-row, btn-primary, btn-ghost | X |
+| Settings | btn-icon (back), section-header, settings-row (toggle/value/link), btn-danger | Y |
+
+---
+
+## 10. 디자인 작업 단계 (구현 순서)
+
+> AI 자체 작업. 정수는 검수만.
+
+1. **Tokens 재작성** — `tokens.uss` v2 컬러/폰트/spacing 토큰 (§3) — **30분**
+2. **Components.uss 재작성** — §4 컴포넌트 10종 — **2시간**
+3. **MainMenu.uxml 재작성** — §5-3 와이어 그대로, 모든 버튼 작동 — **1시간**
+4. **Editor 시뮬레이터 검증** — Build Profile dev → iOS Simulator iPhone 17 Pro Max → 모든 버튼 탭 검증 — **30분**
+5. **나머지 6개 화면 순차 작성** — §5-1, 5-2, 5-4, 5-5, 5-6, 5-7, 5-8 — **각 1시간 × 6 = 6시간**
+6. **씬 wiring 검증** — Unity Scene별 PanelSettings/UIDocument 참조 → Onboarding/Settings 누락 없음 — **30분**
+7. **마스코트 일러스트 5종 교체** (정수 외주 시점) — **외주 후 1시간**
+
+**총 예상**: 11시간 + 마스코트 외주 별도. 4주 일정 중 1.5–2일 분량.
+
+---
+
+## 11. 검수 체크리스트 (출시 직전)
+
+- [ ] iPhone 17 Pro Max + iPhone SE 3 (4.7") 모두에서 모든 버튼 88px+ 터치 영역
+- [ ] iPad mini 8.3" 1024×1366에서 레이아웃 안 깨짐 (Expand mode)
+- [ ] 다크모드 OS에서 cozy bg가 자동 다크 변환되지 않고 의도적 light bg 유지
+- [ ] Pretendard 폰트 18px 이하 텍스트 0건
+- [ ] 모든 화면 safe area 상단 88, 하단 132 준수
+- [ ] 모든 모달 진입 350ms 안에 완료, 닫기 250ms
+- [ ] 햅틱 7종 모두 트리거 검증
+- [ ] 한국어 + English 텍스트 길이 차이로 잘림 없음 (특히 버튼 라벨)
+- [ ] 스크린샷 4개 화면 (메인/레벨/게임/결과) 업데이트 → marketing/screenshots/ 신규
+
+---
+
+## 12. v1.1 디자인 백로그 (출시 후)
+
+- 다크모드 (현재 v1.0은 light only)
+- iPad 전용 큰 캔버스 레이아웃 (현재 1080 그대로 stretch)
+- 마스코트 외주 일러스트 5종 → 7종 + 코스튬 시즌제
+- Lottie 애니메이션 도입 (현재 정적 PNG)
+- 사용자 커스텀 테마 (광고 제거 IAP 사용자 한정)

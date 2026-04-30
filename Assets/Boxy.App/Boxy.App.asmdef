@@ -1,0 +1,20 @@
+{
+    "name": "Boxy.App",
+    "rootNamespace": "Boxy.App",
+    "references": [
+        "Mound.Core",
+        "Mound.UI",
+        "Mound.Monetization",
+        "Mound.Analytics",
+        "Mound.Localization"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

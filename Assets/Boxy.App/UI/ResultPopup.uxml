@@ -1,0 +1,52 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Mound/UI/Styles/tokens.uss" />
+    <Style src="project://database/Assets/Mound/UI/Styles/components.uss" />
+
+    <!-- handoff S5 Result modal (screens-b.jsx ResultScreen). -->
+    <ui:VisualElement name="overlay" picking-mode="Position" class="popup-overlay">
+
+        <ui:VisualElement name="popup-card" class="popup-card" style="max-width: 360px;">
+
+            <!-- Mascot (happy by default — controller swaps image for fail state) -->
+            <ui:VisualElement style="flex-direction: row; justify-content: center; margin-top: -8px; margin-bottom: 8px;">
+                <ui:VisualElement name="result-mascot" style="width: 130px; height: 140px; background-image: url(&quot;project://database/Assets/Boxy.App/Resources/Mascot/Mascot_cheer.png&quot;); -unity-background-scale-mode: scale-to-fit;" />
+            </ui:VisualElement>
+
+            <ui:Label name="result-title" class="popup-title" text="축하합니다!" />
+            <ui:Label name="result-subtitle" class="popup-body" text="1-7단계 클리어" style="margin-bottom: 8px;" />
+
+            <!-- 3 stars row -->
+            <ui:VisualElement style="flex-direction: row; justify-content: center; margin-top: 14px; margin-bottom: 4px;">
+                <ui:Label name="result-star-1" text="★" style="color: #F59E4B; font-size: 44px; margin-left: 4px; margin-right: 4px;" />
+                <ui:Label name="result-star-2" text="★" style="color: #F59E4B; font-size: 44px; margin-left: 4px; margin-right: 4px;" />
+                <ui:Label name="result-star-3" text="★" style="color: #F0E0CC; font-size: 44px; margin-left: 4px; margin-right: 4px;" />
+            </ui:VisualElement>
+
+            <!-- Stats: divider lines top + bottom -->
+            <ui:VisualElement style="margin-top: 16px; padding: 10px 4px 10px 4px; border-top-width: 1px; border-top-color: #F0E0CC; border-bottom-width: 1px; border-bottom-color: #F0E0CC;">
+                <ui:VisualElement style="flex-direction: row; justify-content: space-between; padding: 8px 6px 8px 6px;">
+                    <ui:Label text="소요 시간" style="font-size: 14px; color: #8B6F5C;" />
+                    <ui:Label name="stat-time" text="--:--" style="font-size: 14px; -unity-font-style: bold; color: #3D2B1F;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: row; justify-content: space-between; padding: 8px 6px 8px 6px;">
+                    <ui:Label text="사용한 힌트" style="font-size: 14px; color: #8B6F5C;" />
+                    <ui:Label name="stat-hints" text="0" style="font-size: 14px; -unity-font-style: bold; color: #3D2B1F;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-direction: row; justify-content: space-between; padding: 8px 6px 8px 6px;">
+                    <ui:Label text="되돌리기" style="font-size: 14px; color: #8B6F5C;" />
+                    <ui:Label name="stat-undos" text="0" style="font-size: 14px; -unity-font-style: bold; color: #3D2B1F;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Buttons -->
+            <ui:VisualElement style="margin-top: 16px;">
+                <ui:Button name="result-next-button" class="btn-primary" text="다음 레벨" style="width: 100%;" />
+                <ui:VisualElement style="height: 8px;" />
+                <ui:Button name="result-retry-button" class="btn-secondary" text="다시 시도" style="width: 100%; display: none;" />
+                <ui:Button name="result-menu-button" class="btn-ghost" text="메뉴로" style="width: 100%;" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:UXML>

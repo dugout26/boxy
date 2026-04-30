@@ -1,0 +1,36 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Mound/UI/Styles/tokens.uss" />
+    <Style src="project://database/Assets/Mound/UI/Styles/components.uss" />
+
+    <!-- handoff S1 Onboarding (screens-a.jsx). v1.0 single-step (3-step swipe는 v1.1 백로그). -->
+    <ui:VisualElement name="root" class="bg-cozy" style="padding-top: 16px; padding-bottom: 32px; padding-left: 24px; padding-right: 24px; flex-direction: column;">
+
+        <!-- Skip top-right -->
+        <ui:VisualElement style="flex-direction: row; justify-content: flex-end;">
+            <ui:Button name="skip-onboarding-button" text="건너뛰기" style="background-color: rgba(0,0,0,0); border-width: 0; height: 32px; padding-left: 8px; padding-right: 8px; color: #8B6F5C; font-size: 14px; -unity-font-style: normal;" />
+        </ui:VisualElement>
+
+        <!-- Step indicator dots (v1.0: 1번만 active 표시 — 진행 로직은 v1.1) -->
+        <ui:VisualElement style="flex-direction: row; justify-content: center; margin-top: 8px;">
+            <ui:VisualElement class="step-dot step-dot-active" />
+            <ui:VisualElement class="step-dot" />
+            <ui:VisualElement class="step-dot" />
+        </ui:VisualElement>
+
+        <!-- Hero illustration + title + body (가운데 flex) -->
+        <ui:VisualElement style="flex-grow: 1; align-items: center; justify-content: center;">
+
+            <!-- Hero illust placeholder — 가방 일러스트 자리. v1.1 외주 일러스트로 교체. -->
+            <ui:VisualElement name="hero-illust" style="width: 220px; height: 160px; background-color: #FFE4C8; border-radius: 16px; align-items: center; justify-content: center; margin-bottom: 24px;">
+                <ui:Label text="🎒" style="font-size: 80px;" />
+            </ui:VisualElement>
+
+            <ui:Label text="한 칸씩, 꼭 맞게" class="txt-h1 txt-center" style="margin-bottom: 12px;" />
+            <ui:Label text="다양한 모양의 짐을&#10;빈틈없이 정리해보세요" class="txt-body txt-secondary txt-center" style="white-space: normal;" />
+        </ui:VisualElement>
+
+        <!-- CTA: 시작하기 (마지막 step 의미 — start-tutorial-button name 그대로) -->
+        <ui:Button name="start-tutorial-button" class="btn-primary" text="시작하기" style="width: 100%;" />
+
+    </ui:VisualElement>
+</ui:UXML>

@@ -202,10 +202,10 @@ namespace Boxy.Editor
             {
                 panelSettingsAsset.scaleMode = UnityEngine.UIElements.PanelScaleMode.ScaleWithScreenSize;
                 panelSettingsAsset.screenMatchMode = UnityEngine.UIElements.PanelScreenMatchMode.Expand;
-                panelSettingsAsset.referenceResolution = new Vector2Int(1080, 1920);
+                panelSettingsAsset.referenceResolution = new Vector2Int(390, 844);
                 EditorUtility.SetDirty(panelSettingsAsset);
                 AssetDatabase.SaveAssets();
-                Debug.Log("[BoxyBuilder] PanelSettings: ScaleWithScreenSize, matchMode=Expand, refRes=1080×1920");
+                Debug.Log("[BoxyBuilder] PanelSettings: ScaleWithScreenSize, matchMode=Expand, refRes=390×844 (iPhone pt — handoff base)");
             }
 
             // Bundle ID, productName, Version 강제 설정 — 환경별 분기.

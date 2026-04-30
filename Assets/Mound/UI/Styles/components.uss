@@ -1,291 +1,348 @@
-/* Mound Brand v2.0 — Component Styles */
-/* mound-design-system.md §4 컴포넌트 명세 매핑 */
-/* tokens.uss 먼저 import 필수 (UXML에서 두 USS 모두 적용) */
+/* components.uss — Boxy Cozy Components (handoff-derived, 2026-04-30 v3)
+ * 좌표계: 390×844 pt
+ * 출처: design/handoff/app_onboarding_v2/ui.jsx
+ * 컨트롤러가 코드에서 직접 add하는 클래스명 절대 변경 금지:
+ *   btn-primary, btn-secondary, btn-ghost, popup-overlay, popup-card,
+ *   popup-title, popup-body, level-button, level-button-locked,
+ *   level-button-current, level-button-unlocked
+ */
 
-/* === Pretendard 글꼴 — 한국어 + 영어 통합 === */
-/* mound-design-system.md §6: Pretendard 단일 폰트 (Inter 제거 -3~5MB 절약) */
-/* Unity가 Assets/Mound/UI/Fonts/Pretendard-{Regular,Bold}.otf 자동 import 후 활성 */
-:root {
-    -unity-font-definition: url("project://database/Assets/Mound/UI/Fonts/Pretendard-Regular.otf");
+/* === Pretendard 폰트 적용 (이미 등록된 가정) === */
+.boxy-root,
+.bg-cozy {
+    -unity-font-definition: url("project://database/Assets/Mound/UI/Fonts/Pretendard-Regular SDF.asset");
 }
 
-/* === Button === */
+/* ────────── Buttons ────────── */
+
+/* Primary CTA (시작/계속/구매 등) — 56pt 높이, accent orange */
 .btn-primary {
-    background-color: var(--accent);
-    color: var(--on-accent);
-    font-size: var(--text-body);
+    height: 56px;
+    background-color: #F59E4B;
+    color: #FFFFFF;
+    font-size: 17px;
     -unity-font-style: bold;
-    border-radius: var(--radius-button);
-    height: 48px;
-    padding: 0 var(--space-md);
+    letter-spacing: -0.2px;
+    border-radius: 10px;
     border-width: 0;
-    border-color: rgba(0, 0, 0, 0);
-    transition: scale var(--duration-micro) ease-out;
+    padding-left: 16px;
+    padding-right: 16px;
+    -unity-text-align: middle-center;
+    transition: scale 100ms ease-out;
 }
 
-.btn-primary:disabled {
-    opacity: 0.4;
+.btn-primary:hover {
+    scale: 0.99 0.99;
 }
 
 .btn-primary:active {
-    scale: 0.97 0.97;
+    scale: 0.98 0.98;
+    background-color: #E08938;
 }
 
+.btn-primary:disabled {
+    opacity: 0.5;
+}
+
+/* Secondary — 48pt, transparent + orange border */
 .btn-secondary {
-    background-color: rgba(0, 0, 0, 0);
-    color: var(--text-primary);
-    font-size: var(--text-body);
-    -unity-font-style: normal;
-    border-width: 1px;
-    border-color: var(--border);
-    border-radius: var(--radius-button);
     height: 48px;
-    padding: 0 var(--space-md);
-}
-
-.btn-secondary:disabled {
-    opacity: 0.4;
-}
-
-.btn-ghost {
     background-color: rgba(0, 0, 0, 0);
-    color: var(--text-secondary);
-    font-size: var(--text-caption);
-    border-width: 0;
-    border-color: rgba(0, 0, 0, 0);
-    border-radius: var(--radius-button);
-    height: 40px;
-    padding: 0 var(--space-sm);
+    color: #F59E4B;
+    font-size: 16px;
+    -unity-font-style: bold;
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: #F59E4B;
+    padding-left: 16px;
+    padding-right: 16px;
+    -unity-text-align: middle-center;
 }
 
-/* === Popup === */
-.popup-overlay {
+.btn-secondary:hover {
+    background-color: #FFE4C8;
+}
+
+/* Ghost — 44pt, transparent text-only (이어하기, 닫기 등) */
+.btn-ghost {
+    height: 44px;
+    background-color: rgba(0, 0, 0, 0);
+    color: #8B6F5C;
+    font-size: 15px;
+    -unity-font-style: normal;
+    border-width: 0;
+    -unity-text-align: middle-center;
+}
+
+.btn-ghost:hover {
+    color: #3D2B1F;
+}
+
+/* Icon Button — 44×44 round (settings/shop/back/pause 등) */
+.btn-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 22px;
+    background-color: #FFFFFF;
+    border-width: 1px;
+    border-color: #F0E0CC;
+    -unity-text-align: middle-center;
+    padding: 0;
+}
+
+.btn-icon-sm {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    border-width: 1px;
+    border-color: #F0E0CC;
+    padding: 0;
+}
+
+/* ────────── Cards & Surfaces ────────── */
+
+/* Card 래퍼 — 2-layer warm shadow는 자식 VisualElement로 */
+.card {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    border-width: 1px;
+    border-color: #F0E0CC;
+    padding: 16px;
+}
+
+/* Card 그림자 base layer (Card 위 absolute로 배치) */
+.card-shadow {
+    background-color: rgba(160, 90, 40, 0.10);
+    border-radius: 16px;
+    translate: 0 3px;
     position: absolute;
-    background-color: var(--overlay);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* ────────── Pills / Badges ────────── */
+
+.pill {
+    height: 30px;
+    border-radius: 999px;
+    background-color: #FFE4C8;
+    color: #F59E4B;
+    font-size: 13px;
+    -unity-font-style: bold;
+    padding-left: 12px;
+    padding-right: 12px;
+    -unity-text-align: middle-center;
+    flex-direction: row;
+    align-items: center;
+}
+
+.pill-outline {
+    background-color: #FFFFFF;
+    border-width: 1px;
+    border-color: #F0E0CC;
+}
+
+/* ────────── Topbar (sticky) ────────── */
+
+.topbar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 56px;
+    padding: 14px 16px 14px 16px;
+    background-color: #FFF6EC;
+    border-bottom-width: 1px;
+    border-bottom-color: #F0E0CC;
+}
+
+.topbar-title {
+    font-size: 17px;
+    -unity-font-style: bold;
+    letter-spacing: -0.3px;
+    color: #3D2B1F;
+    -unity-text-align: middle-center;
+    flex-grow: 1;
+}
+
+/* ────────── Mascot Frame ────────── */
+
+.mascot-frame {
+    background-color: #FFFFFF;
+    border-radius: 28px;
+    border-width: 1px;
+    border-color: #F0E0CC;
+    padding: 0 14px 4px 14px;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* peach radial은 USS에서 grad 미지원 → bg image로 대체 (placeholder solid) */
+.mascot-frame-bg {
+    background-color: #FFE4C8;
+    border-radius: 28px;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 14px 4px 14px;
+}
+
+/* ────────── Modal Overlay (popup) ────────── */
+
+.popup-overlay {
+    background-color: rgba(61, 43, 31, 0.65);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    flex-grow: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.popup-card {
     width: 100%;
-    height: 100%;
+    background-color: #FFFFFF;
+    border-radius: 22px;
+    padding: 24px 22px 22px 22px;
+}
+
+.popup-title {
+    font-size: 26px;
+    -unity-font-style: bold;
+    letter-spacing: -0.8px;
+    color: #3D2B1F;
+    -unity-text-align: middle-center;
+}
+
+.popup-body {
+    font-size: 14px;
+    color: #8B6F5C;
+    -unity-text-align: middle-center;
+    margin-top: 6px;
+    white-space: normal;
+}
+
+/* ────────── Level Select Grid (controller-managed classes) ────────── */
+
+.level-button {
+    background-color: #FFFFFF;
+    border-radius: 14px;
+    border-width: 1px;
+    border-color: #F0E0CC;
+    -unity-font-style: bold;
+    color: #3D2B1F;
+    font-size: 22px;
     align-items: center;
     justify-content: center;
 }
 
-.popup-card {
-    background-color: var(--surface);
-    border-radius: var(--radius-popup);
-    width: 80%;
-    max-width: 320px;
-    padding: var(--space-lg);
+.level-button-locked {
+    opacity: 0.55;
 }
 
-.popup-title {
-    color: var(--text-primary);
-    font-size: var(--text-h1);
-    -unity-font-style: bold;
-    -unity-text-align: middle-center;
-    margin-bottom: var(--space-sm);
+.level-button-current {
+    border-width: 3px;
+    border-color: #F59E4B;
 }
 
-.popup-body {
-    color: var(--text-secondary);
-    font-size: var(--text-body);
-    -unity-text-align: middle-center;
-    margin-bottom: var(--space-md);
-    white-space: normal;
+.level-button-unlocked {
+    /* 기본 상태 + done 별 표시는 controller에서 처리 */
 }
 
-/* === Toast === */
-.toast {
-    position: absolute;
-    bottom: 16px;
-    background-color: rgba(26, 26, 26, 0.9);
-    color: #FFFFFF;
-    font-size: var(--text-caption);
-    border-radius: var(--radius-toast);
-    padding: 12px var(--space-md);
-    align-self: center;
-}
+/* ────────── Onboarding step dots ────────── */
 
-/* === ProgressBar === */
-.progress-bar {
+.step-dot {
+    width: 8px;
     height: 8px;
     border-radius: 4px;
-    background-color: var(--border);
+    background-color: #F0E0CC;
+    margin-left: 4px;
+    margin-right: 4px;
+    transition: width 250ms ease-out;
+}
+
+.step-dot-active {
+    width: 24px;
+    background-color: #F59E4B;
+}
+
+/* ────────── Settings row ────────── */
+
+.settings-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+    padding: 0 4px 0 4px;
+}
+
+.settings-row-label {
+    font-size: 16px;
+    color: #3D2B1F;
+    flex-grow: 1;
+}
+
+.settings-section-header {
+    font-size: 13px;
+    -unity-font-style: bold;
+    color: #8B6F5C;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.divider {
+    height: 1px;
+    background-color: #F0E0CC;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+/* ────────── Progress Bar ────────── */
+
+.progress-bg {
+    height: 6px;
+    background-color: #F0E0CC;
+    border-radius: 3px;
     overflow: hidden;
 }
 
-.progress-bar-fill {
+.progress-fill {
     height: 100%;
-    background-color: var(--accent);
-    border-radius: 4px;
-    transition: width var(--duration-page) ease-out;
+    background-color: #F59E4B;
+    border-radius: 3px;
 }
 
-/* === Toggle === */
-.toggle {
-    width: 48px;
-    height: 28px;
-    border-radius: 14px;
-    background-color: var(--border);
-    transition: background-color var(--duration-standard) ease-out;
-    flex-direction: row;
-    align-items: center;
-    padding: 2px;
-}
+/* ────────── Wordmark (Boxy 로고 텍스트) ────────── */
 
-.toggle.on {
-    background-color: var(--accent);
-}
-
-.toggle-knob {
-    width: 24px;
-    height: 24px;
-    border-radius: 12px;
-    background-color: #FFFFFF;
-    transition: translate var(--duration-standard) ease-out;
-}
-
-.toggle.on > .toggle-knob {
-    translate: 20px 0;
-}
-
-/* === Slider === */
-.slider-track {
-    height: 4px;
-    border-radius: 2px;
-    background-color: var(--border);
-    flex-direction: row;
-    align-items: center;
-}
-
-.slider-fill {
-    height: 100%;
-    background-color: var(--accent);
-    border-top-left-radius: 2px;
-    border-bottom-left-radius: 2px;
-}
-
-.slider-thumb {
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    background-color: var(--accent);
-    border-width: 2px;
-    border-color: #FFFFFF;
-    position: absolute;
-}
-
-/* === Utility === */
-.is-disabled {
-    opacity: 0.4;
-}
-
-.text-display {
-    font-size: var(--text-display);
+.wordmark {
+    font-size: 48px;
     -unity-font-style: bold;
-    color: var(--text-primary);
+    letter-spacing: -1.8px;
+    color: #3D2B1F;
+    -unity-text-align: middle-center;
 }
 
-.text-h1 {
-    font-size: var(--text-h1);
-    -unity-font-style: bold;
-    color: var(--text-primary);
-}
+/* ────────── Tab bar (Level Select 테마) ────────── */
 
-.text-h2 {
-    font-size: var(--text-h2);
-    -unity-font-style: bold;
-    color: var(--text-primary);
-}
-
-.text-body {
-    font-size: var(--text-body);
-    color: var(--text-primary);
-}
-
-.text-caption {
-    font-size: var(--text-caption);
-    color: var(--text-secondary);
-}
-
-.surface {
-    background-color: var(--surface);
-}
-
-.bg-light {
-    background-color: var(--bg);
-}
-
-/* === ScrollBar 숨기기 — UI Toolkit 기본 ScrollView가 표시하는 화살표/슬라이더 정리 === */
-/* iPhone에서 Windows 95 스타일 ScrollBar 보이는 것 방지 */
-.unity-scroller__low-button,
-.unity-scroller__high-button {
-    display: none;
-}
-.unity-scroller--vertical,
-.unity-scroller--horizontal {
-    width: 4px;
-    background-color: transparent;
-}
-.unity-scroller--vertical .unity-base-slider__tracker,
-.unity-scroller--horizontal .unity-base-slider__tracker {
-    background-color: transparent;
-}
-.unity-scroller--vertical .unity-base-slider__dragger,
-.unity-scroller--horizontal .unity-base-slider__dragger {
-    background-color: rgba(0, 0, 0, 0.15);
-    border-radius: 2px;
+.theme-tab {
+    flex-grow: 1;
+    height: 48px;
+    background-color: rgba(0, 0, 0, 0);
     border-width: 0;
+    border-bottom-width: 3px;
+    border-bottom-color: rgba(0, 0, 0, 0);
+    color: #8B6F5C;
+    font-size: 15px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
 }
 
-/* === 게임플레이 모션 (decisions/2026-04-29-19-ui-motion.md) === */
-
-/* 그리드 셀 — 드래그 hover 시 부드러운 highlight transition */
-.grid-cell {
-    transition: background-color var(--duration-micro) ease-out;
-}
-
-/* 아이템 카드 — 회전 시 0.97 scale (피드백) */
-.item-card {
-    transition: scale var(--duration-micro) ease-out;
-}
-.item-card:active {
-    scale: 1.03 1.03;
-}
-
-/* 별 등장 애니메이션 — 클리어 시 stagger 등장 */
-@keyframes star-pop {
-    from { scale: 0 0; opacity: 0; }
-    50% { scale: 1.2 1.2; opacity: 1; }
-    to { scale: 1 1; opacity: 1; }
-}
-.star-animated {
-    /* USS는 @keyframes 미지원 — C#에서 schedule.Execute로 처리 */
-    transition: scale var(--duration-emphasis) ease-out, opacity var(--duration-emphasis) ease-out;
-}
-.star-animated-hidden {
-    scale: 0 0;
-    opacity: 0;
-}
-.star-animated-visible {
-    scale: 1 1;
-    opacity: 1;
-}
-
-/* 마스코트 bounce — 결과 popup 등장 시 */
-.mascot-bounce-target {
-    transition: scale var(--duration-emphasis) ease-out;
-}
-.mascot-bounce-up {
-    scale: 1.1 1.1;
-}
-.mascot-bounce-down {
-    scale: 1 1;
-}
-
-/* 페이지 전환 fade — UIDocument cross-scene 부드러움 */
-.page-fade-in {
-    opacity: 1;
-    transition: opacity var(--duration-page) ease-out;
-}
-.page-fade-out {
-    opacity: 0;
+.theme-tab-active {
+    color: #F59E4B;
+    border-bottom-color: #F59E4B;
 }

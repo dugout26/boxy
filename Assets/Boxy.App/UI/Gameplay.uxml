@@ -1,0 +1,51 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Mound/UI/Styles/tokens.uss" />
+    <Style src="project://database/Assets/Mound/UI/Styles/components.uss" />
+
+    <!-- handoff S4 Gameplay (screens-b.jsx GameplayScreen). -->
+    <ui:VisualElement name="root" class="bg-cozy" style="flex-direction: column;">
+
+        <!-- Top bar: pause / level + progress / hint + undo -->
+        <ui:VisualElement style="flex-direction: row; align-items: center; padding: 14px 16px 14px 16px; border-bottom-width: 1px; border-bottom-color: #F0E0CC;">
+            <ui:Button name="pause-button" class="btn-icon-sm" text="‖" />
+
+            <ui:VisualElement style="flex-grow: 1; flex-direction: column; align-items: center;">
+                <ui:Label name="level-label" text="Level 1-7" style="font-size: 15px; -unity-font-style: bold; letter-spacing: -0.3px; color: #3D2B1F; margin-bottom: 4px;" />
+                <ui:VisualElement class="progress-bg" style="width: 70%;">
+                    <ui:VisualElement name="progress-fill" class="progress-fill" style="width: 0%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <ui:VisualElement style="flex-direction: row;">
+                <ui:Button name="hint-button" class="btn-icon-sm" text="💡" style="margin-right: 6px;" />
+                <ui:Button name="undo-button" class="btn-icon-sm" text="↶" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Canvas: 6×6 grid in brown leather frame -->
+        <ui:VisualElement style="padding: 20px 20px 12px 20px; align-items: center;">
+            <ui:VisualElement name="canvas-frame" style="width: 100%; height: auto; aspect-ratio: 1; background-color: #8B5E2C; border-radius: 16px; padding: 8px;">
+                <ui:VisualElement name="grid-container" style="flex-grow: 1; flex-direction: row; flex-wrap: wrap;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Item tray (horizontal scroll inside card) -->
+        <ui:VisualElement style="padding: 8px 16px 12px 16px;">
+            <ui:VisualElement class="card" style="padding: 12px;">
+                <ui:ScrollView name="item-tray" mode="Horizontal" style="height: 100px;">
+                    <ui:VisualElement style="flex-direction: row;" />
+                </ui:ScrollView>
+                <!-- Page dots -->
+                <ui:VisualElement name="tray-dots" style="flex-direction: row; justify-content: center; margin-top: 8px;">
+                    <ui:VisualElement class="step-dot step-dot-active" />
+                    <ui:VisualElement class="step-dot" />
+                    <ui:VisualElement class="step-dot" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Bottom safe area buffer -->
+        <ui:VisualElement style="height: 16px;" />
+
+    </ui:VisualElement>
+</ui:UXML>

@@ -41,7 +41,11 @@ sysinfo.txt
 *.aab
 *.ipa
 *.unitypackage
-*.app
+# *.app — 'Assets/Boxy.App/' 폴더가 통째 무시되던 사고(2026-04-30) 방지: 디렉토리 끝매치 + Builds 한정.
+Builds/**/*.app
+Builds/**/*.app/
+!Assets/Boxy.App/
+!Assets/Boxy.App/**
 
 # Crashlytics
 crashlytics-build.properties

@@ -1,0 +1,113 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Mound/UI/Styles/tokens.uss" />
+    <Style src="project://database/Assets/Mound/UI/Styles/components.uss" />
+
+    <!-- handoff S7 Settings (screens-c.jsx). Element names exactly per SettingsController.cs queries. -->
+    <ui:VisualElement name="root" class="bg-cozy" style="flex-direction: column;">
+
+        <!-- Topbar -->
+        <ui:VisualElement class="topbar">
+            <ui:Button name="back-button" class="btn-icon-sm" text="←" />
+            <ui:Label class="topbar-title" text="설정" />
+            <ui:VisualElement style="width: 40px;" />
+        </ui:VisualElement>
+
+        <ui:ScrollView style="flex-grow: 1;">
+            <ui:VisualElement style="padding: 16px 16px 32px 16px;">
+
+                <!-- ───── 사운드 섹션 ───── -->
+                <ui:Label class="settings-section-header" text="사운드" />
+                <ui:VisualElement class="card" style="padding: 4px 16px;">
+
+                    <ui:VisualElement class="settings-row">
+                        <ui:Label class="settings-row-label" text="배경음악" />
+                        <ui:Slider name="bgm-slider" low-value="0" high-value="100" value="50" style="width: 140px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="divider" />
+
+                    <ui:VisualElement class="settings-row">
+                        <ui:Label class="settings-row-label" text="효과음" />
+                        <ui:Slider name="sfx-slider" low-value="0" high-value="100" value="80" style="width: 140px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="divider" />
+
+                    <ui:VisualElement class="settings-row">
+                        <ui:Label class="settings-row-label" text="햅틱(진동)" />
+                        <ui:Toggle name="haptic-toggle" value="true" />
+                    </ui:VisualElement>
+
+                </ui:VisualElement>
+
+                <!-- ───── 게임 섹션 ───── -->
+                <ui:Label class="settings-section-header" text="게임" />
+                <ui:VisualElement class="card" style="padding: 4px 16px;">
+
+                    <ui:Button name="language-button" style="background-color: rgba(0,0,0,0); border-width: 0; padding: 0; height: 56px;">
+                        <ui:VisualElement style="flex-direction: row; align-items: center; width: 100%;">
+                            <ui:Label class="settings-row-label" text="언어" />
+                            <ui:Label name="language-value" text="한국어" style="font-size: 14px; color: #8B6F5C; margin-right: 8px;" />
+                            <ui:Label text="›" style="font-size: 18px; color: #8B6F5C;" />
+                        </ui:VisualElement>
+                    </ui:Button>
+
+                </ui:VisualElement>
+
+                <!-- ───── 정보 섹션 ───── -->
+                <ui:Label class="settings-section-header" text="정보" />
+                <ui:VisualElement class="card" style="padding: 4px 16px;">
+
+                    <ui:Button name="restore-button" style="background-color: rgba(0,0,0,0); border-width: 0; padding: 0; height: 56px;">
+                        <ui:VisualElement style="flex-direction: row; align-items: center; width: 100%;">
+                            <ui:Label class="settings-row-label" text="구매 복원" />
+                            <ui:Label text="›" style="font-size: 18px; color: #8B6F5C;" />
+                        </ui:VisualElement>
+                    </ui:Button>
+                    <ui:VisualElement class="divider" />
+
+                    <ui:Button name="terms-button" style="background-color: rgba(0,0,0,0); border-width: 0; padding: 0; height: 56px;">
+                        <ui:VisualElement style="flex-direction: row; align-items: center; width: 100%;">
+                            <ui:Label class="settings-row-label" text="이용약관" />
+                            <ui:Label text="›" style="font-size: 18px; color: #8B6F5C;" />
+                        </ui:VisualElement>
+                    </ui:Button>
+                    <ui:VisualElement class="divider" />
+
+                    <ui:Button name="privacy-button" style="background-color: rgba(0,0,0,0); border-width: 0; padding: 0; height: 56px;">
+                        <ui:VisualElement style="flex-direction: row; align-items: center; width: 100%;">
+                            <ui:Label class="settings-row-label" text="개인정보처리방침" />
+                            <ui:Label text="›" style="font-size: 18px; color: #8B6F5C;" />
+                        </ui:VisualElement>
+                    </ui:Button>
+                    <ui:VisualElement class="divider" />
+
+                    <ui:Button name="contact-button" style="background-color: rgba(0,0,0,0); border-width: 0; padding: 0; height: 56px;">
+                        <ui:VisualElement style="flex-direction: row; align-items: center; width: 100%;">
+                            <ui:Label class="settings-row-label" text="문의하기" />
+                            <ui:Label text="›" style="font-size: 18px; color: #8B6F5C;" />
+                        </ui:VisualElement>
+                    </ui:Button>
+                    <ui:VisualElement class="divider" />
+
+                    <ui:VisualElement class="settings-row">
+                        <ui:Label class="settings-row-label" text="버전" />
+                        <ui:Label name="version-value" text="1.0.0" style="font-size: 14px; color: #8B6F5C;" />
+                    </ui:VisualElement>
+
+                </ui:VisualElement>
+
+                <!-- ───── 위험 액션 ───── -->
+                <ui:VisualElement style="height: 24px;" />
+                <ui:VisualElement class="card" style="padding: 4px 16px;">
+                    <ui:Button name="reset-button" style="background-color: rgba(0,0,0,0); border-width: 0; padding: 0; height: 56px;">
+                        <ui:VisualElement style="flex-direction: row; align-items: center; width: 100%;">
+                            <ui:Label text="진행도 초기화" style="flex-grow: 1; font-size: 16px; color: #E87764; -unity-font-style: bold;" />
+                            <ui:Label text="›" style="font-size: 18px; color: #E87764;" />
+                        </ui:VisualElement>
+                    </ui:Button>
+                </ui:VisualElement>
+
+            </ui:VisualElement>
+        </ui:ScrollView>
+
+    </ui:VisualElement>
+</ui:UXML>
