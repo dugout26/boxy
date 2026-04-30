@@ -11,7 +11,7 @@ namespace Mound.Localization
         readonly Dictionary<string, string> ko = new()
         {
             // Main Menu
-            { StringKey.MenuPlay, "PLAY" },
+            { StringKey.MenuPlay, "시작하기" },
             { StringKey.MenuSettings, "설정" },
             { StringKey.MenuShop, "상점" },
 
@@ -58,13 +58,13 @@ namespace Mound.Localization
             { StringKey.LevelSelectGreeting, "Boxy와 함께 다음 단계로!" },
 
             // Branding
-            { StringKey.AppSubtitle, "패킹 퍼즐" },
+            { StringKey.AppSubtitle, "짐 정리의 즐거움" },
         };
 
         readonly Dictionary<string, string> en = new()
         {
             // Main Menu
-            { StringKey.MenuPlay, "PLAY" },
+            { StringKey.MenuPlay, "Get started" },
             { StringKey.MenuSettings, "Settings" },
             { StringKey.MenuShop, "Shop" },
 
@@ -111,7 +111,7 @@ namespace Mound.Localization
             { StringKey.LevelSelectGreeting, "Pack on with Boxy!" },
 
             // Branding
-            { StringKey.AppSubtitle, "Pack & Fit Puzzle" },
+            { StringKey.AppSubtitle, "Cozy packing puzzle" },
         };
 
         Dictionary<string, string> active;

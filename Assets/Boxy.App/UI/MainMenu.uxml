@@ -7,8 +7,8 @@
 
         <!-- Top row: coin pill + language pill -->
         <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center;">
-            <ui:Label class="pill" text="¢ 1,240" />
-            <ui:Label class="pill pill-outline" text="KO ▾" />
+            <ui:Label class="pill" text="C 1,240" />
+            <ui:Label class="pill pill-outline" text="KO" />
         </ui:VisualElement>
 
         <!-- Center: mascot frame + wordmark + subtitle -->
@@ -32,10 +32,10 @@
         <!-- Continue ghost (no controller hook yet — name `continue-button`) -->
         <ui:Button name="continue-button" class="btn-ghost" text="이어하기 · 1-7" style="width: 100%;" />
 
-        <!-- Bottom row: settings (left) + shop (right) icon buttons -->
+        <!-- Bottom row: settings (left) + shop (right) icon buttons. v1.0 텍스트 fallback — 외주 PNG 도착 시 background-image로 교체. -->
         <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-top: 16px;">
-            <ui:Button name="settings-button" class="btn-icon" text="⚙" />
-            <ui:Button name="shop-button" class="btn-icon" text="⌂" />
+            <ui:Button name="settings-button" class="btn-icon" text="설정" style="font-size: 12px; -unity-font-style: bold; color: #8B6F5C;" />
+            <ui:Button name="shop-button" class="btn-icon" text="상점" style="font-size: 12px; -unity-font-style: bold; color: #8B6F5C;" />
         </ui:VisualElement>
 
         <!-- Hidden — controller queries for null safety -->

@@ -7,10 +7,10 @@
 
         <!-- Topbar (sticky) -->
         <ui:VisualElement class="topbar">
-            <ui:Button name="back-button" class="btn-icon-sm" text="←" />
+            <ui:Button name="back-button" class="btn-icon-sm" text="뒤로" style="font-size: 11px; -unity-font-style: bold; color: #3D2B1F;" />
             <ui:Label class="topbar-title" text="레벨 선택" />
             <ui:VisualElement style="flex-direction: row; align-items: center;">
-                <ui:Label class="pill" text="¢ 1,240" />
+                <ui:Label class="pill" text="C 1,240" />
             </ui:VisualElement>
         </ui:VisualElement>
 

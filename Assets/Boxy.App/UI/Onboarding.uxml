@@ -22,7 +22,7 @@
 
             <!-- Hero illust placeholder — 가방 일러스트 자리. v1.1 외주 일러스트로 교체. -->
             <ui:VisualElement name="hero-illust" style="width: 220px; height: 160px; background-color: #FFE4C8; border-radius: 16px; align-items: center; justify-content: center; margin-bottom: 24px;">
-                <ui:Label text="🎒" style="font-size: 80px;" />
+                <ui:Label text="가방" style="font-size: 80px;" />
             </ui:VisualElement>
 
             <ui:Label text="한 칸씩, 꼭 맞게" class="txt-h1 txt-center" style="margin-bottom: 12px;" />

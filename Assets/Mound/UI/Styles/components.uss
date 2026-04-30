@@ -7,10 +7,14 @@
  *   level-button-current, level-button-unlocked
  */
 
-/* === Pretendard 폰트 적용 (이미 등록된 가정) === */
+/* === Pretendard 폰트 적용 — .otf 직접 참조 (SDF asset 안 만들었음) === */
 .boxy-root,
 .bg-cozy {
-    -unity-font-definition: url("project://database/Assets/Mound/UI/Fonts/Pretendard-Regular SDF.asset");
+    -unity-font: url("project://database/Assets/Mound/UI/Fonts/Pretendard-Regular.otf");
+}
+
+Label, Button {
+    -unity-font: url("project://database/Assets/Mound/UI/Fonts/Pretendard-Regular.otf");
 }
 
 /* ────────── Buttons ────────── */

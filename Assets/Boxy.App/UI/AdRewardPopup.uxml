@@ -17,7 +17,7 @@
 
             <!-- Reward pill -->
             <ui:VisualElement style="margin-top: 18px; align-items: center;">
-                <ui:Label class="pill" text="💡 +1 힌트" />
+                <ui:Label class="pill" text="+1 힌트" />
             </ui:VisualElement>
 
             <!-- Buttons -->
