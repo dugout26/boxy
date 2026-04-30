@@ -36,6 +36,26 @@ namespace Boxy.Editor
             BuildAndroid("prod", BuildOptions.None);
         }
 
+        // CI/CD entry — 환경변수 BUILD_NUMBER_OVERRIDE 적용 후 빌드.
+        public static void BumpAndBuildDevAndroid()
+        {
+            ApplyBuildNumberFromEnvOrIncrement();
+            BuildDevAndroid();
+        }
+
+        public static void BumpAndBuildProductionAndroid()
+        {
+            ApplyBuildNumberFromEnvOrIncrement();
+            BuildProductionAndroid();
+        }
+
+        // CI/CD: 컴파일 + 자산 import만 검증. 빌드 산출물 X.
+        // game-ci/unity-builder가 -executeMethod 호출 시 그냥 종료 = 컴파일 OK.
+        public static void CompileCheck()
+        {
+            UnityEngine.Debug.Log("[BoxyBuilder] CompileCheck: 컴파일/자산 import 통과 — 즉시 종료.");
+        }
+
         public static void BuildDevIOS()
         {
             BuildIOS("dev", "com.mound.boxy.dev", BuildOptions.Development | BuildOptions.AllowDebugging);
@@ -47,20 +67,61 @@ namespace Boxy.Editor
         }
 
         // 업로드 직전에만 호출 — buildNumber +1 후 BuildDevIOS. 로컬 rebuild는 BuildDevIOS만.
+        // CI에서는 BUILD_NUMBER_OVERRIDE 환경변수로 명시 주입 (GITHUB_RUN_NUMBER 또는 git rev-list count).
         public static void BumpAndBuildDevIOS()
         {
-            int next = int.TryParse(PlayerSettings.iOS.buildNumber, out var b) ? b + 1 : 1;
-            PlayerSettings.iOS.buildNumber = next.ToString();
-            Debug.Log($"[BoxyBuilder] iOS buildNumber bumped → {next}");
+            ApplyBuildNumberFromEnvOrIncrement();
             BuildDevIOS();
         }
 
         public static void BumpAndBuildProductionIOS()
         {
+            ApplyBuildNumberFromEnvOrIncrement();
+            BuildProductionIOS();
+        }
+
+        // 환경별 EnvironmentConfig.asset 자동 스왑 — secrets/EnvironmentConfig-{env}.asset → Assets/Mound/Monetization/EnvironmentConfig.asset
+        // §8-2 빌드 환경 분리 + §9-2 시크릿 보호. asset 파일은 .gitignore. CI는 GitHub Secret(base64) → 로컬 파일로 디코드 → 빌드.
+        // 파일 없으면 경고만 — Editor에서 수동 SO 만들어 쓰는 로컬 개발 흐름은 차단하지 않음.
+        static void ApplyEnvironmentConfig(string envTag)
+        {
+            string src = $"secrets/EnvironmentConfig-{envTag}.asset";
+            string target = "Assets/Mound/Monetization/EnvironmentConfig.asset";
+            if (File.Exists(src))
+            {
+                File.Copy(src, target, true);
+                string srcMeta = src + ".meta";
+                string targetMeta = target + ".meta";
+                if (File.Exists(srcMeta))
+                {
+                    File.Copy(srcMeta, targetMeta, true);
+                }
+                AssetDatabase.Refresh();
+                Debug.Log($"[BoxyBuilder] EnvironmentConfig: {src} → {target}");
+            }
+            else if (!File.Exists(target))
+            {
+                Debug.LogWarning($"[BoxyBuilder] {src} 없음 + 로컬 EnvironmentConfig.asset도 없음 — Provider Null fallback 동작.");
+            }
+        }
+
+        // CI/CD: BUILD_NUMBER_OVERRIDE 환경변수 우선 → 없으면 +1 fallback.
+        // CI에서 GITHUB_RUN_NUMBER + base offset 주입하면 ProjectSettings.asset 변경 없이 빌드별 단조 증가.
+        static void ApplyBuildNumberFromEnvOrIncrement()
+        {
+            string envOverride = System.Environment.GetEnvironmentVariable("BUILD_NUMBER_OVERRIDE");
+            if (!string.IsNullOrEmpty(envOverride) && int.TryParse(envOverride, out int forced))
+            {
+                PlayerSettings.iOS.buildNumber = forced.ToString();
+                PlayerSettings.Android.bundleVersionCode = forced;
+                Debug.Log($"[BoxyBuilder] BUILD_NUMBER_OVERRIDE={forced} 적용 (iOS + Android)");
+                return;
+            }
+
             int next = int.TryParse(PlayerSettings.iOS.buildNumber, out var b) ? b + 1 : 1;
             PlayerSettings.iOS.buildNumber = next.ToString();
-            Debug.Log($"[BoxyBuilder] iOS buildNumber bumped → {next}");
-            BuildProductionIOS();
+            PlayerSettings.Android.bundleVersionCode = next;
+            Debug.Log($"[BoxyBuilder] buildNumber bumped → {next} (iOS + Android)");
         }
 
         // 로컬 검증용 — iOS Simulator (Apple Silicon Mac은 arm64) 빌드.
@@ -165,6 +226,8 @@ namespace Boxy.Editor
             {
                 Debug.Log($"[BoxyBuilder] {srcPlist} 없음 — iOS Firebase 미설정. (Firebase Console에서 iOS 앱 추가 후 다운로드)");
             }
+
+            ApplyEnvironmentConfig(envTag);
             PlayerSettings.bundleVersion = "1.0.0";
             // 빌드 번호는 업로드 스크립트(scripts/ios-archive-upload.sh)에서 BumpAndBuildDevIOS로 관리.
             // BuildDevIOS 직접 호출은 bump 안 함 → 로컬 rebuild 시 번호 안 튀게.
@@ -303,6 +366,8 @@ namespace Boxy.Editor
             {
                 Debug.LogWarning($"[BoxyBuilder] {srcServices} 없음 — Firebase 미설정. (firebase apps:sdkconfig으로 다운로드)");
             }
+
+            ApplyEnvironmentConfig(envTag);
 
             string apkPath = $"{OutputDir}/boxy-{envTag}.apk";
 

@@ -1,0 +1,50 @@
+name: Release
+
+# tag v* push 시 GitHub Release 자동 생성 + production 빌드 (main 푸시와 별개)
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  github-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # GitHub Release 생성 권한
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # tag 비교를 위한 전체 히스토리
+
+      - name: Generate release notes
+        id: notes
+        run: |
+          PREV_TAG=$(git describe --tags --abbrev=0 ${{ github.ref_name }}^ 2>/dev/null || echo "")
+          if [ -z "$PREV_TAG" ]; then
+            RANGE=""
+            echo "▶ 첫 release"
+          else
+            RANGE="$PREV_TAG..${{ github.ref_name }}"
+            echo "▶ range: $RANGE"
+          fi
+
+          {
+            echo "## ${{ github.ref_name }}"
+            echo ""
+            echo "### Changes since ${PREV_TAG:-initial}"
+            echo ""
+            git log --pretty=format:"- %s (%h)" $RANGE
+            echo ""
+            echo ""
+            echo "### Decision records"
+            git diff --name-only --diff-filter=A $RANGE -- decisions/ 2>/dev/null | sed 's|^|- |' || true
+          } > release-notes.md
+
+          cat release-notes.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Boxy ${{ github.ref_name }}
+          body_path: release-notes.md
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-rc') || contains(github.ref_name, '-beta') }}
