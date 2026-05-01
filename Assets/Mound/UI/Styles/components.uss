@@ -32,15 +32,16 @@ Label, Button {
     padding-left: 16px;
     padding-right: 16px;
     -unity-text-align: middle-center;
-    transition: scale 100ms ease-out;
+    transition: scale 120ms ease-out, background-color 120ms ease-out;
 }
 
 .btn-primary:hover {
-    scale: 0.99 0.99;
+    scale: 1.02 1.02;
+    background-color: #FFB270;
 }
 
 .btn-primary:active {
-    scale: 0.98 0.98;
+    scale: 0.94 0.94;
     background-color: #E08938;
 }
 

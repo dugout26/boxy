@@ -7,10 +7,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using Boxy.App;
+using Boxy.App.Audio;
 using Boxy.App.UI;
 using Boxy.App.Gameplay;
 using Boxy.App.Gameplay.UI;
 using Boxy.App.Levels;
+using Mound.Core.Audio;
 
 namespace Boxy.Editor
 {
@@ -132,11 +134,34 @@ namespace Boxy.Editor
         }
 
         // BoxyBootstrap을 4 씬 모두에 추가 — DontDestroyOnLoad라 첫 씬에서 만든 1개만 살아남고
-        // 다른 씬의 중복은 Awake에서 self-destroy. SerializeField는 비워둠 (useStubProviders=true가 기본값이라 dev 모드 동작).
+        // 다른 씬의 중복은 Awake에서 self-destroy. AudioService 자식 + SfxLibrary 자동 wire.
         static void AddBootstrap()
         {
             var go = new GameObject("BoxyBootstrap");
-            go.AddComponent<BoxyBootstrap>();
+            var bootstrap = go.AddComponent<BoxyBootstrap>();
+
+            // AudioService 자식 GameObject — AudioSource 2개 (BGM + SFX)
+            var audioGo = new GameObject("AudioService");
+            audioGo.transform.SetParent(go.transform);
+            var bgmSource = audioGo.AddComponent<AudioSource>();
+            bgmSource.loop = true;
+            bgmSource.playOnAwake = false;
+            var sfxSource = audioGo.AddComponent<AudioSource>();
+            sfxSource.playOnAwake = false;
+            var audioService = audioGo.AddComponent<AudioService>();
+
+            // AudioService.bgmSource / sfxSource SerializeField wire
+            var soAudio = new SerializedObject(audioService);
+            SetReference(soAudio, "bgmSource", bgmSource);
+            SetReference(soAudio, "sfxSource", sfxSource);
+            soAudio.ApplyModifiedPropertiesWithoutUndo();
+
+            // BoxyBootstrap의 audioService + sfxLibrary SerializeField wire
+            var sfxLib = AssetDatabase.LoadAssetAtPath<SfxLibrary>("Assets/Boxy.App/Audio/SfxLibrary.asset");
+            var soBoot = new SerializedObject(bootstrap);
+            SetReference(soBoot, "audioService", audioService);
+            SetReference(soBoot, "sfxLibrary", sfxLib);
+            soBoot.ApplyModifiedPropertiesWithoutUndo();
         }
 
         static void Step4_RegisterBuildSettings()
