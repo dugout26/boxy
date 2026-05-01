@@ -23,14 +23,17 @@ namespace Boxy.App.Gameplay.UI
             cell.style.height = cellSize;
             cell.style.left = coord.x * cellSize;
             cell.style.bottom = coord.y * cellSize;
-            cell.style.borderTopWidth = 1f;
-            cell.style.borderRightWidth = 1f;
-            cell.style.borderBottomWidth = 1f;
-            cell.style.borderLeftWidth = 1f;
-            cell.style.borderTopColor = new Color(0.9f, 0.92f, 0.93f);
-            cell.style.borderRightColor = new Color(0.9f, 0.92f, 0.93f);
-            cell.style.borderBottomColor = new Color(0.9f, 0.92f, 0.93f);
-            cell.style.borderLeftColor = new Color(0.9f, 0.92f, 0.93f);
+            // 빈 셀: 갈색 가죽 프레임(#8B5E2C) 위에 살짝 밝은 cream 톤 + 더 또렷한 보더로 그리드 가독성 ↑
+            cell.style.backgroundColor = new Color(1f, 0.97f, 0.88f, 0.18f);     // cream 18% — 갈색 위에 살짝 도드라짐
+            cell.style.borderTopWidth = 1.5f;
+            cell.style.borderRightWidth = 1.5f;
+            cell.style.borderBottomWidth = 1.5f;
+            cell.style.borderLeftWidth = 1.5f;
+            var border = new Color(1f, 0.94f, 0.83f, 0.55f);                    // cream 55% 보더
+            cell.style.borderTopColor = border;
+            cell.style.borderRightColor = border;
+            cell.style.borderBottomColor = border;
+            cell.style.borderLeftColor = border;
             return cell;
         }
 

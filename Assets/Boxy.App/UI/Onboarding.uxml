@@ -20,9 +20,14 @@
         <!-- Hero illustration + title + body (가운데 flex) -->
         <ui:VisualElement style="flex-grow: 1; align-items: center; justify-content: center;">
 
-            <!-- Hero illust placeholder — 가방 일러스트 자리. v1.1 외주 일러스트로 교체. -->
-            <ui:VisualElement name="hero-illust" style="width: 220px; height: 160px; background-color: #FFE4C8; border-radius: 16px; align-items: center; justify-content: center; margin-bottom: 24px;">
-                <ui:Label text="가방" style="font-size: 80px;" />
+            <!-- Hero illust — 가방 + 짐 이모지 조합 (마스코트 옆에 친근한 시각). v1.1 외주 일러스트로 교체. -->
+            <ui:VisualElement name="hero-illust" style="width: 240px; height: 180px; background-color: #FFE4C8; border-top-left-radius: 24px; border-top-right-radius: 24px; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; align-items: center; justify-content: center; margin-bottom: 24px; border-width: 3px; border-color: #F0C088;">
+                <ui:Label text="🎒" style="font-size: 96px; -unity-text-align: middle-center;" />
+                <ui:VisualElement style="flex-direction: row; margin-top: 4px;">
+                    <ui:Label text="📚" style="font-size: 28px; margin-left: 6px; margin-right: 6px;" />
+                    <ui:Label text="✏️" style="font-size: 28px; margin-left: 6px; margin-right: 6px;" />
+                    <ui:Label text="🍎" style="font-size: 28px; margin-left: 6px; margin-right: 6px;" />
+                </ui:VisualElement>
             </ui:VisualElement>
 
             <ui:Label text="한 칸씩, 꼭 맞게" class="txt-h1 txt-center" style="margin-bottom: 12px;" />
