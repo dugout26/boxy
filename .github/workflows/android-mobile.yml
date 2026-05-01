@@ -5,8 +5,11 @@ name: Android Build & Upload (Play Internal Testing)
 #   main push    → "Boxy Pack" (com.mound.boxy)     → Play Internal Testing — 출시 직전 최종 검증
 # Closed/Beta 트랙 안 함. 정수가 Internal로만 모두 검증.
 on:
+  # 시크릿 부분 등록 단계(Day 5~Week 3)에는 develop 푸시 빌드 비활성.
+  # main 푸시 = 출시 직전 최종 빌드. 필요 시 workflow_dispatch로 수동 트리거.
   push:
-    branches: [develop, main]
+    branches: [main]
+  workflow_dispatch:
 
 concurrency:
   group: android-mobile-${{ github.ref }}
