@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Mound.Core.Scenes;
@@ -66,6 +67,7 @@ namespace Boxy.App.UI
             overlay.style.display = DisplayStyle.Flex;
             AnimateStarsIn(starsAwarded);
             AnimateMascotBounce();
+            SpawnConfetti();   // game-feel — 모든 클리어에서 색깔 점들 떨어짐
         }
 
         // 별 stagger 등장 — 0ms / 200ms / 400ms 차이로 pop-in.
@@ -138,6 +140,78 @@ namespace Boxy.App.UI
                 return;
             }
             mascot.style.backgroundImage = new StyleBackground(tex);
+        }
+
+        // 클리어 직후 36개 색깔 점들이 popup 위에서 화면 아래로 산포되며 떨어지는 효과.
+        // GPU transition 기반 — 매 프레임 동작 X, GC alloc 최소.
+        // CLAUDE.md §10-1 GC 0B 목표 지향: VisualElement는 1회 생성 → transition → 자동 제거.
+        static readonly Color[] ConfettiColors =
+        {
+            new Color(1f, 0.84f, 0.04f),       // honey
+            new Color(1f, 0.55f, 0.48f),       // coral
+            new Color(0.66f, 0.81f, 0.91f),    // sky
+            new Color(0.62f, 0.88f, 0.76f),    // mint
+            new Color(0.77f, 0.71f, 0.88f),    // lavender
+            new Color(0.91f, 0.69f, 0.75f),    // rose
+        };
+
+        void SpawnConfetti()
+        {
+            const int Count = 36;
+            const int DurationMs = 1500;
+            var rng = new System.Random();
+
+            for (int i = 0; i < Count; i++)
+            {
+                var piece = new VisualElement();
+                piece.pickingMode = PickingMode.Ignore;
+                piece.style.position = Position.Absolute;
+
+                float size = 6f + (float)rng.NextDouble() * 8f;
+                piece.style.width = size;
+                piece.style.height = size;
+                piece.style.backgroundColor = ConfettiColors[i % ConfettiColors.Length];
+
+                float radius = size * 0.35f;
+                piece.style.borderTopLeftRadius = radius;
+                piece.style.borderTopRightRadius = radius;
+                piece.style.borderBottomLeftRadius = radius;
+                piece.style.borderBottomRightRadius = radius;
+
+                // 시작 위치 — 화면 좌우 0~100% 중앙 70% 영역. top -20px (popup 위쪽 약간 위)
+                float startX = 15f + (float)rng.NextDouble() * 70f;
+                piece.style.left = Length.Percent(startX);
+                piece.style.top = -20f;
+                piece.style.opacity = 1f;
+
+                overlay.Add(piece);
+
+                int idx = i;
+                // 다음 프레임에 transition 적용 (instant set 방지) + stagger
+                piece.schedule.Execute(() =>
+                {
+                    piece.style.transitionDuration = new List<TimeValue>
+                    {
+                        new TimeValue(DurationMs, TimeUnit.Millisecond)
+                    };
+                    piece.style.transitionProperty = new List<StylePropertyName>
+                    {
+                        new StylePropertyName("translate"),
+                        new StylePropertyName("rotate"),
+                        new StylePropertyName("opacity")
+                    };
+
+                    float driftX = -120f + (float)rng.NextDouble() * 240f;
+                    float fallY = 520f + (float)rng.NextDouble() * 280f;
+                    float rotZ = -360f + (float)rng.NextDouble() * 720f;
+
+                    piece.style.translate = new Translate(driftX, fallY, 0);
+                    piece.style.rotate = new Rotate(new Angle(rotZ));
+                    piece.style.opacity = 0f;
+                }).StartingIn(20 + idx * 8);
+
+                piece.schedule.Execute(piece.RemoveFromHierarchy).StartingIn(DurationMs + 400 + idx * 8);
+            }
         }
 
         public void Hide() => overlay.style.display = DisplayStyle.None;
