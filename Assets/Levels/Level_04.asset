@@ -13,33 +13,34 @@ MonoBehaviour:
   m_Name: Level_04
   m_EditorClassIdentifier: Boxy.App::Boxy.App.Levels.LevelData
   levelNumber: 4
-  gridWidth: 4
-  gridHeight: 4
+  gridWidth: 5
+  gridHeight: 3
   themeKey: school_bag
   items:
-  - itemKey: pencil_case_2
-    cells:
-    - {x: 0, y: 0}
-    - {x: 1, y: 0}
-    - {x: 1, y: 1}
-    - {x: 1, y: 2}
-    - {x: 1, y: 3}
   - itemKey: book_0
     cells:
     - {x: 0, y: 0}
-    - {x: 0, y: 1}
-    - {x: 0, y: 2}
-    - {x: 1, y: 2}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
   - itemKey: notebook_1
     cells:
-    - {x: 0, y: 0}
     - {x: 1, y: 0}
-    - {x: 0, y: 1}
     - {x: 1, y: 1}
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+  - itemKey: pencil_case_2
+    cells:
+    - {x: 1, y: 1}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 0, y: 0}
   - itemKey: lunchbox_3
     cells:
     - {x: 0, y: 0}
     - {x: 0, y: 1}
-    - {x: 0, y: 2}
-  rotationLimit: 2
+  - itemKey: water_bottle_4
+    cells:
+    - {x: 1, y: 0}
+    - {x: 0, y: 0}
+  rotationLimit: -1
   timeLimitSeconds: -1

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level_05
   m_EditorClassIdentifier: Boxy.App::Boxy.App.Levels.LevelData
   levelNumber: 5
-  gridWidth: 4
+  gridWidth: 6
   gridHeight: 4
   themeKey: school_bag
   items:
@@ -21,29 +21,43 @@ MonoBehaviour:
     cells:
     - {x: 0, y: 0}
     - {x: 1, y: 0}
-    - {x: 0, y: 1}
-    - {x: 1, y: 1}
   - itemKey: notebook_1
+    cells:
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+  - itemKey: pencil_case_2
     cells:
     - {x: 0, y: 0}
     - {x: 0, y: 1}
     - {x: 0, y: 2}
-  - itemKey: pencil_case_2
-    cells:
-    - {x: 0, y: 0}
-    - {x: 1, y: 0}
-    - {x: 1, y: 1}
   - itemKey: lunchbox_3
     cells:
-    - {x: 0, y: 0}
-    - {x: 1, y: 0}
     - {x: 0, y: 1}
+    - {x: 0, y: 0}
+  - itemKey: water_bottle_4
+    cells:
+    - {x: 1, y: 1}
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    - {x: 0, y: 0}
   - itemKey: apple_5
     cells:
-    - {x: 0, y: 0}
+    - {x: 1, y: 1}
+    - {x: 0, y: 1}
     - {x: 1, y: 0}
+    - {x: 0, y: 0}
   - itemKey: snack_6
     cells:
+    - {x: 0, y: 1}
     - {x: 0, y: 0}
-  rotationLimit: 3
+  - itemKey: ruler_7
+    cells:
+    - {x: 1, y: 0}
+    - {x: 0, y: 0}
+  - itemKey: calculator_8
+    cells:
+    - {x: 0, y: 0}
+  rotationLimit: -1
   timeLimitSeconds: -1

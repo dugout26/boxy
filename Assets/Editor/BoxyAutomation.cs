@@ -6,6 +6,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using Boxy.App;
 using Boxy.App.UI;
 using Boxy.App.Gameplay;
 using Boxy.App.Gameplay.UI;
@@ -84,12 +85,14 @@ namespace Boxy.Editor
 
             CreateScene("MainMenu", () =>
             {
+                AddBootstrap();
                 var doc = AddUIDocument("MainMenuRoot", UiFolder + "/MainMenu.uxml", panel);
                 doc.gameObject.AddComponent<MainMenuController>();
             });
 
             CreateScene("LevelSelect", () =>
             {
+                AddBootstrap();
                 var doc = AddUIDocument("LevelSelectRoot", UiFolder + "/LevelSelect.uxml", panel);
                 var ctrl = doc.gameObject.AddComponent<LevelSelectController>();
                 AssignLevelArray(ctrl, "levelAssets");
@@ -97,6 +100,7 @@ namespace Boxy.Editor
 
             CreateScene("Gameplay", () =>
             {
+                AddBootstrap();
                 var ctrlGo = new GameObject("GameplayController");
                 var ctrl = ctrlGo.AddComponent<GameplayController>();
 
@@ -121,9 +125,18 @@ namespace Boxy.Editor
 
             CreateScene("Settings", () =>
             {
+                AddBootstrap();
                 var doc = AddUIDocument("SettingsRoot", UiFolder + "/Settings.uxml", panel);
                 doc.gameObject.AddComponent<SettingsController>();
             });
+        }
+
+        // BoxyBootstrap을 4 씬 모두에 추가 — DontDestroyOnLoad라 첫 씬에서 만든 1개만 살아남고
+        // 다른 씬의 중복은 Awake에서 self-destroy. SerializeField는 비워둠 (useStubProviders=true가 기본값이라 dev 모드 동작).
+        static void AddBootstrap()
+        {
+            var go = new GameObject("BoxyBootstrap");
+            go.AddComponent<BoxyBootstrap>();
         }
 
         static void Step4_RegisterBuildSettings()
