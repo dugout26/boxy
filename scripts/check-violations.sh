@@ -56,7 +56,8 @@ run_check_excluding() {
   local exclude="$5"
 
   local filtered_files
-  filtered_files=$(printf '%s\n' $FILES | grep -v "/$exclude/" || true)
+  # exclude는 alternation 가능 (예: "Editor|Tests") — grep -vE로 regex OR 처리
+  filtered_files=$(printf '%s\n' $FILES | grep -vE "/($exclude)/" || true)
   local hits
   hits=$(printf '%s\n' $filtered_files | xargs grep -nE "$pattern" 2>/dev/null || true)
   _report_hits "$rule" "$desc" "$severity" "$hits"
@@ -94,11 +95,11 @@ if [ -n "$key_hits" ]; then
 fi
 
 # §4-1 GameObject.Find / FindObjectOfType
-# Editor/ 폴더는 예외 — 에디터 시점 자동화는 GameObject.Find 허용 (런타임 성능과 무관)
+# Editor/ + Tests/ 폴더는 예외 — 에디터 자동화 + PlayMode 통합 테스트는 씬 로드 후 컴포넌트 query 필요 (런타임 성능과 무관)
 run_check_excluding "4-1" "GameObject.Find / FindObjectOfType 사용 — [SerializeField] 또는 DI로" \
   'GameObject\.Find[A-Za-z]*\(|FindObjectOfType<|FindObjectsOfType<|FindAnyObjectByType<|FindFirstObjectByType<' \
   "error" \
-  "Editor"
+  "Editor|Tests"
 
 # §11-1 빈 catch 블록
 run_check "11-1" "빈 catch 블록 — 최소 로그 또는 처리 필요" \

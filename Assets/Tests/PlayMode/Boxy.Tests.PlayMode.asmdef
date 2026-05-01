@@ -4,6 +4,7 @@
     "references": [
         "Boxy.App",
         "Mound.Core",
+        "Mound.Monetization",
         "UnityEngine.TestRunner"
     ],
     "includePlatforms": [],

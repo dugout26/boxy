@@ -1,17 +1,22 @@
 using System.Collections;
+using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
+using UnityEngine.UIElements;
 using Mound.Core.Events;
+using Boxy.App;
 using Boxy.App.Gameplay;
 using Boxy.App.Gameplay.Domain;
 using Boxy.App.Gameplay.Events;
+using Boxy.App.Gameplay.UI;
 using Boxy.App.Levels;
 
 namespace Boxy.Tests.PlayMode
 {
-    // 게임 흐름 통합 테스트 — Controller + Grid + UndoSystem + EventBus 한 번에 검증.
-    // 시뮬레이터/디바이스 검증과 별개 — 로직 정확성 보장.
+    // 게임 흐름 통합 테스트 — Controller + Grid + UndoSystem + EventBus + 씬/UI wire 검증.
+    // 시뮬레이터/디바이스 검증과 별개 — 로직 정확성 + 자동 wire 보장.
     public class GameplayFlowTests
     {
         IEventBus bus;
@@ -32,6 +37,8 @@ namespace Boxy.Tests.PlayMode
         {
             if (host != null) Object.DestroyImmediate(host);
         }
+
+        // ─────────── 코어 로직 ─────────── //
 
         [UnityTest]
         public IEnumerator StartLevel_3x2_TwoHorizontalItems_ClearsCorrectly()
@@ -96,7 +103,8 @@ namespace Boxy.Tests.PlayMode
             controller.TryPlace("book_0", item.ToShape(), new Vector2Int(0, 0));
             yield return null;
 
-            Assert.AreEqual(2, starsAtClear, "힌트 사용 → 별 2개 (3개 X)");
+            // 힌트 = 답 거의 보여줌 → 큰 감점 (별 1개)
+            Assert.AreEqual(1, starsAtClear, "힌트 사용 → 별 1개 (큰 감점)");
         }
 
         [UnityTest]
@@ -118,8 +126,8 @@ namespace Boxy.Tests.PlayMode
             controller.TryPlace("book_0", item.ToShape(), new Vector2Int(0, 0));
             yield return null;
 
-            // 힌트 X, 되돌리기 사용 → 별 1개 (NoHint && NoUndo 둘 다 만족 X)
-            Assert.AreEqual(1, starsAtClear, "되돌리기 사용 → 별 1개");
+            // 되돌리기 = 자기 수정 시도 → 작은 감점 (별 2개). 힌트보다 가벼움.
+            Assert.AreEqual(2, starsAtClear, "되돌리기 사용 → 별 2개 (작은 감점)");
         }
 
         [UnityTest]
@@ -141,6 +149,77 @@ namespace Boxy.Tests.PlayMode
 
             Assert.IsFalse(placed, "out-of-bounds 배치 거부");
             Assert.AreEqual(0, placedCount, "ItemPlacedEvent 발화 X");
+        }
+
+        // ─────────── 씬 로드 + 자동 wire ─────────── //
+
+        [UnityTest]
+        public IEnumerator MainMenuScene_Loads_BootstrapInstanceCreated()
+        {
+            yield return SceneManager.LoadSceneAsync("MainMenu", LoadSceneMode.Single);
+            yield return null;  // Awake 호출 처리
+            yield return null;
+
+            Assert.IsNotNull(BoxyBootstrap.Instance,
+                "MainMenu 씬 로드 후 BoxyBootstrap.Instance가 생성되어야 함 (4 씬 모두 BoxyBootstrap GameObject 박힘)");
+            Assert.IsNotNull(BoxyBootstrap.Instance.SaveSystem, "SaveSystem provider 초기화");
+            Assert.IsNotNull(BoxyBootstrap.Instance.EventBus, "EventBus 초기화");
+            Assert.IsNotNull(BoxyBootstrap.Instance.AdProvider, "AdProvider 초기화 (NullAdProvider stub)");
+        }
+
+        [UnityTest]
+        public IEnumerator GameplayScene_Loads_AllSerializedFieldsWired()
+        {
+            yield return SceneManager.LoadSceneAsync("Gameplay", LoadSceneMode.Single);
+            yield return null;
+            yield return null;
+
+            var ui = Object.FindAnyObjectByType<GameplayUI>();
+            Assert.IsNotNull(ui, "GameplayUI 컴포넌트가 Gameplay 씬에 존재해야 함");
+
+            // SerializedField 4개 모두 wire — BoxyAutomation이 자동 연결
+            var controllerField = typeof(GameplayUI).GetField("controller", BindingFlags.NonPublic | BindingFlags.Instance);
+            var defaultLevelField = typeof(GameplayUI).GetField("defaultLevel", BindingFlags.NonPublic | BindingFlags.Instance);
+            var resultPopupField = typeof(GameplayUI).GetField("resultPopupAsset", BindingFlags.NonPublic | BindingFlags.Instance);
+            var levelAssetsField = typeof(GameplayUI).GetField("levelAssets", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            Assert.IsNotNull(controllerField.GetValue(ui), "GameplayUI.controller wired");
+            Assert.IsNotNull(defaultLevelField.GetValue(ui), "GameplayUI.defaultLevel wired (Level_01.asset)");
+            Assert.IsNotNull(resultPopupField.GetValue(ui), "GameplayUI.resultPopupAsset wired (ResultPopup.uxml)");
+            var levels = (LevelData[])levelAssetsField.GetValue(ui);
+            Assert.IsNotNull(levels, "GameplayUI.levelAssets array wired");
+            Assert.AreEqual(50, levels.Length, "50 LevelData 모두 wired");
+        }
+
+        [UnityTest]
+        public IEnumerator GameplayScene_BuildsGrid_AndItemTrayWithCards()
+        {
+            yield return SceneManager.LoadSceneAsync("Gameplay", LoadSceneMode.Single);
+            yield return null;
+            yield return null;
+            yield return null;  // OnEnable + StartLevel + BuildGrid + BuildItemTray 처리 시간
+
+            var doc = Object.FindAnyObjectByType<UIDocument>();
+            Assert.IsNotNull(doc, "UIDocument 존재");
+            var root = doc.rootVisualElement;
+            Assert.IsNotNull(root, "rootVisualElement 생성됨 (PanelSettings + visualTreeAsset 정상)");
+
+            var gridContainer = root.Q<VisualElement>("grid-container");
+            Assert.IsNotNull(gridContainer, "grid-container UXML 노드 query 성공");
+
+            var itemTray = root.Q<ScrollView>("item-tray");
+            Assert.IsNotNull(itemTray, "item-tray ScrollView UXML 노드 query 성공");
+
+            // BuildGrid가 호출됐다면 grid-container 자식 셀 수 = width * height (Level_01: 4×2 = 8)
+            // 또는 Tutorial fallback (4×2 = 8) 둘 중 하나라도 셀 1개 이상
+            Assert.Greater(gridContainer.childCount, 0,
+                "그리드 셀이 그려져야 함 (BuildGrid 실행 결과)");
+
+            // BuildItemTray가 호출됐다면 item-tray content에 ItemCardView 1개 이상
+            int cardCount = 0;
+            itemTray.contentContainer.Query<ItemCardView>().ForEach(_ => cardCount++);
+            Assert.Greater(cardCount, 0,
+                "아이템 카드가 트레이에 그려져야 함 (BuildItemTray 실행 결과 — 도형이 화면에 보임)");
         }
     }
 }
