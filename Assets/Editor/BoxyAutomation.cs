@@ -26,6 +26,39 @@ namespace Boxy.Editor
         const string PanelSettingsPath = UiFolder + "/BoxyPanelSettings.asset";
         const string ThemePath = UiFolder + "/BoxyTheme.tss";
 
+        // Editor에서 수동 호출 가능 — 4 씬 모두에 Main Camera + AudioListener 박음.
+        // 기존 자동화가 EmptyScene으로 만들어 Camera 누락된 상태 정정용.
+        [MenuItem("Boxy/Fix Missing Cameras (4 scenes)")]
+        public static void FixMissingCameras()
+        {
+            string[] scenes = { "MainMenu", "LevelSelect", "Gameplay", "Settings" };
+            foreach (var name in scenes)
+            {
+                string path = ScenesFolder + "/" + name + ".unity";
+                var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
+
+                bool hasCamera = false;
+                foreach (var go in scene.GetRootGameObjects())
+                {
+                    if (go.GetComponent<Camera>() != null) { hasCamera = true; break; }
+                }
+                if (hasCamera) { Debug.Log($"[FixCameras] {name} — 이미 Camera 있음, skip"); continue; }
+
+                var camGo = new GameObject("Main Camera");
+                var cam = camGo.AddComponent<Camera>();
+                cam.clearFlags = CameraClearFlags.SolidColor;
+                cam.backgroundColor = new Color(0.97f, 0.94f, 0.86f);   // Cozy cream — UI 시작 배경
+                cam.orthographic = true;
+                cam.tag = "MainCamera";
+                camGo.AddComponent<AudioListener>();
+
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
+                Debug.Log($"[FixCameras] {name} — Camera + AudioListener 추가 완료");
+            }
+            Debug.Log("[FixCameras] DONE — MainMenu 씬 다시 열어 Play 시도");
+        }
+
         public static void SetupAll()
         {
             try
@@ -197,7 +230,10 @@ namespace Boxy.Editor
         static void CreateScene(string name, Action wireAction)
         {
             string path = ScenesFolder + "/" + name + ".unity";
-            var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            // DefaultGameObjects = Main Camera + Directional Light 자동 박힘.
+            // UI Toolkit ScreenSpace-Overlay가 PanelSettings.RenderMode=0이라도 Camera/AudioListener 없으면
+            // "No cameras rendering" + "No audio listeners" 경고 + 검정 화면.
+            var scene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
             wireAction();
             EditorSceneManager.SaveScene(scene, path);
         }
