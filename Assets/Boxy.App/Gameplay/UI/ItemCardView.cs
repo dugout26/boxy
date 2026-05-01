@@ -26,13 +26,14 @@ namespace Boxy.App.Gameplay.UI
         readonly VisualElement bounds;
         readonly ItemDragManipulator manipulator;
 
+        // tint 인자는 backwards 호환용. 실제 컬러는 ItemVisualPalette에서 itemKey로 조회 — 다양화 효과.
         public ItemCardView(string itemKey, ItemShape shape, Color tint)
         {
             ItemKey = itemKey;
             baseShape = shape;
             CurrentShape = shape;
             CurrentRotation = Rotation.Deg0;
-            this.tint = tint;
+            this.tint = ItemVisualPalette.GetColor(itemKey);
             name = $"item-{itemKey}";
 
             AddToClassList("item-card");
@@ -82,6 +83,9 @@ namespace Boxy.App.Gameplay.UI
             bounds.style.width = (maxX + 1) * CellSizePx;
             bounds.style.height = (maxY + 1) * CellSizePx;
 
+            // 모서리 둥근 borderColor — Cozy 톤의 따뜻한 갈색 (mound-design-system §2 cozy 보더)
+            var borderColor = new Color(0.32f, 0.21f, 0.13f, 0.8f);   // #523523 cc
+
             for (int i = 0; i < CurrentShape.Cells.Count; i++)
             {
                 var c = CurrentShape.Cells[i];
@@ -93,16 +97,34 @@ namespace Boxy.App.Gameplay.UI
                 cell.style.left = c.x * CellSizePx;
                 cell.style.bottom = c.y * CellSizePx;
                 cell.style.backgroundColor = tint;
-                cell.style.borderTopWidth = 1f;
-                cell.style.borderRightWidth = 1f;
-                cell.style.borderBottomWidth = 1f;
-                cell.style.borderLeftWidth = 1f;
-                cell.style.borderTopColor = Color.black;
-                cell.style.borderRightColor = Color.black;
-                cell.style.borderBottomColor = Color.black;
-                cell.style.borderLeftColor = Color.black;
+                cell.style.borderTopWidth = 1.5f;
+                cell.style.borderRightWidth = 1.5f;
+                cell.style.borderBottomWidth = 1.5f;
+                cell.style.borderLeftWidth = 1.5f;
+                cell.style.borderTopColor = borderColor;
+                cell.style.borderRightColor = borderColor;
+                cell.style.borderBottomColor = borderColor;
+                cell.style.borderLeftColor = borderColor;
                 bounds.Add(cell);
             }
+
+            // 도형 영역 가운데에 큰 이모지 — 시각적 의미 부여 (책=📖 / 노트=📓 / 사과=🍎 ...).
+            // emoji는 system fallback 폰트 (Apple Color Emoji on Mac/iOS, NotoColorEmoji on Android).
+            var emoji = new Label(ItemVisualPalette.GetEmoji(ItemKey));
+            emoji.pickingMode = PickingMode.Ignore;   // 드래그 입력은 bounds 그대로 받음
+            emoji.style.position = Position.Absolute;
+            emoji.style.left = 0;
+            emoji.style.right = 0;
+            emoji.style.top = 0;
+            emoji.style.bottom = 0;
+            emoji.style.unityTextAlign = TextAnchor.MiddleCenter;
+            // 도형 셀 수에 비례한 emoji 크기 (작은 도형 = 작은 emoji, 큰 도형 = 큰 emoji)
+            int totalCells = CurrentShape.Cells.Count;
+            float emojiSize = totalCells == 1 ? CellSizePx * 0.65f
+                             : totalCells <= 3 ? CellSizePx * 0.85f
+                             : CellSizePx * 1.1f;
+            emoji.style.fontSize = emojiSize;
+            bounds.Add(emoji);
         }
 
         void HandleLongPress()
