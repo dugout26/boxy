@@ -64,8 +64,8 @@ namespace Boxy.Editor
             try
             {
                 Step1_GenerateLevels();
-                Step2_CreatePanelSettings();
-                Step3_CreateAndWireScenes();
+                var panel = Step2_CreatePanelSettings();   // ← panel 직접 반환 → Step 3에 전달 (LoadAssetAtPath batchmode 타이밍 이슈 회피)
+                Step3_CreateAndWireScenes(panel);
                 Step4_RegisterBuildSettings();
                 Step5_SwitchToAndroid();
                 AssetDatabase.SaveAssets();
@@ -84,7 +84,7 @@ namespace Boxy.Editor
             LevelGeneratorMenu.GenerateAllLevels();
         }
 
-        static void Step2_CreatePanelSettings()
+        static PanelSettings Step2_CreatePanelSettings()
         {
             Debug.Log("[BoxyAutomation] Step 2/5 — Create BoxyPanelSettings + connect BoxyTheme.tss");
             EnsureFolder(UiFolder);
@@ -110,25 +110,29 @@ namespace Boxy.Editor
             }
 
             AssetDatabase.SaveAssets();
+            return panel;
         }
 
-        static void Step3_CreateAndWireScenes()
+        static void Step3_CreateAndWireScenes(PanelSettings _unused)
         {
             Debug.Log("[BoxyAutomation] Step 3/5 — Create 4 scenes + wire");
             EnsureFolder(ScenesFolder);
-            var panel = AssetDatabase.LoadAssetAtPath<PanelSettings>(PanelSettingsPath);
+            // NewScene이 outer-scope PanelSettings reference를 invalidate (Unity null-equivalent).
+            // 각 CreateScene 콜백 안에서 LoadAssetAtPath로 fresh panel 재취득 필수.
 
             CreateScene("MainMenu", () =>
             {
                 AddBootstrap();
-                var doc = AddUIDocument("MainMenuRoot", UiFolder + "/MainMenu.uxml", panel);
+                var p = AssetDatabase.LoadAssetAtPath<PanelSettings>(PanelSettingsPath);
+                var doc = AddUIDocument("MainMenuRoot", UiFolder + "/MainMenu.uxml", p);
                 doc.gameObject.AddComponent<MainMenuController>();
             });
 
             CreateScene("LevelSelect", () =>
             {
                 AddBootstrap();
-                var doc = AddUIDocument("LevelSelectRoot", UiFolder + "/LevelSelect.uxml", panel);
+                var p = AssetDatabase.LoadAssetAtPath<PanelSettings>(PanelSettingsPath);
+                var doc = AddUIDocument("LevelSelectRoot", UiFolder + "/LevelSelect.uxml", p);
                 var ctrl = doc.gameObject.AddComponent<LevelSelectController>();
                 AssignLevelArray(ctrl, "levelAssets");
             });
@@ -136,13 +140,20 @@ namespace Boxy.Editor
             CreateScene("Gameplay", () =>
             {
                 AddBootstrap();
+                var p = AssetDatabase.LoadAssetAtPath<PanelSettings>(PanelSettingsPath);
                 var ctrlGo = new GameObject("GameplayController");
                 var ctrl = ctrlGo.AddComponent<GameplayController>();
 
                 var uiGo = new GameObject("GameplayUI");
                 var doc = uiGo.AddComponent<UIDocument>();
-                doc.panelSettings = panel;
+                doc.panelSettings = p;
                 doc.visualTreeAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(UiFolder + "/Gameplay.uxml");
+                var soDoc = new SerializedObject(doc);
+                soDoc.FindProperty("m_PanelSettings").objectReferenceValue = p;
+                soDoc.FindProperty("sourceAsset").objectReferenceValue = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(UiFolder + "/Gameplay.uxml");
+                soDoc.ApplyModifiedPropertiesWithoutUndo();
+                EditorUtility.SetDirty(doc);
+                EditorUtility.SetDirty(uiGo);
 
                 var ui = uiGo.AddComponent<GameplayUI>();
                 var soUi = new SerializedObject(ui);
@@ -161,7 +172,8 @@ namespace Boxy.Editor
             CreateScene("Settings", () =>
             {
                 AddBootstrap();
-                var doc = AddUIDocument("SettingsRoot", UiFolder + "/Settings.uxml", panel);
+                var p = AssetDatabase.LoadAssetAtPath<PanelSettings>(PanelSettingsPath);
+                var doc = AddUIDocument("SettingsRoot", UiFolder + "/Settings.uxml", p);
                 doc.gameObject.AddComponent<SettingsController>();
             });
         }
@@ -219,11 +231,28 @@ namespace Boxy.Editor
 
         static UIDocument AddUIDocument(string goName, string uxmlPath, PanelSettings panel)
         {
+            if (panel == null) Debug.LogError($"[BoxyAutomation] {goName}: panel arg is NULL!");
+
             var go = new GameObject(goName);
             var doc = go.AddComponent<UIDocument>();
-            // panelSettings를 먼저 set — visualTreeAsset setter가 RecreateUI 호출 시점에 PanelSettings.themeStyleSheet의 var() 변수가 resolve 가능해야 NullRef 회피.
+
+            // panelSettings는 property setter로 set (Unity 6 UIDocument 내부 register 처리 필요).
             doc.panelSettings = panel;
             doc.visualTreeAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(uxmlPath);
+
+            // SerializedObject로 한 번 더 박아 SaveScene 시 직렬화 보장 (property setter가 EditMode dirty 누락하는 경우 대비).
+            var so = new SerializedObject(doc);
+            so.FindProperty("m_PanelSettings").objectReferenceValue = panel;
+            so.FindProperty("sourceAsset").objectReferenceValue = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(uxmlPath);
+            so.ApplyModifiedPropertiesWithoutUndo();
+
+            // 검증 — 실제 set됐는지 Re-read
+            var verify = new SerializedObject(doc);
+            var ps = verify.FindProperty("m_PanelSettings").objectReferenceValue;
+            Debug.Log($"[BoxyAutomation] {goName}: panelSettings after set = {(ps != null ? ps.name : "NULL")}");
+
+            EditorUtility.SetDirty(doc);
+            EditorUtility.SetDirty(go);
             return doc;
         }
 
